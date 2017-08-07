@@ -3,10 +3,8 @@ window.onload = function () {
 createCircle();
   for (i=0; i<9; i++){
     var itm = document.getElementsByClassName("buttonrow")[0];
-
     // Copy the <li> element and its child nodes
     var cln = itm.cloneNode(true);
-
     // Append the cloned <li> element to <ul> with id="myList1"
     document.getElementById("buttons").appendChild(cln);
   }
@@ -16,7 +14,6 @@ createCircle();
     elements[i].style.background = "rgb(158, 158, 158)";
     }
   generateSet();
-
 
 }
 
@@ -62,9 +59,9 @@ function generateSet() {
 function logic() {
   var buttonrow = document.getElementsByClassName("buttonrow");
   for (i=0; i<4; i++){
-    var button = buttonrow[0].getElementsByClassName('b' + (i + 1))[0];
-    if (button.style.background.localeCompare(set[i])){
-      alert();
+    var button = buttonrow[i].getElementsByClassName('b' + (i + 1))[i];
+    if (buttons.style.background.localeCompare(set[i])){
+        alert();
     }
   }
 }
