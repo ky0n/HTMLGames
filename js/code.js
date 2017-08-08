@@ -11,7 +11,7 @@ createCircle();
   var elements  = document.getElementsByClassName("mdl-button");
     for (i = 0; i < elements.length; i++){
     elements[i].addEventListener("click", changeColor);
-    elements[i].style.background = "rgb(158, 158, 158)";
+    elements[i].style.backgroundColor = "rgb(158, 158, 158)";
     }
   generateSet();
 
@@ -42,9 +42,9 @@ var set = [];
 
 function changeColor(e) {
   var btn = e.target;
-  var color = btn.style.background;
+  var color = btn.style.backgroundColor;
   var i = 0;
-  btn.style.background = colors[(colors.indexOf(color) + 1) % colors.length];
+  btn.style.backgroundColor = colors[(colors.indexOf(color) + 1) % colors.length];
 }
 
 function generateSet() {
@@ -52,7 +52,7 @@ function generateSet() {
     var r = Math.floor((Math.random() * 6) + 0);
     set.push(colors[r]);
     var btn = document.getElementById("rb" + (i + 1));
-    btn.style.background = colors[r];
+    btn.style.backgroundColor = colors[r];
   }
 }
 
@@ -60,7 +60,7 @@ function logic() {
   var buttonrow = document.getElementsByClassName("buttonrow");
   for (i=0; i<4; i++){
     var button = buttonrow[i].getElementsByClassName('b' + (i + 1))[i];
-    if (buttons.style.background.localeCompare(set[i])){
+    if (buttons.style.backgroundColor.localeCompare(set[i])){
         alert();
     }
   }
