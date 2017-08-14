@@ -1,33 +1,94 @@
 //Globale Var
 var svgNS = "http://www.w3.org/2000/svg";
-var colors = ["rgb(255, 87, 34)", "rgb(233, 30, 99)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)"]; //Spiel Farben
+var colors = ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"]; //Spiel Farben
 var solutionColors = []; // Farbe die gelöst werden soll
 var currentRow = 0; //Aktuelle Zeile
+var gray = "rgb(158, 158, 158)";
+var white = "white";
+var black = "black";
+var cyan = "cyan";
+
+//currentrow muss geändert!!!!!!!
+
+
+
 
 window.onload = function () {
     createCircle();
 
     for (i = 0; i < 9; i++) {
-        var itm = document.getElementsByClassName("buttonrow")[0];
-        // Copy the <li> element and its child nodes
-        var cln = itm.cloneNode(true);
-        // Append the cloned <li> element to <ul> with id="myList1"
-        document.getElementById("buttons").appendChild(cln);
+        var buttonRow = getButtonRow(0);
+
+        var clone = buttonRow.cloneNode(true);
+
+        document.getElementById("buttons").appendChild(clone);
     }
-    var elements = document.getElementsByClassName("mdl-button");
+    var elements = document.getElementsByClassName("btn-circle");
     for (i = 0; i < elements.length; i++) {
-        elements[i].style.backgroundColor = "rgb(158, 158, 158)";
+        elements[i].style.backgroundColor = gray;
     }
     generateSet();
-    clickListenerForCurrentRow(currentRow)
+    clickListenerForCurrentRow(currentRow);
+}
+
+function removeSVGClickListener() {
+    var buttonrow = getButtonRow(currentRow-1);//mit currentRow kann nicht so bleiben ist pfusch
+    var svg = buttonrow.getElementsByTagName("svg")[0];
+    svg.removeEventListener("click", logic );
+    svg.removeEventListener("click", removeSVGClickListener);
 }
 
 function clickListenerForCurrentRow(currentRow) {
-    var elements = document.getElementsByClassName("mdl-button");
+    var elements = document.getElementsByClassName("btn-circle");
     for (i = currentRow * 4; i < currentRow * 4 + 4; i++) {
         elements[i].addEventListener("click", changeColor);
+        elements[i].addEventListener("click", checkAllButtonsClicked);
+    }
+
+
+}
+// Prüfen ob alle Buttons eingefärbt sind um spielergebnis zu Prüfen
+function checkAllButtonsClicked() {
+    var eingabeFarben = [];
+    eingabeFarben = getInputColor();
+    for (i = 0; i < eingabeFarben.length; i++){
+        if (eingabeFarben[i] === gray) {
+            return false;
+        }
+    }
+    colorSvgCyan();
+
+}
+// Das SVG in Cyan einfärben, damit  der spieler weiß er kann das spiel auswerten
+// ClickListener für SVG
+function colorSvgCyan() {
+    var buttonrow = getButtonRow(currentRow);
+    var svg = buttonrow.getElementsByTagName("svg")[0];
+    svg.addEventListener("click", logic );
+    svg.addEventListener("click", removeSVGClickListener);
+    for (var i = 0; i < 4; i++) {
+
+        var svgcircle = svg.getElementById("mycircle" + i);
+        svgcircle.setAttributeNS(null, "fill", "cyan");
 
     }
+
+}
+
+
+function getButtonRow(pos) {
+    var buttonrow = document.getElementsByClassName("buttonrow")[pos];
+    return buttonrow;
+}
+
+function getInputColor() {
+    var eingabefarben = [];
+    var buttonrow = getButtonRow(currentRow);
+    for (var i = 0; i < 4; i++) {
+        var button = buttonrow.getElementsByClassName('b' + (i + 1))[0];
+        eingabefarben.push(button.style.backgroundColor);
+    }
+    return eingabefarben;
 
 }
 
@@ -42,7 +103,7 @@ function createCircle() {
             myCircle.setAttributeNS(null, "cx", i);
             myCircle.setAttributeNS(null, "cy", j);
             myCircle.setAttributeNS(null, "r", 10);
-            myCircle.setAttributeNS(null, "fill", "gray");
+            myCircle.setAttributeNS(null, "fill", gray);
             myCircle.setAttributeNS(null, "stroke", "none");
 
             document.getElementById("mySVG").appendChild(myCircle);
@@ -60,44 +121,27 @@ function changeColor(e) {
 }
 
 function generateSet() {
-    // for (i = 0; i < 4; i++) {
-    //     var r = Math.floor((Math.random() * 6) + 0);
-    //     solutionColors.push(colors[r]);
-    //     var btn = document.getElementById("rb" + (i + 1));
-    //     btn.style.backgroundColor = colors[r];
-    // }
-    for (i = 0; i < 2; i++) {
-        var r = Math.floor(2);
+    for (i = 0; i < 4; i++) {
+        var r = Math.floor((Math.random() * 5) + 0);
         solutionColors.push(colors[r]);
         var btn = document.getElementById("rb" + (i + 1));
         btn.style.backgroundColor = colors[r];
     }
-    for (i = 2; i < 4; i++) {
-        var r = Math.floor(1);
-        solutionColors.push(colors[r]);
-        var btn = document.getElementById("rb" + (i + 1));
-        btn.style.backgroundColor = colors[r];
-    }
+
 }
 
 function logic() {
     var duploesung = JSON.parse(JSON.stringify(solutionColors));
-
     var korrektePosition = 0;
     var korrekteFarbe = 0;
-    var buttonrow = document.getElementsByClassName("buttonrow")[currentRow];
-
     var eingabefarben = [];
-    for (var i = 0; i < 4; i++) {
-        var button = buttonrow.getElementsByClassName('b' + (i + 1))[0];
-        eingabefarben.push(button.style.backgroundColor);
-    }
 
+    eingabefarben = getInputColor();
     for (var i = 0; i < 4; i++) {
         if (eingabefarben[i] === solutionColors[i]) {
             korrektePosition++;
             eingabefarben[i] = "a";
-            duploesung[i] = "";
+            duploesung[i] = "b";
         }
     }
     for (var i = 0; i < 4; i++) {
@@ -105,30 +149,33 @@ function logic() {
         if (pos > -1) {
             korrekteFarbe++;
             eingabefarben[i] = "a";
-            duploesung[i] = "";
+            duploesung[pos] = "b";
         }
     }
 
     if (korrektePosition === 4) {
         alert("Gewonnen");
     }
+
+    colorSVG(korrektePosition, korrekteFarbe);
     currentRow++;
     clickListenerForCurrentRow(currentRow);
-    //alert("pos: " + korrektePosition + " farb: " + korrekteFarbe);
-    colorSVG(buttonrow, korrektePosition, korrekteFarbe);
 }
 
-function colorSVG(buttonrow, korrektePosition, korrekteFarbe) {
-    for (var i = 0; i < korrekteFarbe; i++) {
-        var svg = buttonrow.getElementsByTagName("svg")[0];
+
+
+function colorCircle(start, end, color) {
+    var buttonRow = getButtonRow(currentRow);
+    for (var i = start; i < end; i++) {
+        var svg = buttonRow.getElementsByTagName("svg")[0];
         var svgcircle = svg.getElementById("mycircle" + i);
-        svgcircle.setAttributeNS(null, "fill", "white");
+        svgcircle.setAttributeNS(null, "fill", color);
 
     }
-    for (i = korrekteFarbe; i < korrekteFarbe + korrektePosition; i++) {
-        var svg = buttonrow.getElementsByTagName("svg")[0];
-        var svgcircle = svg.getElementById("mycircle" + i);
-        svgcircle.setAttributeNS(null, "fill", "black");
-    }
+}
 
+function colorSVG(korrektePosition, korrekteFarbe) {
+    colorCircle(0,korrekteFarbe, white);
+    colorCircle(korrekteFarbe,  korrekteFarbe+korrektePosition, black);
+    colorCircle(korrektePosition+korrekteFarbe, 4, gray);
 }
