@@ -25,7 +25,7 @@ window.onload = function () {
     }
     var elements = document.getElementsByClassName("btn-circle");
     for (i = 0; i < elements.length; i++) {
-        elements[i].style.backgroundColor = gray;
+         elements[i].style.backgroundColor = gray;
     }
     generateSet();
     clickListenerForCurrentRow(currentRow);
@@ -51,12 +51,11 @@ function clickListenerForCurrentRow(currentRow) {
 function checkAllButtonsClicked() {
     var eingabeFarben = [];
     eingabeFarben = getInputColor();
-    for (i = 0; i < eingabeFarben.length; i++){
-        if (eingabeFarben[i] === gray) {
-            return false;
-        }
-    }
-    colorSvgCyan();
+   if (eingabeFarben.every( e => e !== gray)){
+       colorSvgCyan()
+   }
+
+
 
 }
 // Das SVG in Cyan einfärben, damit  der spieler weiß er kann das spiel auswerten
