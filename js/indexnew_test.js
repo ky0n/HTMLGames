@@ -17,6 +17,7 @@ window.addEventListener('mousemove', function(event){
     //console.log(mouse.x + ", " + mouse.y);
 })
 
+//resize verursacht Probleme!!
 
 var Ball = function(r,x,y,dx,dy){
     this.r = r;
