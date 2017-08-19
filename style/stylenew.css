@@ -30,7 +30,7 @@ nav {
 }
 /*canvas*/
 #background{
-    background-color: #2E3F5E; 
+    background-color: #1d293d; 
     top: 0;
     z-index: 1;
     position: fixed; 

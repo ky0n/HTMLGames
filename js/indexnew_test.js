@@ -10,7 +10,6 @@ c = can.getContext("2d");
 window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    //console.log(mouse.x + ", " + mouse.y);
 })
 
 //------responsiveCanvas---------------------------
@@ -47,12 +46,11 @@ var Ball = function(r,x,y,dx,dy){
     this.x = x;
     this.y = y;
     this.dx = dx;
-    this.dy =dy;
+    this.dy = dy;
     
     this.drawMouse = function(){
         c.beginPath();
-        c.strokeStyle = "black";
-        c.fillStyle = "red";
+        c.fillStyle = "#ff45f8";
         c.arc(this.x, this.y, r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
@@ -60,11 +58,21 @@ var Ball = function(r,x,y,dx,dy){
     
     this.draw = function(){
         c.beginPath();
-        c.strokeStyle = "#FFF9E0";
-        c.fillStyle = "#FFF9E0";
+        c.strokeStyle = "#8ea7d1";
+        c.fillStyle = "#8ea7d1";
         c.arc(this.x, this.y, r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
+    }
+    
+    //Kollisionserkennung
+    this.intersects = function(other){
+        if( getDistance( this.x, this.y, other.x, other.y) < 
+           this.rad + other.rad ){
+            return true;            
+        }else{
+            return false;
+        }
     }
     
     this.updateMouse = function(){
@@ -74,33 +82,58 @@ var Ball = function(r,x,y,dx,dy){
     }
     
     this.update = function(){
+        
+        //Geschwindigkeit am Fensterrand umkehren
+        if(this.x > (innerWidth - this.r)||this.x<(0 + this.r)){
+            this.dx = -this.dx;
+        }
+        if((this.y + this.r) > innerHeight || (this.y - this.r) < 0){
+            this.dy = -this.dy;
+        } 
+        
+        //Position anhand der Geschwindigkeit anpassen
         this.x += dx;
         this.y += dy;
+        
         this.draw();
     }
 }
 
 //-----methods----------------------------------------
-function randomIntFromRange( min, max ){
-    return Math.floor( Math.random() * ( max - min + 1 ) + min );
+
+//Berechnet den Abstand der beiden über ihre Koordinaten angegebenen Kreise
+function getDistance(x1, y1, x2, y2){
+    var xDistance = x2 - x1;
+    var yDistance = y2 - y1; 
+    return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
 
+function randomIntFromRange( min, max ){
+    var rando = Math.random();
+    if(rando != 0){
+        return Math.random() * ( max - min + 1 ) + min;
+    }else{
+        randomIntFromRange(min,max);
+    }
+    
+}
 
-//-----main-------------------------------------------
+//-----main------------------------------------------
+
+//Kreis um Mauszeiger
 var mouseCircle = new Ball(30,can.width-100,can.height-100,0,0);
 mouseCircle.drawMouse();
 
+//Partikel erstellen
 var circles = [];
 for(var i = 0; i<200; i++){
     var r = 5* Math.random();
     var x = Math.random()*(can.width-10);
     var y = Math.random()*(can.height-10);
-    var dx = -0.5 + Math.random();
-    var dy = -0.5 + Math.random();
-circles.push(new Ball(r,x,y,dx,dy));
-}
-for(var i = 0; i< circles.length; i++){
+    var dx = randomIntFromRange(-1,1);
+    var dy = randomIntFromRange(-1,1);
+    circles.push(new Ball(r,x,y,dx,dy));
     circles[i].draw();
 }
 
@@ -109,7 +142,12 @@ animate = function(){
     c.clearRect(0,0,innerWidth,innerHeight);
     mouseCircle.updateMouse();
     for(var i = 0; i< circles.length; i++){
-    circles[i].update();
+        circles[i].update();
+        
+        if(circles[i].intersects(mouseCircle)){
+            circles[i].r -= 0.1;
+            console.log("HIT");
+        }
     }
 }
 
