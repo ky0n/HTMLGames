@@ -42,8 +42,6 @@ var mouse = {
     y: undefined
 }
 
-//resize verursacht Probleme!!
-
 var Ball = function(r,x,y,dx,dy){
     this.r = r;
     this.x = x;
