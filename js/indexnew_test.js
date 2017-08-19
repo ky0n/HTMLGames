@@ -7,15 +7,40 @@ can.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-var mouse = {
-    x: undefined,
-    y: undefined
-}
 window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
     //console.log(mouse.x + ", " + mouse.y);
 })
+
+//------responsiveCanvas---------------------------
+$(document).ready( function(){
+    //Get the canvas & context 
+    var rc = $('#background');
+    var ct = rc.get(0).getContext('2d');
+    var container = $(rc).parent();
+
+    //Run function when browser resizes
+    $(window).resize( respondCanvas );
+
+    function respondCanvas(){
+        rc.attr('width', $(container).width() ); //max width
+        rc.attr('height', $(container).height() ); //max height
+
+        //Call a function to redraw other content (texts, images etc)
+    }
+
+    //Initial call
+    respondCanvas();
+
+}); 
+
+
+//----data--------------------------------------------
+var mouse = {
+    x: undefined,
+    y: undefined
+}
 
 //resize verursacht Probleme!!
 
@@ -57,6 +82,14 @@ var Ball = function(r,x,y,dx,dy){
     }
 }
 
+//-----methods----------------------------------------
+function randomIntFromRange( min, max ){
+    return Math.floor( Math.random() * ( max - min + 1 ) + min );
+}
+
+
+
+//-----main-------------------------------------------
 var mouseCircle = new Ball(30,can.width-100,can.height-100,0,0);
 mouseCircle.drawMouse();
 
