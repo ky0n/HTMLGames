@@ -1,9 +1,12 @@
 var can = document.getElementById("background");
-var wrap = document.getElementById("contentWrapper");
+var conWrap = document.getElementById("contentWrapper");
+var wrap = document.getElementById("wrapper");
 //var nav = document.getElementsByTagName('nav')[0];
 
 can.width = window.innerWidth;
 can.height = window.innerHeight;
+wrap.width = window.innerWidth;
+wrap.height = window.innerHeight;
 
 c = can.getContext("2d");
 
