@@ -37,6 +37,10 @@ nav {
     position: fixed; 
 }
 
+.myStyle{
+    background-color: #446E73;
+}
+
 #contentWrapper{
     position: relative;
     z-index: 2;

@@ -3,7 +3,12 @@ new Vue({
     data: {
         headline: 'Puzzle und Logik Games',
         smile: '',
-        isSmiling: false
+        isSmiling: false,
+        style: false,
+        
+        colorObj:{
+            backgroundColor: '#446E73'
+        }
     },
     methods: {
         action(){
@@ -14,6 +19,9 @@ new Vue({
                 this.smile = ';)'
             }
             this.isSmiling = !this.isSmiling;
+        },
+        action2(){
+            console.log("Action2!");
         }
     }
     
