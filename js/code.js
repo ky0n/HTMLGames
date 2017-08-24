@@ -127,6 +127,8 @@ function logic() {
             eingabefarben[i] = "a";
             duploesung[i] = "b";
         }
+    }
+    for (var i = 0; i < 4; i++) {
         var pos = duploesung.indexOf(eingabefarben[i]);
         if (pos > -1) {
             korrekteFarbe++;
