@@ -1,7 +1,6 @@
 /**
  * Created by romy on 22.08.2017.
  */
-
 new Vue({
     el: '#flood',
 
@@ -14,35 +13,55 @@ new Vue({
             {color: "rgb(139, 195, 74)"},
             {color: "cyan"}
         ],
-        firstColor: "",
+        squareSize: 16,
         rows: [
-            // wird bei Initialisierung (created Methode) belegt
+            // wird bei Initialisierung belegt
         ],
+        moves: 0,
     },
 
     methods: {
+        initialize: function () {
+            let tempRows = [];
+            for (let i = 0; i < this.squareSize; i++) {
+                let tempColumns = [];
+                for (let j = 0; j < this.squareSize; j++) {
+                    let r = Math.floor(Math.random() * (this.colors.length));
+                    let color = this.colors[r].color;
+                    tempColumns[j] = {color: color};
+                }
+                tempRows[i] = {columns: tempColumns};
+            }
+            this.rows = tempRows;
+        },
+
         changeColor: function(item){
-            if (item.color === this.firstColor) {
+            let oldColor = this.rows[0].columns[0].color;
+            let newColor = item.color;
+
+            if (oldColor === newColor) {
                 return;
             }
 
-            //TODO implement floodfill (recursive)
-            item.color = '#446E73';
+            this.floodFill(0, 0, oldColor, newColor);
+            this.moves++;
+        },
+
+        floodFill(i,j,oldColor,newColor){
+            if (i < 0 || i >= this.squareSize || j < 0 || j >= this.squareSize) {
+                return;
+            }
+            if (this.rows[i].columns[j].color === oldColor) {
+                this.rows[i].columns[j].color = newColor;
+                this.floodFill(i+1, j, oldColor, newColor);
+                this.floodFill(i, j+1, oldColor, newColor);
+                this.floodFill(i-1, j, oldColor, newColor);
+                this.floodFill(i, j-1, oldColor, newColor);
+            }
         }
     },
 
     created(){
-        let tempRows = [];
-        for (let i = 0; i < 9; i++) {
-            let tempC = [];
-            for (let j = 0; j < 9; j++) {
-                let r = Math.floor(Math.random() * (this.colors.length));
-                let color = this.colors[r].color;
-                tempC[j] = {color: color};
-            }
-            tempRows[i] = {columns: tempC};
-        }
-        this.firstColor = tempRows[0].columns[0].color;
-        this.rows = tempRows;
+        this.initialize();
     }
 });
