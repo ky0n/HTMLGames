@@ -26,8 +26,8 @@ $(document).ready( function(){
     $(window).resize( respondCanvas );
 
     function respondCanvas(){
-        rc.attr('width', $(container).width() ); //max width
-        rc.attr('height', $(container).height() ); //max height
+        rc.attr('width', Math.max(document.documentElement.clientWidth, window.innerWidth || 0) ); //max width
+        rc.attr('height', Math.max(document.documentElement.clientHeight, window.innerHeight || 0) ); //max height
 
         //Call a function to redraw other content (texts, images etc)
     }
