@@ -33,8 +33,8 @@ function clickListenerForCurrentRow(currentRow) {
 
 // Prüfen ob alle Buttons eingefärbt sind um Spielergebnis zu prüfen
 function checkAllButtonsClicked() {
-    var eingabeFarben = getInputColor();
-    if (eingabeFarben.every( e => e !== gray)){
+    var inputColor = getInputColor();
+    if (inputColor.every( e => e !== gray)){
        colorSvgCyan()
     }
 }
@@ -59,22 +59,22 @@ function getButtonRow(pos) {
 }
 
 function getInputColor() {
-    var eingabefarben = [];
+    var inputColor = [];
     var buttonrow = getButtonRow(currentRow);
     for (var i = 0; i < 4; i++) {
         var button = buttonrow.getElementsByClassName('b' + (i + 1))[0];
-        eingabefarben.push(button.style.backgroundColor);
+        inputColor.push(button.style.backgroundColor);
     }
-    return eingabefarben;
+    return inputColor;
 }
 
 function createCircle() {
-    var zahl = 0;
+    var number = 0;
     for (var i = 12; i < 38; i += 25) {
         for (var j = 12; j < 38; j += 25) {
 
             var myCircle = document.createElementNS(svgNS, "circle"); //to create a circle. for rectangle use "rectangle"
-            myCircle.setAttributeNS("", "id", "mycircle" + zahl);
+            myCircle.setAttributeNS("", "id", "mycircle" + number);
             myCircle.setAttributeNS("", "cx", ""+i);
             myCircle.setAttributeNS("", "cy", ""+j);
             myCircle.setAttributeNS("", "r", "10");
@@ -82,7 +82,7 @@ function createCircle() {
             myCircle.setAttributeNS("", "stroke", "none");
 
             document.getElementById("mySVG").appendChild(myCircle);
-            zahl++;
+            number++;
         }
     }
 }
@@ -91,32 +91,32 @@ function createCircle() {
 
 
 function logic() {
-    var duploesung = JSON.parse(JSON.stringify(solutionColors));
-    var korrektePosition = 0;
-    var korrekteFarbe = 0;
-    var eingabefarben =  getInputColor();
+    var duplicateSolution = JSON.parse(JSON.stringify(solutionColors));
+    var correctPosition = 0;
+    var correctColor = 0;
+    var inputColor =  getInputColor();
 
     for (var i = 0; i < 4; i++) {
-        if (eingabefarben[i] === solutionColors[i]) {
-            korrektePosition++;
-            eingabefarben[i] = "a";
-            duploesung[i] = "b";
+        if (inputColor[i] === solutionColors[i]) {
+            correctPosition++;
+            inputColor[i] = "a";
+            duplicateSolution[i] = "b";
         }
     }
     for (var i = 0; i < 4; i++) {
-        var pos = duploesung.indexOf(eingabefarben[i]);
+        var pos = duplicateSolution.indexOf(inputColor[i]);
         if (pos > -1) {
-            korrekteFarbe++;
-            eingabefarben[i] = "a";
-            duploesung[pos] = "b";
+            correctColor++;
+            inputColor[i] = "a";
+            duplicateSolution[pos] = "b";
         }
     }
 
-    if (korrektePosition === 4) {
+    if (correctPosition === 4) {
         alert("Gewonnen");
     }
 
-    colorSVG(korrektePosition, korrekteFarbe);
+    colorSVG(correctPosition, correctColor);
     currentRow++;
     clickListenerForCurrentRow(currentRow);
 }
@@ -130,10 +130,10 @@ function colorCircle(start, end, color) {
     }
 }
 
-function colorSVG(korrektePosition, korrekteFarbe) {
-    colorCircle(0,korrekteFarbe, white);
-    colorCircle(korrekteFarbe,  korrekteFarbe+korrektePosition, black);
-    colorCircle(korrektePosition+korrekteFarbe, 4, gray);
+function colorSVG(correctPosition, correctColor) {
+    colorCircle(0,correctColor, white);
+    colorCircle(correctColor,  correctColor+correctPosition, black);
+    colorCircle(correctPosition+correctColor, 4, gray);
 }
 
 let buttons = new Vue({
@@ -192,29 +192,3 @@ new Vue({
     }
 });
 
-
-new Vue({
-    el: '#mySVG',
-
-
-
-    createCircle() {
-    var zahl = 0;
-    for (var i = 12; i < 38; i += 25) {
-        for (var j = 12; j < 38; j += 25) {
-
-            var myCircle = document.createElementNS(svgNS, "circle"); //to create a circle. for rectangle use "rectangle"
-            myCircle.setAttributeNS("", "id", "mycircle" + zahl);
-            myCircle.setAttributeNS("", "cx", ""+i);
-            myCircle.setAttributeNS("", "cy", ""+j);
-            myCircle.setAttributeNS("", "r", "10");
-            myCircle.setAttributeNS("", "fill", gray);
-            myCircle.setAttributeNS("", "stroke", "none");
-
-            //document.getElementById("mySVG").appendChild(myCircle);
-            zahl++;
-        }
-    }
-}
-
-});
