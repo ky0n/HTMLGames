@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/stylenew.css">
     <link rel="stylesheet" href="style/animate.css">
+    <link rel="stylesheet" href="navStyle.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!---<script src="https://unpkg.com/vue"></script> <!---VUE.JS online--->
     <script src="js/vue.js"></script> <!---VUE.JS--->
-        
+
+
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin: 0"><!---margin wenn möglich in css datei -->
+<div>
+    <nav id="nav" class="navbar navbar-inverse navbar-static-top bg-primary" role="navigation" style="margin: 0">
+        <!---margin wenn möglich in css datei -->
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -30,21 +34,20 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav  nav-pills">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="index.html">{{home}}</a></li>
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown"
-                                role="button" aria-haspopup="true" aria-expanded="false"
-                                href="about.php">Spiele
-                        <span class="caret"></span> </a>
+                           role="button" aria-haspopup="true" aria-expanded="false"
+                           href="about.php">{{games}}
+                            <span class="caret"></span> </a>
                         <ul class="dropdown-menu navbar-inverse navbar-static-top">
-                            <a href="games/mastermind/mastermind.html">Mastermind</a>
+                            <li v-for="item in gameItems"><a v-bind:href="item.url">{{ item.game }}</a></li>
+
                         </ul>
                     </li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="contact.php">{{contact}}</a></li>
                 </ul>
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-right">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search">
                         <div class="input-group-btn">
@@ -54,14 +57,11 @@
                         </div>
                     </div>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
+
             </div>
         </div>
     </nav>
-    
+
     <div id="wrapper">
         <div class="container" id="contentWrapper">
             <div class="page-header">
@@ -74,7 +74,11 @@
                         <div class="caption">
                             <h3 v-on:mouseOver="action()">Thumbnail label {{smile}}</h3>
                             <p>...</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button" v-on:click="action()">Click me to see vue action</a></p>
+                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
+                                                                                               class="btn btn-default"
+                                                                                               role="button"
+                                                                                               v-on:click="action()">Click
+                                me to see vue action</a></p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +88,11 @@
                         <div class="caption">
                             <h3>Thumbnail label</h3>
                             <p>...</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button" v-on:click="style = !style">Click me to see more vue action</a></p>
+                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
+                                                                                               class="btn btn-default"
+                                                                                               role="button"
+                                                                                               v-on:click="style = !style">Click
+                                me to see more vue action</a></p>
                         </div>
                     </div>
                 </div>
@@ -94,23 +102,31 @@
                         <div class="caption">
                             <h3>Thumbnail label</h3>
                             <p>...</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
+                                                                                               class="btn btn-default"
+                                                                                               role="button">Button</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <canvas id="background"></canvas>
-    </div>    
+    </div>
 </div>
-    <script src="js/indexnew_test.js"></script> <!---muss hier als js zerst stehen--->
-    <script>
-        $(".ani").hover(
-            function(){ $(this).addClass('animated pulse') },
-            function(){ $(this).removeClass('animated pulse') }
-        )
-    </script>
-    <script src="js/canvas.js"></script>
+<script src="js/indexnew_test.js"></script> <!---muss hier als js zerst stehen--->
+<script src="nav.js"></script>
+<script>
+    $(".ani").hover(
+        function () {
+            $(this).addClass('animated pulse')
+        },
+        function () {
+            $(this).removeClass('animated pulse')
+        }
+    )
+</script>
+<script src="js/canvas.js"></script>
 
 </body>
 </html>

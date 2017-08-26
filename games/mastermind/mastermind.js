@@ -8,14 +8,6 @@ var white = "white";
 var black = "black";
 var cyan = "cyan";
 
-//currentrow muss geändert!!!!!!!
-
-
-window.onload = function () {
-    createCircle();
-
-};
-
 function removeSVGClickListener() {
     var buttonrow = getButtonRow(currentRow-1);//mit currentRow kann nicht so bleiben ist pfusch
     var svg = buttonrow.getElementsByTagName("svg")[0];
@@ -154,6 +146,7 @@ let buttons = new Vue({
     },
 
     created(){
+        createCircle();
         let tempRows = [];
         for (let i = 0; i < 9; i++) {
             let tempC = [];

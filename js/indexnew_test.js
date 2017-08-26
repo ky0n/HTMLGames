@@ -1,5 +1,5 @@
 new Vue({
-  el: '#app',
+  el: '#wrapper',
     data: {
         headline: 'Puzzle und Logik Games',
         smile: '',

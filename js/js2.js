@@ -31,7 +31,6 @@ var burst1 = new mojs.Burst({
 var largeBurst = new mojs.Burst({
     left: 0, top: 0,
     count: 4,
-    radius: 0,
     angle: 45,
     radius: { 0: 450 },
     children: {
