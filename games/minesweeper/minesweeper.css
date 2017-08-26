@@ -1,0 +1,24 @@
+#tableHead{
+    height: 100px;
+    width: 500px;
+    border: 1px solid black;
+
+}
+
+#table{
+    height: 500px;
+    width: 500px;
+    border: 1px solid black;
+}
+
+button{
+    height: 100%;
+    width: 100%;
+
+}
+
+
+
+#minesweeper{
+    margin: 5% 40%;
+}
