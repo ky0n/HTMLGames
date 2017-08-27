@@ -17,10 +17,12 @@ let vueObj = new Vue({
         rows: [
             // wird bei der Initialisierung belegt
         ],
-        gameOver: false
+        gameOver: null
     },
     methods: {
         initialize: function () {
+            this.gameOver = false;
+
             let bombs = [];
             for (let i = 0; i < this.numBombs; i++) {
                 let fieldFound = false;
@@ -221,10 +223,11 @@ let vueObj = new Vue({
         searchEmptyFields: function (i, j) {
             if (i < 0 || i >= this.squareSize || j < 0 || j >= this.squareSize) {
                 return;
-            } else {
-                var field = this.rows[i].columns[j];
-                field.disabled = true;
             }
+
+            let field = this.rows[i].columns[j];
+            field.disabled = true;
+
             if (field.nearBombs === 0 && !field.visited) {
                 field.visited = true;
                 field.color = this.colors[field.nearBombs + 2].color;
@@ -247,10 +250,11 @@ let vueObj = new Vue({
         searchBombs: function (i, j) {
             if (i < 0 || i >= this.squareSize || j < 0 || j >= this.squareSize) {
                 return;
-            } else {
-                var field = this.rows[i].columns[j];
-                field.disabled = true;
             }
+
+            let field = this.rows[i].columns[j];
+            field.disabled = true;
+
             if (!field.visited) {
                 field.visited = true;
                 if (field.isBomb) {
@@ -266,8 +270,7 @@ let vueObj = new Vue({
 
         rightClick: function (field, event) {
             event.preventDefault();
-            field.value = "FLAG";
-            flags.setFlag();
+            flags.setFlag(field);
         },
     },
 
@@ -308,10 +311,11 @@ let flags = new Vue({
         numFlags: 10
     },
     methods: {
-        setFlag: function () {
+        setFlag: function (field) {
             if (this.numFlags > 0) {
+                field.value = "FLAG";
                 this.numFlags--;
-            }else{
+            } else {
                 //TODO sound ?
             }
         }

@@ -2,33 +2,62 @@ body {
     background-color: rgba(26, 216, 83, .8);
 }
 
+/* Anzeigen für Minesweeper ( Flaggen & abgelaufene Zeit )  */
+#displayParent{
+    width: 99%;
+    height: 200px;
+
+    margin: 6% 0 0 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #timeCount{
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
-    padding: 15px;
+    border: 2px solid #6b706b;
+    margin: 0 7.5% 0 5%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    float: right;
 }
 
 #flags{
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
-    padding: 15px;
+    border: 2px solid #6b706b;
+    margin: 0 40% 0 7.5%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    float: left;
 }
+/*  */
 
 #minesweeper {
-}
+    margin: 0 40% 8% 20%;
 
-#tableHead {
-    height: 100px;
-    width: 500px;
 }
 
 #table {
     height: 500px;
     width: 500px;
-    border: 1px solid black;
-    opacity: 1;
+    background-color: gray;
+    border: 3px solid black;
+    border-bottom: 9px solid black;
 }
 
 button {
@@ -37,12 +66,22 @@ button {
 }
 
 .unclickedButton{
-    /* leichter 3D Effekt durch Schatten */
-    -webkit-box-shadow: 0 6px 0 #2b638f, 0 3px 15px rgba(0, 0, 0, .4);
-    -moz-box-shadow: 0 6px 0 #2b638f, 0 3px 15px rgba(0, 0, 0, .4);
-    box-shadow: 0 6px 0 #2b638f, 0 3px 15px rgba(0, 0, 0, .4);
+    /* leichter 3D Effekt */
+    -webkit-box-shadow: 0px 6px 0px #2b638f, 0px 3px 15px rgba(0,0,0,.4), inset 0px 1px 0px rgba(255,255,255,.3), inset 0px 0px 3px rgba(255,255,255,.5);
+    -moz-box-shadow: 0px 6px 0px #2b638f, 0px 3px 15px rgba(0,0,0,.4), inset 0px 1px 0px rgba(255,255,255,.3), inset 0px 0px 3px rgba(255,255,255,.5);
+    box-shadow: 0px 6px 0px #2b638f, 0px 3px 15px rgba(0,0,0,.4), inset 0px 1px 0px rgba(255,255,255,.3), inset 0px 0px 3px rgba(255,255,255,.5);
 }
 
-#minesweeper {
-    margin: 8% 40%;
+.clickedButton{
+    /*box-shadow:none;*/
+}
+
+
+
+/* versteckt nicht kompilierte Vue Bindings */
+[v-cloak] > * {
+    display: none;
+}
+[v-cloak]::before {
+    content:"loading...";
 }
