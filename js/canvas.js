@@ -50,20 +50,21 @@ var Ball = function(r,x,y,dx,dy){
     this.y = y;
     this.dx = dx;
     this.dy = dy;
+    this.color = "#8ea7d1";
     
     this.drawMouse = function(){
         c.beginPath();
         c.fillStyle = "#ff45f8";
-        c.arc(this.x, this.y, r, 0, 2*Math.PI, false);
+        c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
     }
     
     this.draw = function(){
         c.beginPath();
-        c.strokeStyle = "#8ea7d1";
-        c.fillStyle = "#8ea7d1";
-        c.arc(this.x, this.y, r, 0, 2*Math.PI, false);
+        c.strokeStyle = this.color;
+        c.fillStyle = this.color;
+        c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
     }
@@ -71,7 +72,7 @@ var Ball = function(r,x,y,dx,dy){
     //Kollisionserkennung
     this.intersects = function(other){
         if( getDistance( this.x, this.y, other.x, other.y) < 
-           this.rad + other.rad ){
+           this.r + other.r ){
             return true;            
         }else{
             return false;
@@ -144,13 +145,12 @@ animate = function(){
     requestAnimationFrame(animate);
     c.clearRect(0,0,innerWidth,innerHeight);
     mouseCircle.updateMouse();
-    for(var i = 0; i< circles.length; i++){
-        circles[i].update();
-        
+    for(var i = 0; i< circles.length; i++){        
         if(circles[i].intersects(mouseCircle)){
-            circles[i].r -= 0.1;
-            console.log("HIT");
+            //circles[i].r -= 0.1;
+            circles[i].color = "#ff45f8";
         }
+        circles[i].update();
     }
 }
 
