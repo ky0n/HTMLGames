@@ -87,7 +87,7 @@ var Ball = function(r,x,y,dx,dy){
     this.update = function(){
         
         //Geschwindigkeit am Fensterrand umkehren
-        if(this.x > (innerWidth - this.r)||this.x<(0 + this.r)){
+        if(this.x >= (innerWidth - this.r)||this.x <= (0 + this.r)){
             this.dx = -this.dx;
         }
         if((this.y + this.r) > innerHeight || (this.y - this.r) < 0){
@@ -106,8 +106,8 @@ var Ball = function(r,x,y,dx,dy){
 
 //Berechnet den Abstand der beiden über ihre Koordinaten angegebenen Kreise
 function getDistance(x1, y1, x2, y2){
-    var xDistance = x2 - x1;
-    var yDistance = y2 - y1; 
+    var xDistance = Math.abs(x2 - x1);
+    var yDistance = Math.abs(y2 - y1); 
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
