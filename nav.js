@@ -7,7 +7,7 @@ new Vue({
         gameItems: [
             { game: 'Mastermind', url: 'games/mastermind/mastermind.html' },
             { game: 'Flood', url: 'games/flood/flood.html' },
-            { game: 'Minesweeper', url: '' }
+            { game: 'Minesweeper', url: 'games/minesweeper/minesweeper.html' }
         ]
         }
     });
