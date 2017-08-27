@@ -9,15 +9,22 @@
     <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
-<div id="minesweeper" oncontextmenu="return false;">
+<div id="timeCount">
+     {{time}}
+</div>
+<div id="flags">
+     {{numFlags}}
+</div>
+<div id="minesweeper">
     <div id="tableHead">
-
     </div>
     <table id="table">
         <tr v-for="row in rows">
             <td v-for="column in row.columns">
-                <button v-on:click.left="leftClick()" v-on:click.right="rightClick()" v-bind:style="{'background-color': column.color}">
-                    {{column.nearBombs}}
+                <button v-on:click.left="leftClick(column, $event)" v-on:contextmenu="rightClick(column, $event)"
+                        v-bind:style="{'background-color': column.color}" v-bind:disabled="column.disabled"
+                        v-bind:class="{ unclickedButton : column.disabled}">
+                    {{column.value}}
                 </button>
             </td>
         </tr>
