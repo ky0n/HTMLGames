@@ -96,8 +96,8 @@ var Ball = function(r,x,y,dx,dy){
         } 
         
         //Position anhand der Geschwindigkeit anpassen
-        this.x += dx;
-        this.y += dy;
+        this.x += this.dx;
+        this.y += this.dy;
         
         this.draw();
     }
