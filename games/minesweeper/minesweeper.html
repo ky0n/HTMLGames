@@ -2,6 +2,7 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- erhält wahre Pixel-Breite -->
     <title>Minesweeper</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -9,15 +10,26 @@
     <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
-<div id="minesweeper" oncontextmenu="return false;">
-    <div id="tableHead">
 
+<div id="header">
+
+</div>
+<div id="displayParent">
+    <div id="timeCount" v-cloak>
+        {{time}}
     </div>
+    <div id="flags" v-cloak>
+        {{numFlags}}
+    </div>
+</div>
+<div id="minesweeper">
     <table id="table">
         <tr v-for="row in rows">
             <td v-for="column in row.columns">
-                <button v-on:click.left="leftClick()" v-on:click.right="rightClick()" v-bind:style="{'background-color': column.color}">
-                    {{column.nearBombs}}
+                <button v-on:click.left="leftClick(column, $event)" v-on:contextmenu="rightClick(column, $event)"
+                        v-bind:style="{'background-color': column.color , 'border-color': column.color}" v-bind:disabled="column.disabled"
+                        v-bind:class="[column.disabled && !gameOver ? 'clickedButton' : 'unclickedButton']">
+                    {{column.value}}
                 </button>
             </td>
         </tr>
