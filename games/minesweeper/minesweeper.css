@@ -19,7 +19,7 @@ body {
     height: 50px;
     width: 50px;
     border: 2px solid #6b706b;
-    margin: 0 7.5% 0 5%;
+    margin: 0 7.5% 0 7.5%;
 
     display: flex;
     justify-content: center;
@@ -45,10 +45,14 @@ body {
     -webkit-flex-wrap: wrap;
     float: left;
 }
+
+#restartButton{
+
+}
 /*  */
 
 #minesweeper {
-    margin: 0 40% 8% 20%;
+    margin: -2% 40% 8% 20%;
 
 }
 

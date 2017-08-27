@@ -1,4 +1,4 @@
-let vueObj = new Vue({
+let minesweeper = new Vue({
     el: '#minesweeper',
     data: {
         colors: [
@@ -205,6 +205,11 @@ let vueObj = new Vue({
         leftClick: function (field) {
             timeCount.startCounting();
             field.disabled = true;
+            if(field.value === "FLAG"){
+                flags.numFlags++;
+                field.value = "";
+            }
+
             if (field.isBomb) {
                 field.color = this.colors[7].color;
                 this.gameOver = true;
@@ -218,6 +223,7 @@ let vueObj = new Vue({
                     field.value = "" + field.nearBombs;
                 }
             }
+
         },
 
         searchEmptyFields: function (i, j) {
@@ -299,25 +305,43 @@ let timeCount = new Vue({
             this.time++;
         },
         stopCounting: function () {
-            clearInterval(this.intervalID)
+            clearInterval(this.intervalID);
+            this.started = false;
         }
     }
-
 });
 
 let flags = new Vue({
     el: '#flags',
     data: {
-        numFlags: 10
+        numFlags: 20,
+        remainingFlags: 20,
     },
     methods: {
+        initialize(){
+            this.remainingFlags = this.numFlags;
+        },
+
         setFlag: function (field) {
-            if (this.numFlags > 0) {
+            if (this.remainingFlags > 0) {
                 field.value = "FLAG";
-                this.numFlags--;
+                this.remainingFlags--;
             } else {
                 //TODO sound ?
             }
+        }
+    }
+});
+
+let restartGame = new Vue({
+    el:'#restartButton',
+    methods:{
+        newGame: function(){
+            console.log("yo");
+            timeCount.stopCounting();
+            timeCount.time = 0;
+            flags.initialize();
+            minesweeper.initialize();
         }
     }
 });
