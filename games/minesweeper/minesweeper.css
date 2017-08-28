@@ -1,5 +1,5 @@
 body {
-    background-color: rgba(26, 216, 83, .8);
+    background-color: rgba(152, 232, 234, .8);
 }
 
 /* Anzeigen für Minesweeper ( Flaggen & abgelaufene Zeit )  */
@@ -15,6 +15,12 @@ body {
 }
 
 #timeCount{
+    /* Dadurch kann Text nicht markiert werden */
+    -webkit-user-select: none; /* Safari, iOS, and Android */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
@@ -31,6 +37,11 @@ body {
 }
 
 #flags{
+    -webkit-user-select: none; /* Safari, iOS, and Android */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
@@ -65,11 +76,14 @@ body {
 }
 
 button {
+
     height: 55px;
     width: 55px;
 }
 
 .unclickedButton{
+    background: #888993;
+
     /* leichter 3D Effekt */
     -webkit-box-shadow: 0px 6px 0px #2b638f, 0px 3px 15px rgba(0,0,0,.4), inset 0px 1px 0px rgba(255,255,255,.3), inset 0px 0px 3px rgba(255,255,255,.5);
     -moz-box-shadow: 0px 6px 0px #2b638f, 0px 3px 15px rgba(0,0,0,.4), inset 0px 1px 0px rgba(255,255,255,.3), inset 0px 0px 3px rgba(255,255,255,.5);
@@ -77,7 +91,7 @@ button {
 }
 
 .clickedButton{
-    /*box-shadow:none;*/
+    background-color: #c0c1cb;
 }
 
 

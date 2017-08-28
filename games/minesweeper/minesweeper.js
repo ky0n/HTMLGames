@@ -2,34 +2,31 @@ let minesweeper = new Vue({
     el: '#minesweeper',
     data: {
         colors: [
-            {color: "#6c1489"},       // ungeklicktes Feld
-            {color: "#ffffff"},       // ist Bombe
+            {color: "#87776e"},       // ungeklicktes Feld
+            {color: "#000000"},       // ist Bombe
             {color: "#87776e"},       // keine Bomben
             {color: "#1c49bc"},       // 1 Bombe
             {color: "#1f960d"},       // 2 Bomben
-            {color: "#d1ce2f"},       // 3 Bomben
+            {color: "#581f8e"},       // 3 Bomben
             {color: "#ba7821"},       // 4 Bomben
             {color: "#bc2112"}        // 5 Bomben
-
         ],
         squareSize: 9,
         numBombs: 10,
         rows: [
             // wird bei der Initialisierung belegt
         ],
-        gameOver: null
+        bombs: [],
+        clickedBomb: null // die angeklickte Bombe erhält Farbe rot
     },
     methods: {
         initialize: function () {
-            this.gameOver = false;
-
-            let bombs = [];
             for (let i = 0; i < this.numBombs; i++) {
                 let fieldFound = false;
                 while (!fieldFound) {
                     let k = Math.floor(Math.random() * (this.squareSize * this.squareSize));
-                    if (!bombs.includes(k)) {
-                        bombs.push(k);
+                    if (!this.bombs.includes(k)) {
+                        this.bombs.push(k);
                         fieldFound = true;
                     }
                 }
@@ -41,9 +38,10 @@ let minesweeper = new Vue({
                 for (let j = 0; j < this.squareSize; j++) {
                     let field = i * this.squareSize + j;
                     let element = {};
-                    element.isBomb = bombs.includes(field);
+                    element.isBomb = this.bombs.includes(field);
                     element.color = this.colors[0].color;
                     element.disabled = false;
+                    element.clicked = false;
                     element.row = i;
                     element.column = j;
                     element.nearBombs = 0;
@@ -202,19 +200,20 @@ let minesweeper = new Vue({
             }
         },
 
+        /* left click things: */
+
         leftClick: function (field) {
-            timeCount.startCounting();
             field.disabled = true;
-            if(field.value === "FLAG"){
+            field.clicked = true;
+            if (field.value === "FLAG") {
                 flags.numFlags++;
                 field.value = "";
             }
-
+            timeCount.startCounting();
             if (field.isBomb) {
-                field.color = this.colors[7].color;
-                this.gameOver = true;
                 timeCount.stopCounting();
-                this.searchBombs(field.row, field.column);
+                this.clickedBomb = field;
+                this.searchBombs(this.clickedBomb.row, this.clickedBomb.column);
             } else {
                 if (field.nearBombs === 0) {
                     this.searchEmptyFields(field.row, field.column);
@@ -234,8 +233,9 @@ let minesweeper = new Vue({
             let field = this.rows[i].columns[j];
             field.disabled = true;
 
-            if (field.nearBombs === 0 && !field.visited) {
-                field.visited = true;
+            if (field.nearBombs === 0 && !field.visitedForEmptiness) {
+                field.visitedForEmptiness = true;
+                field.clicked = true;
                 field.color = this.colors[field.nearBombs + 2].color;
 
                 this.searchEmptyFields(i + 1, j);
@@ -246,10 +246,12 @@ let minesweeper = new Vue({
                 this.searchEmptyFields(i - 1, j + 1);
                 this.searchEmptyFields(i + 1, j - 1);
                 this.searchEmptyFields(i + 1, j + 1);
-            } else if (field.nearBombs !== 0 && !field.visited && !field.visitedNeighbour) {
+            } else if (field.nearBombs !== 0 && !field.visitedForEmptiness && !field.visitedNeighbour) {
+                field.visitedNeighbour = true;
+                field.clicked = true;
                 field.color = this.colors[field.nearBombs + 2].color;
                 field.value = "" + field.nearBombs;
-                field.visitedNeighbour = true;
+
             }
         },
 
@@ -261,11 +263,16 @@ let minesweeper = new Vue({
             let field = this.rows[i].columns[j];
             field.disabled = true;
 
-            if (!field.visited) {
-                field.visited = true;
-                if (field.isBomb) {
+            if (!field.visitedForBomb) {
+                field.visitedForBomb = true;
+                if (field.isBomb && !Object.is(field,this.clickedBomb)) { //Object.is checkt ob die beiden Objekte gleich sind
+                    console.log("yo");
                     field.value = "BOMB";
                     field.color = this.colors[1].color;
+                    field.clicked = true;
+                }else if(Object.is(field,this.clickedBomb)){
+                    field.value = "BOMB";
+                    field.color = this.colors[7].color;
                 }
                 this.searchBombs(i + 1, j);
                 this.searchBombs(i, j + 1);
@@ -274,10 +281,27 @@ let minesweeper = new Vue({
             }
         },
 
+        /* right click things : */
+
         rightClick: function (field, event) {
             event.preventDefault();
             flags.setFlag(field);
+            this.checkForWin();
         },
+
+        checkForWin: function () {
+            let win;
+            for (let i = 0; i < this.bombs.length; i++) {
+                let j = Math.floor(this.bombs[i] / this.squareSize);
+                let k = this.bombs[i] % this.squareSize;
+
+                if(this.rows[j].columns[k].value !== "FLAG"){
+                    return;
+                }
+            }
+            this.timeCount.stopCounting();
+            alert('wonnered \n Time: '+this.timeCount.time);
+        }
     },
 
     created() {
@@ -299,7 +323,6 @@ let timeCount = new Vue({
                 this.started = true;
                 this.intervalID = setInterval(this.oneSecondPassed, 1000); // die Methode wird nach jeder vergangenen Sekunde aufgerufen
             }
-
         },
         oneSecondPassed: function () {
             this.time++;
@@ -318,10 +341,9 @@ let flags = new Vue({
         remainingFlags: 20,
     },
     methods: {
-        initialize(){
+        fillFlagsUp() {
             this.remainingFlags = this.numFlags;
         },
-
         setFlag: function (field) {
             if (this.remainingFlags > 0) {
                 field.value = "FLAG";
@@ -334,13 +356,13 @@ let flags = new Vue({
 });
 
 let restartGame = new Vue({
-    el:'#restartButton',
-    methods:{
-        newGame: function(){
-            console.log("yo");
+    el: '#restartButton',
+    methods: {
+        newGame: function () {
             timeCount.stopCounting();
             timeCount.time = 0;
-            flags.initialize();
+            flags.fillFlagsUp();
+            minesweeper.bombs.length = 0; // entfernt alle Elemente des Arrays
             minesweeper.initialize();
         }
     }
