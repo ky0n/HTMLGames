@@ -300,7 +300,7 @@ let minesweeper = new Vue({
                 }
             }
             timeCount.stopCounting();
-            alert('wonnered \n Time: '+this.timeCount.time);
+            alert('wonnered \n Time: '+ timeCount.time);
         }
     },
 
