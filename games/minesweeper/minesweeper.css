@@ -2,6 +2,14 @@ body {
     background-color: rgba(152, 232, 234, .8);
 }
 
+div, button{
+    /* Dadurch kann Text nicht markiert werden */
+    -webkit-user-select: none; /* Safari, iOS, and Android */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
 /* Anzeigen für Minesweeper ( Flaggen & abgelaufene Zeit )  */
 #displayParent{
     width: 99%;
@@ -15,12 +23,6 @@ body {
 }
 
 #timeCount{
-    /* Dadurch kann Text nicht markiert werden */
-    -webkit-user-select: none; /* Safari, iOS, and Android */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
@@ -37,10 +39,6 @@ body {
 }
 
 #flags{
-    -webkit-user-select: none; /* Safari, iOS, and Android */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
     background-color: rgb(255, 107, 102);
     height: 50px;

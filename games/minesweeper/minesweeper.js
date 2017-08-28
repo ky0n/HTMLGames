@@ -284,7 +284,7 @@ let minesweeper = new Vue({
         /* right click things : */
 
         rightClick: function (field, event) {
-            event.preventDefault();
+            event.preventDefault(); // blockiert Aufruf vom Contextmenu
             flags.setFlag(field);
             this.checkForWin();
         },
@@ -299,7 +299,7 @@ let minesweeper = new Vue({
                     return;
                 }
             }
-            this.timeCount.stopCounting();
+            timeCount.stopCounting();
             alert('wonnered \n Time: '+this.timeCount.time);
         }
     },
