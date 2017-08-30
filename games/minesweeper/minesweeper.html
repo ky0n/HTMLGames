@@ -2,7 +2,7 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- erhält wahre Pixel-Breite -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Minesweeper</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -11,26 +11,25 @@
 </head>
 <body>
 
-<div id="header">
-
-</div>
+<div>
+<div>
 <div id="displayParent">
-    <div id="timeCount" v-cloak>
+    <p id="timeCount" v-cloak>
         {{time}}
-    </div>
+    </p>
     <button id="restartButton" v-on:click="newGame()">
         <!-- keine Copyrights dafür -->
         <svg style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="info"></g><g id="icons"><g id="reload"><path d="M23,5.4v-2c0-0.9-1.1-1.3-1.7-0.7l-2.2,2.2C17.4,3.7,15.3,3,13,3C9.2,3,5.8,5,4.1,7.4C3.7,8.1,4.2,9,5,9h0    c0.3,0,0.6-0.2,0.8-0.5C7.1,6.8,9.4,6,12,6c1.8,0,3.5,0.4,4.8,1.2l-2.1,2.1c-0.6,0.6-0.2,1.7,0.7,1.7h2H22h0c0.6,0,1-0.4,1-1V5.4    C23,5.4,23,5.4,23,5.4z"></path><path d="M19.7,15L19.7,15c-0.4,0-0.7,0.2-0.9,0.5c-1.2,1.7-3.5,2.5-6.1,2.5c-2,0-3.9-0.5-5.1-1.5l1.8-1.8C9.9,14.1,9.5,13,8.6,13    h-2H2c-0.6,0-1,0.4-1,1v4.6v2c0,0.9,1.1,1.3,1.7,0.7l2.4-2.4c1.7,1.3,4,2.1,6.5,2.1c3.9,0,7.2-2,8.9-4.5C21,15.9,20.5,15,19.7,15z    "></path></g></g></svg>
     </button>
-    <div id="flags" v-cloak>
+    <p id="flags" v-cloak>
         {{remainingFlags}}
-    </div>
+    </p>
 </div>
-<div id="minesweeper">
+<div id="minesweeperField">
     <table id="table">
         <tr v-for="row in rows">
             <td v-for="column in row.columns">
-                <button v-on:click.left="leftClick(column, $event)" v-on:contextmenu="rightClick(column, $event)"
+                <button v-on:click.left="leftClick(column)" v-on:contextmenu="rightClick(column, $event)"
                         v-bind:style="{'color': column.color}"
                         v-bind:disabled="column.disabled"
                         v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
@@ -40,6 +39,21 @@
             </td>
         </tr>
     </table>
+</div>
+</div>
+<form>
+    <fieldset id="difficultySelection">
+        <input type="radio" id="beginner" name="difficulty" value="Beginner" checked> <!-- value? -->
+        <label for="beginner"> Beginner </label><br>
+        <input type="radio" id="intermediate" name="difficulty" value="Intermediate">
+        <label for="intermediate"> Intermediate </label><br>
+        <input type="radio" id="expert" name="difficulty" value="Expert">
+        <label for="expert"> Expert </label><br>
+        <hr>
+        <input type="radio" id="costum" name="difficulty" value="Costum">
+        <label for="costum"> Costum </label><br>
+    </fieldset>
+</form>
 </div>
 
 <!-- JAVASCRIPT -->

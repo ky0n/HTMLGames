@@ -55,12 +55,7 @@ div, button{
     float: left;
 }
 
-#restartButton{
-
-}
-/*  */
-
-#minesweeper {
+#minesweeperField {
     margin: -2% 40% 8% 20%;
 
 }
@@ -74,7 +69,6 @@ div, button{
 }
 
 button {
-
     height: 55px;
     width: 55px;
 }
@@ -90,14 +84,15 @@ button {
 
 .clickedButton{
     background-color: #c0c1cb;
+
 }
 
+#difficultySelection{
+    float: right;
+}
 
 
 /* versteckt nicht kompilierte Vue Bindings */
-[v-cloak] > * {
+[v-cloak]{
     display: none;
-}
-[v-cloak]::before {
-    content:"loading...";
 }
