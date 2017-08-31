@@ -4,10 +4,32 @@
 }
 
 #wrapper{
-    background-color: brown;
-    
+    background-color: cornflowerblue;
+    width: 100vw;
+    height: 100vh;
 }
 
-#can{
-    background-color: aquamarine;
+.row{
+    margin: 0;
+    background-color: blue;
+    display: flex;
+    justify-content: center ;
+    width: 100vw;
+}
+
+#header{
+    background-color: cadetblue;
+    height: 10%;
+}
+
+#gamecontainer{
+    height: 90%;
+}
+
+#game{
+    /*flex-grow: 0;
+    background-color: aliceblue;
+    width: 80%;
+    heigth: 80%;*/
+    background-color: rosybrown;
 }

@@ -6,12 +6,20 @@
     <title>Untangle</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="untangle.css">
+    <!--<link rel="stylesheet" href="untangle.css">-->
     <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
     <div id="wrapper">
-        <canvas id="can"></canvas>
+        <div class="row" id="header">
+            <button>Test</button>
+            {{mouse.x}},{{mouse.y}}
+        </div>
+        <div class="row" id="gamecontainer">
+                <canvas id="game" v-on:mousemove="update" v-on:click="generate" style="background-color: #FD5061">
+                    <!--<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" src="../../Kreis.svg"></svg>-->
+                </canvas>
+        </div>
     </div>
 
 <!-- JAVASCRIPT -->
