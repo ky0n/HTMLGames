@@ -279,8 +279,7 @@ let minesweeper = new Vue({
 
         /* right click things : */
 
-        rightClick: function (field, event) {
-            event.preventDefault(); // blockiert Aufruf vom Contextmenu
+        rightClick: function (field) {
             flags.setFlag(field);
             this.checkForWin();
         },
@@ -331,12 +330,11 @@ let timeCount = new Vue({
 let flags = new Vue({
     el: '#flags',
     data: {
-        numFlags: 10,
         remainingFlags: 10,
     },
     methods: {
         fillFlagsUp() {
-            this.remainingFlags = this.numFlags;
+            this.remainingFlags = minesweeper.numBombs;
         },
         setFlag: function (field) {
             if (this.remainingFlags > 0) {
@@ -358,6 +356,38 @@ let restartGame = new Vue({
             flags.fillFlagsUp();
             minesweeper.bombs.length = 0; // entfernt alle Elemente des Arrays
             minesweeper.initialize();
+        }
+    },
+});
+
+let difficulty = new Vue({
+    el: '#fieldsetSelection',
+    data: {
+        gamemode: null,
+        horizontal: null,
+        vertical: null,
+    },
+    methods: {
+        onChange: function(){
+            console.log(this.gamemode);
+            switch(this.gamemode){
+                case 'Beginner':
+                    minesweeper.squareSize = 9;
+                    minesweeper.numBombs = 10;
+                    break;
+                case 'Intermediate':
+                    minesweeper.squareSize = 16;
+                    minesweeper.numBombs = 40;
+                    break;
+                case 'Expert':
+                    minesweeper.squareSize = 20;
+                    minesweeper.numBombs = 99;
+                    break;
+                case 'Custom':
+
+                    break;
+            }
+            restartGame.newGame();
         }
     }
 });

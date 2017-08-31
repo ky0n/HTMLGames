@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:v-model="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,8 +12,8 @@
 </head>
 <body>
 
-<div>
-<div>
+<div id="entireGame">
+<div id="minesweeper">
 <div id="displayParent">
     <p id="timeCount" v-cloak>
         {{time}}
@@ -29,7 +30,7 @@
     <table id="table">
         <tr v-for="row in rows">
             <td v-for="column in row.columns">
-                <button v-on:click.left="leftClick(column)" v-on:contextmenu="rightClick(column, $event)"
+                <button v-on:click.left="leftClick(column)" v-on:contextmenu.prevent="rightClick(column)"
                         v-bind:style="{'color': column.color}"
                         v-bind:disabled="column.disabled"
                         v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
@@ -41,17 +42,19 @@
     </table>
 </div>
 </div>
-<form>
-    <fieldset id="difficultySelection">
-        <input type="radio" id="beginner" name="difficulty" value="Beginner" checked> <!-- value? -->
+<form id="difficultySelection">
+    <fieldset id="fieldsetSelection" v-on:change="onChange()">
+        <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gamemode"  checked> <!-- value? checked -->
         <label for="beginner"> Beginner </label><br>
-        <input type="radio" id="intermediate" name="difficulty" value="Intermediate">
+        <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gamemode">
         <label for="intermediate"> Intermediate </label><br>
-        <input type="radio" id="expert" name="difficulty" value="Expert">
+        <input type="radio" id="expert" name="difficulty" value="Expert" v-model="gamemode">
         <label for="expert"> Expert </label><br>
         <hr>
-        <input type="radio" id="costum" name="difficulty" value="Costum">
+        <input type="radio" id="costum" name="difficulty" value="Costum" v-model="gamemode">
         <label for="costum"> Costum </label><br>
+        <input id="horizontal" name="difficulty" value="width" placeholder="Height" v-model="horizontal">
+        <input id="vertical" name="difficulty" value="width" placeholder="Weight" v-model="vertical">
     </fieldset>
 </form>
 </div>
