@@ -62,16 +62,16 @@ div, button{
 }
 
 #table {
-    height: 400px; /*Höhe vom Minesweeper Feld*/
-    width: 400px; /*Breite vom Minesweeper Feld*/
+    height: 250px; /*Höhe vom Minesweeper Feld*/
+    width: 250px; /*Breite vom Minesweeper Feld*/
     background-color: gray;
     border: 3px solid black;
     border-bottom: 9px solid black;
 }
 
 button {
-    height: 55px;
-    width: 55px;
+    height: 30px;
+    width: 30px;
 }
 
 .unclickedButton{
@@ -88,6 +88,11 @@ button {
 
 }
 
+#restartButton{
+    height: 50px;
+    width: 50px;
+}
+
 #difficultySelection{
     float: right;
     margin: 0 0 0 15%;
@@ -98,14 +103,15 @@ button {
 
 }
 
-::placeholder{
+/*::placeholder{
     font-style: italic;
     font-size: small;
-}
+}*/
 
 
-/* versteckt nicht kompilierte Vue Bindings */
+/* versteckt nicht kompilierte Vue Bindings (funktioniert nicht.?!) */
 [v-cloak]{
     display: none;
 }
+
 
