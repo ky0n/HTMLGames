@@ -130,12 +130,16 @@ function randomIntFromRange( min, max ){
 
 //-----main------------------------------------------
 
-//Kreis um Mauszeiger erstellen
-var mouseCircle = new Ball(30,can.width-100,can.height-100,0,0);
-var circles = [];
-
 var circleCount = 250;
-var mouseGrowth = 0.2
+var mouseGrowth = 0.2;
+var mouseStartRad = 30;
+var mouseMax = 100;
+var maxSpeed = 0.8;
+var circleSchrink = 0.7;
+
+//Kreis um Mauszeiger erstellen
+var mouseCircle = new Ball(mouseStartRad,can.width-100,can.height-100,0,0);
+var circles = [];
 
 init = function(){
 
@@ -146,8 +150,8 @@ init = function(){
         var r = 5* randomIntFromRange(0.5,1);
         var x = Math.random()*(can.width-10);
         var y = Math.random()*(can.height-10);
-        var dx = randomIntFromRange(-0.8,0.8);
-        var dy = randomIntFromRange(-0.8,0.8);
+        var dx = randomIntFromRange(-maxSpeed,maxSpeed);
+        var dy = randomIntFromRange(-maxSpeed,maxSpeed);
         circles.push(new Ball(r,x,y,dx,dy));
         circles[i].color = col[Math.floor(Math.random() * (col.length))];
         circles[i].draw();
@@ -165,11 +169,11 @@ animate = function(){
         if(circles[i].intersects(mouseCircle)){
 
             /*der Mauskreis wird bei jeder Berührung mit einem anderen Kreis größer, bis er 100 erreicht, dannach wird
-            * er auf 30 zurückgesetzt*/
-            if(mouseCircle.r <= 100){
+            * er auf den Startradius zurückgesetzt*/
+            if(mouseCircle.r <= mouseMax){
                 mouseCircle.r += mouseGrowth;
             }else{
-                mouseCircle.r = 30;
+                mouseCircle.r = mouseStartRad;
                 for(let j = 0; j < (circleCount - circles.length); j++){
                     circles.push(new Ball(5* randomIntFromRange(0.5,1),mouseCircle.x + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),mouseCircle.y + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),randomIntFromRange(-0.8,0.8),randomIntFromRange(-0.8,0.8)));
                     //circles[j].color = col[Math.floor(Math.random() * (col.length))];
@@ -183,12 +187,11 @@ animate = function(){
             /*ist ein Kreis noch groß genug, um in seinem Radius nicht ins Negative zu kommen, so wird von diesem 0,5
             * abgezogen, solange er den Mauskreis berührt, sobald er 0 erreichen würde wird der Kreis aus der Liste
             * entfernt und verschwindet*/
-            if((circles[i].r - 0.7) > 0){
-                circles[i].r -= 0.7;
+            if((circles[i].r - circleSchrink) > 0){
+                circles[i].r -= circleSchrink;
             }else{
                 circles = circles.slice(0,i).concat( circles.slice(i+1) );
             }
-
         }
     }
 }
