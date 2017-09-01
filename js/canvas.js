@@ -1,7 +1,5 @@
 var can = document.getElementById("background");
-var conWrap = document.getElementById("contentWrapper");
 var wrap = document.getElementById("wrapper");
-//var nav = document.getElementsByTagName('nav')[0];
 
 can.width = window.innerWidth;
 can.height = window.innerHeight;
@@ -44,6 +42,12 @@ var mouse = {
     y: undefined
 }
 
+var col = [
+    "#8ea7d1",
+    "#41A97C",
+    "#C480AB"
+]
+
 var Ball = function(r,x,y,dx,dy){
     this.r = r;
     this.x = x;
@@ -54,7 +58,7 @@ var Ball = function(r,x,y,dx,dy){
     
     this.drawMouse = function(){
         c.beginPath();
-        c.fillStyle = "#ff45f8";
+        c.fillStyle = "#41A97C";
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
@@ -78,7 +82,8 @@ var Ball = function(r,x,y,dx,dy){
             return false;
         }
     }
-    
+
+    /*der Kreis folgt dem Mauszeiger*/
     this.updateMouse = function(){
         this.x = mouse.x;
         this.y = mouse.y;
@@ -98,7 +103,7 @@ var Ball = function(r,x,y,dx,dy){
         //Position anhand der Geschwindigkeit anpassen
         this.x += this.dx;
         this.y += this.dy;
-        
+
         this.draw();
     }
 }
@@ -125,33 +130,68 @@ function randomIntFromRange( min, max ){
 
 //-----main------------------------------------------
 
-//Kreis um Mauszeiger
+//Kreis um Mauszeiger erstellen
 var mouseCircle = new Ball(30,can.width-100,can.height-100,0,0);
-mouseCircle.drawMouse();
-
-//Partikel erstellen
 var circles = [];
-for(var i = 0; i<200; i++){
-    var r = 5* Math.random();
-    var x = Math.random()*(can.width-10);
-    var y = Math.random()*(can.height-10);
-    var dx = randomIntFromRange(-1,1);
-    var dy = randomIntFromRange(-1,1);
-    circles.push(new Ball(r,x,y,dx,dy));
-    circles[i].draw();
+
+var circleCount = 250;
+var mouseGrowth = 0.2
+
+init = function(){
+
+    mouseCircle.drawMouse();
+
+    //Partikel erstellen
+    for(var i = 0; i<circleCount; i++){
+        var r = 5* randomIntFromRange(0.5,1);
+        var x = Math.random()*(can.width-10);
+        var y = Math.random()*(can.height-10);
+        var dx = randomIntFromRange(-0.8,0.8);
+        var dy = randomIntFromRange(-0.8,0.8);
+        circles.push(new Ball(r,x,y,dx,dy));
+        circles[i].color = col[Math.floor(Math.random() * (col.length))];
+        circles[i].draw();
+    }
 }
+
 
 animate = function(){
     requestAnimationFrame(animate);
     c.clearRect(0,0,innerWidth,innerHeight);
     mouseCircle.updateMouse();
-    for(var i = 0; i< circles.length; i++){        
-        if(circles[i].intersects(mouseCircle)){
-            //circles[i].r -= 0.1;
-            circles[i].color = "#ff45f8";
-        }
+    for(let i = 0; i< circles.length; i++){
         circles[i].update();
+        /*wird jedes mal aufgerufen, wenn der Mauskreis einen anderne berührt*/
+        if(circles[i].intersects(mouseCircle)){
+
+            /*der Mauskreis wird bei jeder Berührung mit einem anderen Kreis größer, bis er 100 erreicht, dannach wird
+            * er auf 30 zurückgesetzt*/
+            if(mouseCircle.r <= 100){
+                mouseCircle.r += mouseGrowth;
+            }else{
+                mouseCircle.r = 30;
+                for(let j = 0; j < (circleCount - circles.length); j++){
+                    circles.push(new Ball(5* randomIntFromRange(0.5,1),mouseCircle.x + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),mouseCircle.y + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),randomIntFromRange(-0.8,0.8),randomIntFromRange(-0.8,0.8)));
+                    //circles[j].color = col[Math.floor(Math.random() * (col.length))];
+                    circles[j].color = col[2];
+                    console.log(circles[j].color);
+                    circles[j].draw();
+                }
+
+            }
+
+            /*ist ein Kreis noch groß genug, um in seinem Radius nicht ins Negative zu kommen, so wird von diesem 0,5
+            * abgezogen, solange er den Mauskreis berührt, sobald er 0 erreichen würde wird der Kreis aus der Liste
+            * entfernt und verschwindet*/
+            if((circles[i].r - 0.7) > 0){
+                circles[i].r -= 0.7;
+            }else{
+                circles = circles.slice(0,i).concat( circles.slice(i+1) );
+            }
+
+        }
     }
 }
 
+init();
 animate();
