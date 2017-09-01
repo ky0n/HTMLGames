@@ -1,6 +1,18 @@
+#entireGame{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#minesweeper{
+
+}
+
 body {
     background-color: rgba(152, 232, 234, .8);
 }
+
+
 
 div, button{
     /* Dadurch kann Text nicht markiert werden */
@@ -15,14 +27,14 @@ div, button{
     width: 99%;
     height: 200px;
 
-    margin: 6% 0 0 0;
+    margin: 6% 0 0 15%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#timeCount{
+#timeCount, #flags{
     background-color: rgb(255, 107, 102);
     height: 50px;
     width: 50px;
@@ -39,44 +51,27 @@ div, button{
 }
 
 #flags{
-
-    background-color: rgb(255, 107, 102);
-    height: 50px;
-    width: 50px;
-    border: 2px solid #6b706b;
     margin: 0 40% 0 7.5%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
     float: left;
 }
 
-#restartButton{
-
-}
-/*  */
-
-#minesweeper {
-    margin: -2% 40% 8% 20%;
+#minesweeperField {
+    float: left;
+    margin: -2% 40% 8% 0;
 
 }
 
 #table {
-    height: 500px;
-    width: 500px;
+    height: 250px; /*Höhe vom Minesweeper Feld*/
+    width: 250px; /*Breite vom Minesweeper Feld*/
     background-color: gray;
     border: 3px solid black;
     border-bottom: 9px solid black;
 }
 
 button {
-
-    height: 55px;
-    width: 55px;
+    height: 30px;
+    width: 30px;
 }
 
 .unclickedButton{
@@ -90,14 +85,33 @@ button {
 
 .clickedButton{
     background-color: #c0c1cb;
+
 }
 
+#restartButton{
+    height: 50px;
+    width: 50px;
+}
+
+#difficultySelection{
+    float: right;
+    margin: 0 0 0 15%;
+    border-radius: 10px;
+
+    background-color: #ff5b3f;
+    padding: 5%;
+
+}
+
+/*::placeholder{
+    font-style: italic;
+    font-size: small;
+}*/
 
 
-/* versteckt nicht kompilierte Vue Bindings */
-[v-cloak] > * {
+/* versteckt nicht kompilierte Vue Bindings (funktioniert nicht.?!) */
+[v-cloak]{
     display: none;
 }
-[v-cloak]::before {
-    content:"loading...";
-}
+
+
