@@ -1,19 +1,11 @@
 //Globale Var
-var svgNS = "http://www.w3.org/2000/svg";
 var colors = ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"]; //Spiel Farben
-var solutionColors = []; // Farbe die gelöst werden soll
-var currentRow = 0; //Aktuelle Zeile
-var gray = "rgb(158, 158, 158)";
-var white = "white";
-var black = "black";
-var cyan = "cyan";
-
 
 let buttons = new Vue({
         el: '#buttons',
 
         data: {
-            colors: ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"],
+            //colors: ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"],
             currentRow: 0,
             svgNS: "http://www.w3.org/2000/svg",
             gray: "rgb(158, 158, 158)",
@@ -31,17 +23,17 @@ let buttons = new Vue({
                 for (let i = 0; i < 9; i++) {
                     let tempC = [];
                     for (let j = 0; j < 4; j++) {
-                        tempC[j] = {color: gray};
+                        tempC[j] = {color: this.gray};
                     }
                     tempRows[i] = {columns: tempC};
                 }
-                this.firstColor = tempRows[0].columns[0].color;
+                //this.firstColor = tempRows[0].columns[0].color;
                 this.rows = tempRows;
             }
             ,
 
             removeSVGClickListener: function () {
-                var buttonrow = getButtonRow(currentRow - 1);//mit currentRow kann nicht so bleiben ist pfusch
+                var buttonrow = getButtonRow(this.currentRow - 1);//mit currentRow kann nicht so bleiben ist pfusch
                 var svg = buttonrow.getElementsByTagName("svg")[0];
                 svg.removeEventListener("click", logic);
                 svg.removeEventListener("click", this.removeSVGClickListener);
@@ -60,27 +52,19 @@ let buttons = new Vue({
 
             changeColor: function (item) {
                 var color = item.color;
-                item.color = this.colors[(this.colors.indexOf(color) + 1) % this.colors.length];
-            }
-            ,
-
-            getInputColor: function () {
-                var inputColor = [];
-                var buttonrow = getButtonRow(currentRow);
-                for (var i = 0; i < 4; i++) {
-                    var button = buttonrow.getElementsByClassName('b' + (i + 1))[0];
-                    inputColor.push(button.style.backgroundColor);
-                }
-                return inputColor;
+                item.color = colors[(colors.indexOf(color) + 1) % colors.length];
+                this.checkAllButtonsClicked();
             }
             ,
 
             // Prüfen ob alle Buttons eingefärbt sind um Spielergebnis zu prüfen
             checkAllButtonsClicked: function () {
-                var inputColor = this.getInputColor();
-                if (inputColor.every(e => e !== gray)) {
-                    this.colorSvgCyan()
+                if (this.rows[this.currentRow].columns.every(e => e.color !== this.gray)) {
+                    //this.colorSvgCyan();
+                    alert("true")
+                    return true;
                 }
+                return false;
             }
             ,
 
@@ -88,7 +72,7 @@ let buttons = new Vue({
             // Das SVG in Cyan einfärben, damit  der spieler weiß er kann das spiel auswerten
             // ClickListener für SVG
             colorSvgCyan: function () {
-                var buttonrow = getButtonRow(currentRow);
+                var buttonrow = this.getButtonRow(this.currentRow);
                 var svg = buttonrow.getElementsByTagName("svg")[0];
                 svg.addEventListener("click", logic);
                 svg.addEventListener("click", this.removeSVGClickListener);
@@ -103,16 +87,16 @@ let buttons = new Vue({
 
 
             createCircle: function () {
-                var number = 0;
+               var number = 0;
                 for (var i = 12; i < 38; i += 25) {
                     for (var j = 12; j < 38; j += 25) {
 
-                        var myCircle = document.createElementNS(svgNS, "circle"); //to create a circle. for rectangle use "rectangle"
+                        var myCircle = document.createElementNS(this.svgNS, "circle"); //to create a circle. for rectangle use "rectangle"
                         myCircle.setAttributeNS("", "id", "mycircle" + number);
                         myCircle.setAttributeNS("", "cx", "" + i);
                         myCircle.setAttributeNS("", "cy", "" + j);
                         myCircle.setAttributeNS("", "r", "10");
-                        myCircle.setAttributeNS("", "fill", gray);
+                        myCircle.setAttributeNS("", "fill", this.gray);
                         myCircle.setAttributeNS("", "stroke", "none");
 
                         document.getElementById("mySVG").appendChild(myCircle);
@@ -123,13 +107,14 @@ let buttons = new Vue({
             ,
 
             logic: function () {
-                var duplicateSolution = JSON.parse(JSON.stringify(solutionColors));
+                var duplicateSolution = JSON.parse(JSON.stringify(this.solutionColors));
                 var correctPosition = 0;
                 var correctColor = 0;
-                var inputColor = getInputColor();
+                //todo - wiederherstellen:
+                //var inputColor = getInputColor();
 
                 for (var i = 0; i < 4; i++) {
-                    if (inputColor[i] === solutionColors[i]) {
+                    if (inputColor[i] === this.solutionColors[i]) {
                         correctPosition++;
                         inputColor[i] = "a";
                         duplicateSolution[i] = "b";
@@ -149,13 +134,13 @@ let buttons = new Vue({
                 }
 
                 this.colorSVG(correctPosition, correctColor);
-                currentRow++;
-                this.clickListenerForCurrentRow(currentRow);
+                this.currentRow++;
+                this.clickListenerForCurrentRow(this.currentRow);
             }
             ,
 
             colorCircle: function (start, end, color) {
-                var buttonRow = this.getButtonRow(currentRow);
+                var buttonRow = this.getButtonRow(this.currentRow);
                 for (var i = start; i < end; i++) {
                     var svg = buttonRow.getElementsByTagName("svg")[0];
                     var svgcircle = svg.getElementById("mycircle" + i);
@@ -165,9 +150,9 @@ let buttons = new Vue({
             ,
 
             colorSVG: function (correctPosition, correctColor) {
-                this.colorCircle(0, correctColor, white);
-                this.colorCircle(correctColor, correctColor + correctPosition, black);
-                this.colorCircle(correctPosition + correctColor, 4, gray);
+                this.colorCircle(0, correctColor, this.white);
+                this.colorCircle(correctColor, correctColor + correctPosition, this.black);
+                this.colorCircle(correctPosition + correctColor, 4, this.gray);
             }
             ,
 
@@ -183,7 +168,7 @@ let buttons = new Vue({
         created() {
             this.initialize();
             this.createCircle();
-            this.checkAllButtonsClicked();
+           // this.checkAllButtonsClicked();
 
         }
     })

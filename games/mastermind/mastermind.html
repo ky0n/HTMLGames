@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="../../navStyle.css">
 
 
-
 </head>
 <body>
 
-<nav id="nav" class="navbar navbar-inverse navbar-static-top bg-primary" role="navigation" style="margin: 0"><!---margin wenn möglich in css datei -->
+<nav id="nav" class="navbar navbar-inverse navbar-static-top bg-primary" role="navigation" style="margin: 0">
+    <!---margin wenn möglich in css datei -->
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -70,8 +70,17 @@
                         v-bind:style="{'background-color': column.color}" class="b1 btn btn-default btn-circle btn-lg">
                 </button>
 
-                <svg id="mySVG" width="50" height="50" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"/>
+                <svg id="mySVG" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+                    <div v-if="checkAllButtonsClicked">
+                        <circle id="mycircle0" cx="12" cy="12" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
+                        <circle id="mycircle1" cx="12" cy="37" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
+                        <circle id="mycircle2" cx="37" cy="12" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
+                        <circle id="mycircle3" cx="37" cy="37" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
+                    </div>
+                    <div v-else>
+                        <p>test</p>
+                    </div>
+                </svg>
 
             </div>
         </div>
