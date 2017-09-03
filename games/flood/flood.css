@@ -16,12 +16,32 @@ table {
 td {
     height: 60px;
     width: 60px;
-    cursor: pointer;
 }
+
 .field {
     height: 50px;
     width: 50px;
-    margin: 5px 5px 5px 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#colorPanel {
+    overflow: auto;
+
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #eeeeee;
+    border: 3px solid #656565;
+    border-radius: 5px;
+}
+
+.colorDiv {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    margin: 5px;
+    float: left;
+    cursor: pointer;
 }
 
 .none {
