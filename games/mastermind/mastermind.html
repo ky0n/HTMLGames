@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="mastermind.css">
     <link rel="stylesheet" href="../../navStyle.css">
@@ -69,7 +70,7 @@
 
                 <svg  width="50" height="50" xmlns="http://www.w3.org/2000/svg" v-on:click="(row.disabled ? null : logic())" >
 
-                        <circle v-for="circle in row.svg" v-bind:style="{'fill': circle.color, 'cx': circle.pos.cx, 'cy': circle.pos.cy}" r="10"  stroke="#B6B6B4" stroke-width="1"></circle>
+                        <circle v-for="circle in row.svg" v-bind:style="{'fill': circle.color}" :cx="circle.pos.cx" :cy="circle.pos.cy" r="10"  stroke="#B6B6B4" stroke-width="1"></circle>
 
 
                 </svg>
