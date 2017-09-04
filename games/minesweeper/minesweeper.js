@@ -17,7 +17,6 @@ let minesweeper = new Vue({
             // wird bei der Initialisierung belegt
         ],
         bombs: [],
-        clickedBomb: null
     },
     methods: {
         initialize: function () {
@@ -233,7 +232,7 @@ let minesweeper = new Vue({
             if (field.nearBombs === 0 && !field.visitedForEmptiness) {
                 field.visitedForEmptiness = true;
                 field.clicked = true;
-                if(field.value === "F"){
+                if (field.value === "F") {
                     flags.remainingFlags++;
                 }
                 field.value = null;
@@ -266,11 +265,11 @@ let minesweeper = new Vue({
 
             if (!field.visitedForBomb) {
                 field.visitedForBomb = true;
-                if (field.isBomb && !Object.is(field,this.clickedBomb)) { //Object.is checkt ob die beiden Objekte gleich sind
+                if (field.isBomb && !Object.is(field, this.clickedBomb)) { //Object.is checkt ob die beiden Objekte gleich sind
                     field.value = "B";
                     field.color = this.colors[1].color;
                     field.clicked = true;
-                }else if(Object.is(field,this.clickedBomb)){
+                } else if (Object.is(field, this.clickedBomb)) {
                     field.value = "B";
                     field.color = this.colors[6].color;
                 }
@@ -293,12 +292,17 @@ let minesweeper = new Vue({
                 let j = Math.floor(this.bombs[i] / this.height);
                 let k = this.bombs[i] % this.width;
 
-                if(this.rows[j].columns[k].value !== "F"){
+                if (this.rows[j].columns[k].value !== "F") {
                     return;
                 }
             }
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    this.rows[i].columns[j].disabled = true;
+                }
+            }
             timeCount.stopCounting();
-            alert('you won \n time needed: '+ timeCount.time);
+            alert('you won \n time needed: ' + timeCount.time);
         }
     },
 
@@ -338,9 +342,9 @@ let flags = new Vue({
     },
     methods: {
         fillFlagsUp() {
-            if(minesweeper.numBombs === null) {
+            if (minesweeper.numBombs === null) {
 
-            }else{
+            } else {
                 this.remainingFlags = minesweeper.numBombs;
             }
         },
@@ -395,11 +399,11 @@ let difficulty = new Vue({
                     minesweeper.numBombs = 99;
                     break;
                 case 'Custom':
-                    if(this.height < 40 && this.width < 40 && this.numBombs < this.height * this.width) {
+                    if (this.height < 40 && this.width < 40 && this.numBombs < this.height * this.width) {
                         minesweeper.height = this.height;
                         minesweeper.width = this.width;
                         minesweeper.numBombs = this.numBombs;
-                    }else{
+                    } else {
                         return;
                     }
                     break;

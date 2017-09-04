@@ -1,184 +1,153 @@
 //Globale Var
 var colors = ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"]; //Spiel Farben
+let pos = [{cx:12, cy:12}, {cx:12, cy:37}, {cx:37,cy:12}, {cx:37,cy:37} ];// Position für SVG Kreise
 
 let buttons = new Vue({
-        el: '#buttons',
+    el: '#buttons',
 
-        data: {
-            //colors: ["rgb(255, 87, 34)", "rgb(156, 39, 176)", "rgb(33, 150, 243)", "rgb(255, 235, 59)", "rgb(139, 195, 74)", "cyan"],
-            currentRow: 0,
-            svgNS: "http://www.w3.org/2000/svg",
-            gray: "rgb(158, 158, 158)",
-            white: "white",
-            black: "black",
-            cyan: "cyan",
-            rows: [
-                // wird bei Initialisierung (created Methode) belegt
-            ],
+    data: {
+        currentRow: 0,
+        svgNS: "http://www.w3.org/2000/svg",
+        gray: "rgb(158, 158, 158)",
+        white: "white",
+        black: "black",
+        cyan: "cyan",
+        rows: [
+            // wird bei Initialisierung (created Methode) belegt
+        ],
+    },
+
+    methods:{
+        // 10 Zeilen und 4 Spalten mit runden Buttons anlegen mit grauer Farbe
+        initialize: function () {
+            let rows = [];
+            for (let i = 0; i < 10; i++){
+                let column = [];
+                let svgCircle = [];
+                for (let j = 0; j < 4; j++ ){
+                    column[j] = {color: this.gray};
+                    svgCircle[j] = {color: this.gray, pos: pos[j]};
+                }
+
+                rows[i] = {columns: column, svg: svgCircle, disabled: true};
+
+            }
+
+            this.rows = rows;
         },
 
-        methods: {
-            initialize: function () {
-                let tempRows = [];
-                for (let i = 0; i < 9; i++) {
-                    let tempC = [];
-                    for (let j = 0; j < 4; j++) {
-                        tempC[j] = {color: this.gray};
-                    }
-                    tempRows[i] = {columns: tempC};
+        activateCurrentRow: function () {
+            for (let i = 0; i<this.rows.length; i++){
+                if ( i !== this.currentRow){
+                    this.rows[i].disabled = true;
+
                 }
-                //this.firstColor = tempRows[0].columns[0].color;
-                this.rows = tempRows;
-            }
-            ,
-
-            removeSVGClickListener: function () {
-                var buttonrow = getButtonRow(this.currentRow - 1);//mit currentRow kann nicht so bleiben ist pfusch
-                var svg = buttonrow.getElementsByTagName("svg")[0];
-                svg.removeEventListener("click", logic);
-                svg.removeEventListener("click", this.removeSVGClickListener);
-            }
-            ,
-
-            clickListenerForCurrentRow: function (currentRow) {
-                var elements = document.getElementsByClassName("btn-circle");
-                for (var i = currentRow * 4; i < currentRow * 4 + 4; i++) {
-                    elements[i].addEventListener("click", this.changeColor);
-                    elements[i].addEventListener("click", this.checkAllButtonsClicked);
+                else {
+                    this.rows[i].disabled = false;
                 }
             }
-            ,
+        },
 
 
-            changeColor: function (item) {
-                var color = item.color;
-                item.color = colors[(colors.indexOf(color) + 1) % colors.length];
-                this.checkAllButtonsClicked();
-            }
-            ,
 
-            // Prüfen ob alle Buttons eingefärbt sind um Spielergebnis zu prüfen
-            checkAllButtonsClicked: function () {
-                if (this.rows[this.currentRow].columns.every(e => e.color !== this.gray)) {
-                    //this.colorSvgCyan();
-                    alert("true")
-                    return true;
-                }
-                return false;
-            }
-            ,
-
-
-            // Das SVG in Cyan einfärben, damit  der spieler weiß er kann das spiel auswerten
-            // ClickListener für SVG
-            colorSvgCyan: function () {
-                var buttonrow = this.getButtonRow(this.currentRow);
-                var svg = buttonrow.getElementsByTagName("svg")[0];
-                svg.addEventListener("click", logic);
-                svg.addEventListener("click", this.removeSVGClickListener);
-
-                for (var i = 0; i < 4; i++) {
-                    var svgcircle = svg.getElementById("mycircle" + i);
-                    svgcircle.setAttributeNS("", "fill", "cyan");
-                }
-
-            }
-            ,
-
-
-            createCircle: function () {
-               var number = 0;
-                for (var i = 12; i < 38; i += 25) {
-                    for (var j = 12; j < 38; j += 25) {
-
-                        var myCircle = document.createElementNS(this.svgNS, "circle"); //to create a circle. for rectangle use "rectangle"
-                        myCircle.setAttributeNS("", "id", "mycircle" + number);
-                        myCircle.setAttributeNS("", "cx", "" + i);
-                        myCircle.setAttributeNS("", "cy", "" + j);
-                        myCircle.setAttributeNS("", "r", "10");
-                        myCircle.setAttributeNS("", "fill", this.gray);
-                        myCircle.setAttributeNS("", "stroke", "none");
-
-                        document.getElementById("mySVG").appendChild(myCircle);
-                        number++;
-                    }
-                }
-            }
-            ,
-
-            logic: function () {
-                var duplicateSolution = JSON.parse(JSON.stringify(this.solutionColors));
-                var correctPosition = 0;
-                var correctColor = 0;
-                //todo - wiederherstellen:
-                //var inputColor = getInputColor();
-
-                for (var i = 0; i < 4; i++) {
-                    if (inputColor[i] === this.solutionColors[i]) {
-                        correctPosition++;
-                        inputColor[i] = "a";
-                        duplicateSolution[i] = "b";
-                    }
-                }
-                for (var i = 0; i < 4; i++) {
-                    var pos = duplicateSolution.indexOf(inputColor[i]);
-                    if (pos > -1) {
-                        correctColor++;
-                        inputColor[i] = "a";
-                        duplicateSolution[pos] = "b";
-                    }
-                }
-
-                if (correctPosition === 4) {
-                    alert("Gewonnen");
-                }
-
-                this.colorSVG(correctPosition, correctColor);
-                this.currentRow++;
-                this.clickListenerForCurrentRow(this.currentRow);
-            }
-            ,
-
-            colorCircle: function (start, end, color) {
-                var buttonRow = this.getButtonRow(this.currentRow);
-                for (var i = start; i < end; i++) {
-                    var svg = buttonRow.getElementsByTagName("svg")[0];
-                    var svgcircle = svg.getElementById("mycircle" + i);
-                    svgcircle.setAttributeNS("", "fill", color);
-                }
-            }
-            ,
-
-            colorSVG: function (correctPosition, correctColor) {
-                this.colorCircle(0, correctColor, this.white);
-                this.colorCircle(correctColor, correctColor + correctPosition, this.black);
-                this.colorCircle(correctPosition + correctColor, 4, this.gray);
-            }
-            ,
-
-            getButtonRow: function (pos) {
-                return document.getElementsByClassName("buttonrow")[pos];
+        // Methode zum wechseln der Farbe der Buttons
+        changeColor: function (item) {
+            var color = item.color;
+            item.color = colors[(colors.indexOf(color) + 1) % colors.length];
+            if(this.checkAllButtonsClicked()){
+                this.colorSvgCyan();
             }
 
+        },
 
+        // Prüfen ob alle Buttons eingefärbt sind um Spielergebnis zu prüfen
+        checkAllButtonsClicked: function () {
+           return (this.rows[this.currentRow].columns.every(e => e.color !== this.gray));
         }
         ,
 
-
-        created() {
-            this.initialize();
-            this.createCircle();
-           // this.checkAllButtonsClicked();
+        // Das SVG in Cyan einfärben, damit  der spieler weiß er kann das spiel auswerten
+        // ClickListener für SVG
+        colorSvgCyan: function () {
+            for (let i = 0; i < 4; i++){
+                this.rows[this.currentRow].svg[i].color = this.cyan;
+            }
 
         }
-    })
-;
+        ,
+        logic: function () {
+            let duplicateSolution = JSON.parse(JSON.stringify(result.solutionColors));//richtige Kopie von SolutionColors
+            let duplicateRow = JSON.parse(JSON.stringify(this.rows[this.currentRow]));
+            let correctPosition = 0;
+            let correctColor = 0;
 
-new Vue({
+            for (let i = 0; i < 4; i++) {
+                if (duplicateRow.columns[i].color === duplicateSolution[i]) {
+                    correctPosition++;
+                    duplicateRow.columns[i].color = "a";
+                    duplicateSolution[i] = "b";
+                }
+            }
+            for (let i = 0; i < 4; i++) {
+                let pos = duplicateSolution.indexOf(duplicateRow.columns[i].color);
+                if (pos > -1) {
+                    correctColor++;
+                    duplicateRow.columns[i].color = "a";
+                    duplicateSolution[pos] = "b";
+                }
+            }
+
+            if (correctPosition === 4) {
+                result.solved = true;
+                this.rows[this.currentRow].disabled = true;
+                alert("Gewonnen");
+
+            }else if (this.currentRow === 9){
+                this.rows[this.currentRow].disabled = true;
+                result.solved = true;
+                alert("Verloren");
+            }
+
+            this.colorSVG(correctPosition, correctColor);
+            this.currentRow++;
+            this.activateCurrentRow();
+
+        }
+        ,
+        colorSVG: function (correctPosition, correctColor) {
+            this.colorCircle(0, correctColor, this.white);
+            this.colorCircle(correctColor, correctColor + correctPosition, this.black);
+            this.colorCircle(correctPosition + correctColor, 4, this.gray);
+        }
+        ,
+        colorCircle: function (start, end, color) {
+           for (let i = start; i < end; i++) {
+                this.rows[this.currentRow].svg[i].color = color;
+           }
+        }
+
+    },
+
+
+
+
+
+    created() {
+        this.initialize();
+        this.activateCurrentRow();
+    }
+
+
+});
+
+
+
+let result = new Vue({
     el: '#result',
 
     data: {
         solutionColors: [],
+        solved: false,
         row: [
             // wird bei Initialisierung (created Methode) belegt
         ],
@@ -188,7 +157,7 @@ new Vue({
         initialize: function () {
             let tempC = [];
             for (let i = 0; i < 4; i++) {
-                let r = Math.floor((Math.random() * 5));
+                let r = Math.floor((Math.random() * 6));
                 this.solutionColors.push(colors[r]);
                 tempC[i] = {color: colors[r]};
             }
@@ -202,4 +171,3 @@ new Vue({
 
     }
 });
-

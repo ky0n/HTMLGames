@@ -45,7 +45,7 @@
     </div>
     <form id="difficultySelection">
         <fieldset id="fieldsetSelection" v-on:change="onChange()">
-            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode" > <!-- checked not working?-->
+            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode" checked> <!-- checked not working?-->
             <label  for="beginner"> Beginner </label><br>
             <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
             <label for="intermediate"> Intermediate </label><br>
@@ -54,10 +54,10 @@
             <hr>
             <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
             <label for="custom"> Costum </label><br>
-            <p class="form-group has-float-label" v-if="gameMode === 'Custom'">
-                <input class="form-control" id="height" name="difficulty" value="height" placeholder="Height" v-model="height">
-                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="width">
-                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="numBombs">
+            <p  v-if="gameMode === 'Custom'">
+                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="height"> <br>
+                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="width">     <br>
+                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="numBombs"> <br>
             </p>
         </fieldset>
     </form>
