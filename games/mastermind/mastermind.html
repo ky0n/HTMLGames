@@ -57,9 +57,6 @@
 <div class="container">
     <div class="page-header">
         <h1>Mastermind
-            <small>loreem dfljgfaero igjae riogaior ehgheragh fgpiueg ehzfgiueifgi izehuw iuiuweuiptfg ieuiweu
-                iuepiuwetiu wegiuwaugti guweieuriu tiueia iutiuer te
-            </small>
         </h1>
     </div>
     <main>
@@ -67,19 +64,14 @@
             <div class="buttonrow" v-for="row in rows">
 
                 <button v-for="column in row.columns" v-on:click="changeColor(column)"
-                        v-bind:style="{'background-color': column.color}" class="b1 btn btn-default btn-circle btn-lg">
+                        v-bind:style="{'background-color': column.color}" :disabled="row.disabled" class="b1 btn btn-default btn-circle btn-lg "   >
                 </button>
 
-                <svg id="mySVG" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
-                    <div v-if="checkAllButtonsClicked">
-                        <circle id="mycircle0" cx="12" cy="12" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
-                        <circle id="mycircle1" cx="12" cy="37" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
-                        <circle id="mycircle2" cx="37" cy="12" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
-                        <circle id="mycircle3" cx="37" cy="37" r="10" fill="rgb(158, 158, 158)" stroke="none"></circle>
-                    </div>
-                    <div v-else>
-                        <p>test</p>
-                    </div>
+                <svg  width="50" height="50" xmlns="http://www.w3.org/2000/svg" v-on:click="(row.disabled ? null : logic())" >
+
+                        <circle v-for="circle in row.svg" v-bind:style="{'fill': circle.color, 'cx': circle.pos.cx, 'cy': circle.pos.cy}" r="10"  stroke="#B6B6B4" stroke-width="1"></circle>
+
+
                 </svg>
 
             </div>
@@ -88,7 +80,7 @@
         <div id="line"></div>
         <div id="result">
             <div class="resultbuttonrow">
-                <button v-for="column in row.columns" v-bind:style="{'background-color': column.color}"
+                <button v-for="column in row.columns" v-bind:style=" {'background-color': ( solved ? column.color : 'black' )}"
                         class="btn btn-default btn-circle btn-lg">
                 </button>
             </div>
