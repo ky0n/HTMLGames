@@ -13,7 +13,6 @@ body {
 }
 
 
-
 div, button{
     /* Dadurch kann Text nicht markiert werden */
     -webkit-user-select: none; /* Safari, iOS, and Android */
@@ -103,11 +102,11 @@ button {
 
 }
 
-/*::placeholder{
+::placeholder{
     font-style: italic;
     font-size: small;
-}*/
-
+    opacity: 0.8;
+}
 
 /* versteckt nicht kompilierte Vue Bindings (funktioniert nicht.?!) */
 [v-cloak]{
