@@ -6,7 +6,7 @@ new Vue({
         contact: 'Kontakt',
         gameItems: [
             {game: 'Mastermind', url: 'games/mastermind/mastermind.html'},
-            {game: 'Flood', url: 'games/flood/flood.html'},
+            {game: 'Flood', url: 'games/floodfill/floodfill.html'},
             {game: 'Minesweeper', url: 'games/minesweeper/minesweeper.html'}
         ]
     }

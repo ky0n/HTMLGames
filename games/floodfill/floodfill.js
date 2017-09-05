@@ -2,7 +2,7 @@
  * Created by romy on 22.08.2017.
  */
 new Vue({
-    el: '#flood',
+    el: '#floodfill',
 
     data: {
         colors: [ //TODO find good colors

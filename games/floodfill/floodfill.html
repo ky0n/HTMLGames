@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Floodfill</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/stylenew.css">
+    <link rel="stylesheet" href="floodfill.css">
+
+</head>
+<body>
+
+    <div class="content" id="floodfill">
+        <div>
+            {{moves}}/{{maxMoves}}
+            <button class="btn btn-default" v-on:click="restart">Neustart</button>
+            <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
+            <!-- Button HTML (to Trigger Modal) -->
+            <a href="#myModal" class="btn btn-default" data-toggle="modal">Einstellungen</a>
+        </div>
+        <div class="wrapper">
+            <table>
+                <tr v-for="row in rows">
+                    <td v-for="column in row.columns">
+                        <div v-on:click="changeColor(column.color)" class="field" v-bind:class="column.borderStyleClass" v-bind:style="{'background-color': column.color}"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="colorPanel">
+            <div v-for="color in colors" v-on:click="changeColor(color.color)" class="colorDiv" v-bind:style="{'background-color': color.color}"></div>
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Einstellungen</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Hier gibt es Einstellungen zu Spielfeldgröße und Anzahl der Farben.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                        <button type="button" class="btn btn-primary">Einstellungen übernehmen</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="floodfill.js"></script>
+
+</body>
+</html>

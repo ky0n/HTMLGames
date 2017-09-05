@@ -7,13 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/stylenew.css">
     <link rel="stylesheet" href="style/animate.css">
-    <link rel="stylesheet" href="navStyle.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!---<script src="https://unpkg.com/vue"></script> <!---VUE.JS online--->
-    <script src="js/vue.js"></script> <!---VUE.JS--->
-
+    <link rel="stylesheet" href="style/navStyle.css">
 
 </head>
 <body>
@@ -38,14 +32,14 @@
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown"
                            role="button" aria-haspopup="true" aria-expanded="false"
-                           href="about.php">{{games}}
+                           href="about.html">{{games}}
                             <span class="caret"></span> </a>
                         <ul class="dropdown-menu navbar-inverse navbar-static-top">
                             <li v-for="item in gameItems"><a v-bind:href="item.url">{{ item.game }}</a></li>
 
                         </ul>
                     </li>
-                    <li><a href="contact.php">{{contact}}</a></li>
+                    <li><a href="contact.html">{{contact}}</a></li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <div class="input-group">
@@ -62,61 +56,59 @@
         </div>
     </nav>
 
-<main>
-    <div id="wrapper">
-        <div class="container" id="contentWrapper">
-            <div class="page-header">
-                <h1>{{headline}}</h1>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-md-4 ani">
-                    <div class="thumbnail">
-                        <img src="pictures/mastermind.jpg" alt="...">
-                        <div class="caption">
-                            <h3>Mastermind</h3>
-                            <p>Ein großartiges Spiel.</p>
-                            <p><a href="games/mastermind/mastermind.html" class="btn btn-primary" role="button">Zum Spiel</a> <a href="games/mastermind/mastermind.html"
-                                                                                               class="btn btn-default"
-                                                                                               role="button"
-                                                                                               v-on:click="action()">Click
-                                me to see vue action</a></p>
-                        </div>
-                    </div>
+    <main>
+        <div id="wrapper">
+            <div class="container" id="contentWrapper">
+                <div class="page-header">
+                    <h1>{{headline}}</h1>
                 </div>
-                <div class="col-sm-6 col-md-4 ani">
-                    <div class="thumbnail" v-bind:class="{myStyle: style}">
-                        <img src="pictures/flood.PNG" alt="...">
-                        <div class="caption">
-                            <h3>Flood</h3>
-                            <p>...</p>
-                            <p><a href="games/flood/flood.html" class="btn btn-primary" role="button">Zum Spiel</a> <a href="#"
-                                                                                               class="btn btn-default"
-                                                                                               role="button"
-                                                                                               v-on:click="style = !style">Click
-                                me to see more vue action</a></p>
-                        </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 ani">
+                        <a href="games/mastermind/mastermind.html" class="btn">
+                            <div class="thumbnail">
+                                <img src="pictures/mastermind.jpg" alt="...">
+                                <div class="caption">
+                                    <h3>Mastermind</h3>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-4 ani">
-                    <div class="thumbnail">
-                        <img src="profilbild-Kopie-6.jpg" alt="...">
-                        <div class="caption">
-                            <h3>Thumbnail label</h3>
-                            <p>...</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#"
-                                                                                               class="btn btn-default"
-                                                                                               role="button">Button</a>
-                            </p>
-                        </div>
+                    <div class="col-sm-6 col-md-4 ani">
+                        <a href="games/floodfill/floodfill.html" class="btn">
+                            <div class="thumbnail">
+                                <img src="pictures/floodfill.png" alt="...">
+                                <div class="caption">
+                                    <h3>Floodfill</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 ani">
+                        <a href="games/minesweeper/minesweeper.html" class="btn">
+                            <div class="thumbnail">
+                                <img src="profilbild-Kopie-6.jpg" alt="...">
+                                <div class="caption">
+                                    <h3>Minesweeper</h3>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
+            <canvas id="background"></canvas>
         </div>
-        <canvas id="background"></canvas>
-    </div>
+    </main>
 </div>
-<script src="js/indexnew_test.js"></script> <!---muss hier als js zerst stehen--->
-<script src="nav.js"></script>
+
+<!-- Externe Bibliotheken -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="js/indexnew_test.js"></script> <!---muss hier als js zuerst stehen--->
+<script src="js/canvas.js"></script>
+<script src="js/nav.js"></script>
 <script>
     $(".ani").hover(
         function () {
@@ -127,7 +119,6 @@
         }
     )
 </script>
-<script src="js/canvas.js"></script>
 
 </body>
 </html>
