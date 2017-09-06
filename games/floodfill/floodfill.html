@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/stylenew.css">
+    <link rel="stylesheet" href="floodfill_playground.css">
     <link rel="stylesheet" href="floodfill.css">
 
 </head>
@@ -17,7 +18,7 @@
             <button class="btn btn-default" v-on:click="restart">Neustart</button>
             <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
             <!-- Button HTML (to Trigger Modal) -->
-            <a href="#myModal" class="btn btn-default" data-toggle="modal">Einstellungen</a>
+            <a href="#settingsModal" class="btn btn-default" data-toggle="modal">Einstellungen</a>
         </div>
         <div class="wrapper">
             <table>
@@ -29,10 +30,10 @@
             </table>
         </div>
         <div id="colorPanel">
-            <div v-for="color in colors" v-on:click="changeColor(color.color)" class="colorDiv" v-bind:style="{'background-color': color.color}"></div>
+            <div v-for="color in gameColors" v-on:click="changeColor(color.color)" class="colorDiv" v-bind:style="{'background-color': color.color}"></div>
         </div>
 
-        <div id="myModal" class="modal fade">
+        <div id="settingsModal" class="modal fade" ref="vuemodal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -40,11 +41,18 @@
                         <h4 class="modal-title">Einstellungen</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Hier gibt es Einstellungen zu Spielfeldgröße und Anzahl der Farben.</p>
+                        <p>Spielfeldgröße:</p>
+                        <input type="range" min="5" max="25" value="10" /> <!--step="5"-->
+                        <p>Farbenauswahl (min. 3):</p>
+                        <div v-for="(color, index) in colors">
+                            <div class="colorDiv" v-bind:class="{isSelected: color.selected}" v-on:click="colorSelection(color)" v-bind:style="{'background-color': color.color}" type="checkbox" > </div>
+                        </div>
+                        <p>.</p>
+                        <p>.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
-                        <button type="button" class="btn btn-primary">Einstellungen übernehmen</button>
+                        <button type="button" class="btn btn-primary" v-on:click="initialize" data-dismiss="modal">Einstellungen übernehmen</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

@@ -6,14 +6,16 @@ new Vue({
 
     data: {
         colors: [ //TODO find good colors
-            {color: 'rgb(255, 87, 34)'},
-            {color: 'rgb(156, 39, 176)'},
-            {color: 'rgb(33, 150, 243)'},
-            {color: 'rgb(255, 235, 59)'},
-            {color: 'rgb(139, 195, 74)'},
-            {color: 'cyan'}
+            {color: 'rgb(255, 87, 34)', selected: true},
+            {color: 'rgb(156, 39, 176)', selected: true},
+            {color: 'rgb(33, 150, 243)', selected: true},
+            {color: 'rgb(255, 235, 59)', selected: true},
+            {color: 'rgb(139, 195, 74)', selected: true},
+            {color: 'cyan', selected: true}
         ],
-        squareSize: 9,
+        gameColors: [],
+        size: 10,
+        gameSize: 10,
         oldGame: [],
         rows: [
             // wird bei Initialisierung belegt
@@ -26,16 +28,18 @@ new Vue({
 
     methods: {
         initialize: function () {
+            this.gameColors = this.colors.filter(element => element.selected);
+            this.gameSize = this.size;
             this.moves = 0;
             this.endOfGame = false;
             let tempRows = [];
             this.oldGame = [];
-            for (let i = 0; i < this.squareSize; i++) {
+            for (let i = 0; i < this.gameSize; i++) {
                 let tempColumns = [];
                 let tempColumnsOld = [];
-                for (let j = 0; j < this.squareSize; j++) {
-                    let r = Math.floor(Math.random() * (this.colors.length));
-                    let color = this.colors[r].color;
+                for (let j = 0; j < this.gameSize; j++) {
+                    let r = Math.floor(Math.random() * (this.gameColors.length));
+                    let color = this.gameColors[r].color;
                     tempColumns[j] = {color: color, borderStyleClass: 'none', index: -1};
                     tempColumnsOld[j] = {color: color};
                 }
@@ -47,8 +51,8 @@ new Vue({
             let color = this.rows[0].columns[0].color;
             this.floodFill(0, 0, color, color);
 
-            for (let i = 0; i < this.squareSize; i++) {
-                for (let j = 0; j < this.squareSize; j++) {
+            for (let i = 0; i < this.gameSize; i++) {
+                for (let j = 0; j < this.gameSize; j++) {
                     this.changeBorderStyle(i, j);
                 }
             }
@@ -65,21 +69,21 @@ new Vue({
 
             this.coloredFields = 0;
             this.floodFill(0, 0, oldColor, newColor);
-            for (let i = 0; i < this.squareSize; i++) {
-                for (let j = 0; j < this.squareSize; j++) {
+            for (let i = 0; i < this.gameSize; i++) {
+                for (let j = 0; j < this.gameSize; j++) {
                     if (this.rows[i].columns[j].index != -1 && this.rows[i].columns[j].borderStyleClass != 'four') {
                         this.changeBorderStyle(i, j);
                     }
                 }
             }
 
-            if (this.coloredFields === this.squareSize * this.squareSize) {
+            if (this.coloredFields === this.gameSize * this.gameSize) {
                 this.endOfGame = true;
             }
         },
 
         floodFill: function(x, y, oldColor, newColor){
-            if (x < 0 || x >= this.squareSize || y < 0 || y >= this.squareSize) {
+            if (x < 0 || x >= this.gameSize || y < 0 || y >= this.gameSize) {
                 return;
             }
 
@@ -99,7 +103,7 @@ new Vue({
         },
 
         borderFlood: function (x, y, color) {
-            if (x < 0 || x >= this.squareSize || y < 0 || y >= this.squareSize) {
+            if (x < 0 || x >= this.gameSize || y < 0 || y >= this.gameSize) {
                 return;
             }
 
@@ -281,13 +285,13 @@ new Vue({
             if (y-1 >= 0 && this.rows[x].columns[y-1].color === color) {
                 l = true;
             }
-            if (y+1 < this.squareSize && this.rows[x].columns[y+1].color === color) {
+            if (y+1 < this.gameSize && this.rows[x].columns[y+1].color === color) {
                 r = true;
             }
             if (x-1 >= 0 && this.rows[x-1].columns[y].color === color) {
                 t = true;
             }
-            if (x+1 < this.squareSize && this.rows[x+1].columns[y].color === color) {
+            if (x+1 < this.gameSize && this.rows[x+1].columns[y].color === color) {
                 b = true;
             }
 
@@ -309,8 +313,8 @@ new Vue({
         },
 
         restart: function () {
-            for (let i = 0; i < this.squareSize; i++) {
-                for (let j = 0; j < this.squareSize; j++) {
+            for (let i = 0; i < this.gameSize; i++) {
+                for (let j = 0; j < this.gameSize; j++) {
                     this.rows[i].columns[j].color = this.oldGame[i].columns[j].color;
                     this.rows[i].columns[j].borderStyleClass = 'none';
                     this.rows[i].columns[j].index = -1;
@@ -323,15 +327,41 @@ new Vue({
 
             let color = this.rows[0].columns[0].color;
             this.floodFill(0, 0, color, color);
-            for (let i = 0; i < this.squareSize; i++) {
-                for (let j = 0; j < this.squareSize; j++) {
+            for (let i = 0; i < this.gameSize; i++) {
+                for (let j = 0; j < this.gameSize; j++) {
                     this.changeBorderStyle(i, j);
                 }
             }
+        },
+
+        undoSettings: function() {
+            for (let i = 0; i < this.colors.length; i++) {
+                let bool = false;
+                for (let j = 0; j < this.gameColors.length; j++) {
+                    if (this.colors[i].color === this.gameColors[j].color) {
+                        bool = true;
+                    }
+                }
+                this.colors[i].selected = bool;
+            }
+            this.size = this.gameSize;
+        },
+
+        colorSelection: function(element) {
+            if (element.selected && this.colors.filter(element => element.selected).length > 3) {
+                element.selected = false;
+                return;
+            }
+            element.selected = true;
         },
     },
 
     created(){
         this.initialize();
-    }
+    },
+
+    mounted(){
+        // ActionListener für das Schließen des Modals
+        $(this.$refs.vuemodal).on("hidden.bs.modal", this.undoSettings);
+    },
 });
