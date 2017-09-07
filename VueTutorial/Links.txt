@@ -1,6 +1,8 @@
 https://jsfiddle.net/chrisvfritz/50wL7mdz/ --> online Bsp. zum selbst probieren
 https://vuejs.org/v2/guide/ --> Online Anleitung
 
+https://alligator.io/vuejs/component-lifecycle/
+
 https://www.youtube.com/watch?v=I4kHTNOHkBY ab 5:40 --> Video zu den ersten Schritten
 https://www.youtube.com/watch?v=VPUdtEf3oXI
 https://www.youtube.com/watch?v=4Gh5YcvGDjI

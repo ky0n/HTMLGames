@@ -12,11 +12,11 @@
 <body>
     <div id="wrapper">
         <div class="row" id="header">
-            <button>Test</button>
-            {{mouse.x}},{{mouse.y}}
+            <button v-on:click="updateCan">neues Spiel</button>
+            {{mouse.x}}, {{mouse.y}}
         </div>
         <div class="row" id="gamecontainer">
-                <canvas id="game" v-on:mousemove="update" v-on:click="init" style="background-color: #FD5061">
+                <canvas id="game"  ref="canvas" v-on:mousemove="drag" style="background-color: #FD5061">
                     <!--<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" src="../../Kreis.svg"></svg>-->
                 </canvas>
         </div>

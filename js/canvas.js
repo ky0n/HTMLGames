@@ -172,6 +172,7 @@ animate = function(){
             * er auf den Startradius zurückgesetzt*/
             if(mouseCircle.r <= mouseMax){
                 mouseCircle.r += mouseGrowth;
+
             }else{
                 mouseCircle.r = mouseStartRad;
                 for(let j = 0; j < (circleCount - circles.length); j++){
