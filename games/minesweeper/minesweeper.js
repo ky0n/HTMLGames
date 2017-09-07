@@ -218,7 +218,6 @@ let minesweeper = new Vue({
                     field.value = "" + field.nearBombs;
                 }
             }
-
         },
 
         searchEmptyFields: function (i, j) {
@@ -282,7 +281,8 @@ let minesweeper = new Vue({
 
         /* right click things : */
 
-        rightClick: function (field) {
+        rightClick: function (field, event) {
+            event.preventDefault();
             flags.setFlag(field);
             this.checkForWin();
         },
@@ -349,8 +349,9 @@ let flags = new Vue({
             }
         },
         setFlag: function (field) {
-            if (this.remainingFlags > 0) {
+            if (this.remainingFlags > 0 && field.value !== "F") {
                 field.value = "F";
+                field.color = "red";
                 this.remainingFlags--;
             } else {
                 //TODO sound ?

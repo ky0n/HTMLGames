@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,13 +7,15 @@
 
     <link rel="stylesheet" href="Sudoku.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
 <div id="sudokuWrapper">
     <table id="sudokuField">
         <tr v-for="row in rows">
-            <td v-for="column in row.columns"></td>
+            <td v-for="column in row.columns">
+                <div v-on:click="onClick(column)"
+                     v-bind:style="{'color': column.color}"> </div>
+            </td>
         </tr>
     </table>
 </div>
