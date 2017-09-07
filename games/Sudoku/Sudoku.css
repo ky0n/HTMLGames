@@ -1,0 +1,26 @@
+#sudokuField{
+    margin: 2% 0 0 2%;
+}
+ /* columns per row */
+td {
+    height : 50px;
+    width: 50px;
+    border: 1px solid;
+    text-align: center;
+}
+td:first-child {
+    border-left:solid;
+}
+td:nth-child(3n) {
+    border-right:solid ;
+}
+
+/* rows */
+tr:first-child {
+    border-top:solid;
+}
+/* 3n -> for 3,6,9 row */
+tr:nth-child(3n) td {
+    border-bottom:solid ;
+}
+

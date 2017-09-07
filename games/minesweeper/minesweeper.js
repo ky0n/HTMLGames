@@ -35,16 +35,16 @@ let minesweeper = new Vue({
             for (let i = 0; i < this.height; i++) {
                 let tempColumns = [];
                 for (let j = 0; j < this.width; j++) {
-                    let field = i * this.height + j;
-                    let element = {};
-                    element.isBomb = this.bombs.includes(field);
-                    element.color = this.colors[0].color;
-                    element.disabled = false;
-                    element.clicked = false;
-                    element.row = i;
-                    element.column = j;
-                    element.nearBombs = 0;
-                    tempColumns[j] = element;
+                    let fieldIndex = i * this.height + j;
+                    let field = {};
+                    field.isBomb = this.bombs.includes(fieldIndex);
+                    field.color = this.colors[0].color;
+                    field.disabled = false;
+                    field.clicked = false;
+                    field.row = i;
+                    field.column = j;
+                    field.nearBombs = 0;
+                    tempColumns[j] = field;
                 }
                 tempRows[i] = {columns: tempColumns};
             }
@@ -375,7 +375,7 @@ let restartGame = new Vue({
 let difficulty = new Vue({
     el: '#fieldsetSelection',
     data: {
-        gameMode: undefined,
+        gameMode: 'Beginner',
         height: undefined,
         width: undefined,
         numBombs: null

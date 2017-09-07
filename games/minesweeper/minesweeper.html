@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml"
-      xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-cloak="http://www.w3.org/1999/xhtml">
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="minesweeper.css">
     <link rel="stylesheet" href="../../style/animate.css">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/> <!-- float label? -->
 </head>
 <body>
 
@@ -45,7 +45,7 @@
     </div>
     <form id="difficultySelection">
         <fieldset id="fieldsetSelection" v-on:change="onChange()">
-            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode" checked> <!-- checked not working?-->
+            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
             <label  for="beginner"> Beginner </label><br>
             <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
             <label for="intermediate"> Intermediate </label><br>

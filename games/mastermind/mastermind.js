@@ -76,6 +76,10 @@ let buttons = new Vue({
         }
         ,
         logic: function () {
+            if (!this.checkAllButtonsClicked()){
+               return;
+            }
+
             let duplicateSolution = JSON.parse(JSON.stringify(result.solutionColors));//richtige Kopie von SolutionColors
             let duplicateRow = JSON.parse(JSON.stringify(this.rows[this.currentRow]));
             let correctPosition = 0;
