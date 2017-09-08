@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sudoku</title>
+
+    <link rel="stylesheet" href="sudoku.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="sudokuWrapper">
+    <table id="sudokuField">
+        <tr v-for="row in rows">
+            <td v-for="column in row.columns">
+                <input class="field noSelect" v-on:click="onClick(column, $event)" v-on:contextmenu.prevent=""
+                       v-on:keypress="isNumber(column.number, $event)"
+                       v-on:dragstart.prevent=""
+                       v-on:drop.prevent=""
+                       v-model="column.number"
+                       v-bind:style="{'background': column.color}" v-cloak>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="sudoku.js"></script>
+</body>
+</html>

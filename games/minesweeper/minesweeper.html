@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="minesweeper.css">
     <link rel="stylesheet" href="../../style/animate.css">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/> <!-- float label? -->
+    <link rel="stylesheet"
+          href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+    <!-- float label? -->
 </head>
 <body>
 
@@ -31,7 +33,8 @@
             <table id="table">
                 <tr v-for="row in rows">
                     <td v-for="column in row.columns">
-                        <button v-on:click.left="leftClick(column)" v-on:mousedown.right="rightClick(column, $event)" v-on:contextmenu.prevent=""
+                        <button v-on:click.left="leftClick(column)" v-on:mousedown.right="rightClick(column, $event)"
+                                v-on:contextmenu.prevent=""
                                 v-bind:style="{'color': column.color}"
                                 v-bind:disabled="column.disabled"
                                 v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
@@ -46,7 +49,7 @@
     <form id="difficultySelection">
         <fieldset id="fieldsetSelection" v-on:change="onChange()">
             <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
-            <label  for="beginner"> Beginner </label><br>
+            <label for="beginner"> Beginner </label><br>
             <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
             <label for="intermediate"> Intermediate </label><br>
             <input type="radio" id="expert" name="difficulty" value="Expert" v-model="gameMode">
@@ -54,9 +57,9 @@
             <hr>
             <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
             <label for="custom"> Costum </label><br>
-            <p  v-if="gameMode === 'Custom'">
+            <p v-if="gameMode === 'Custom'">
                 <input id="height" name="difficulty" value="height" placeholder="Height" v-model="height"> <br>
-                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="width">     <br>
+                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="width"> <br>
                 <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="numBombs"> <br>
             </p>
         </fieldset>
