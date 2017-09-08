@@ -62,7 +62,8 @@
     </div>
     <main>
         <div id="buttons">
-            <div class="buttonrow" v-for="row in rows">
+            <button v-on:click="restart">Neustart</button>
+            <div class="buttonrow" v-for="row in rows" v-bind:style="{'border-left': ( row.disabled ? '' : '2px solid black'), 'padding-left': ( row.disabled ? '2px' : '')}">
 
                 <button v-for="column in row.columns" v-on:click="changeColor(column)"
                         v-bind:style="{'background-color': column.color}" :disabled="row.disabled" class="b1 btn btn-default btn-circle btn-lg "   >
