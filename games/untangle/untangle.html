@@ -6,27 +6,20 @@
     <title>Untangle</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="untangle.css">-->
+    <link rel="stylesheet" href="untangle.css">
     <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
     <div id="wrapper">
-        <div class="row" id="header">
-            <button v-on:click="updateCan">neues Spiel</button>
-            {{mouse.x}}, {{mouse.y}}
-        </div>
-        <div class="row" id="gamecontainer">
-                <canvas id="game"  ref="canvas" v-on:mousemove="drag" style="background-color: #FD5061">
-                    <!--<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" src="../../Kreis.svg"></svg>-->
-                </canvas>
-        </div>
+        <canvas id="game" style="background-color: #FD5061">
+            <!--<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" src="../../Kreis.svg"></svg>-->
+        </canvas>
     </div>
 
 <!-- JAVASCRIPT -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="../../js/vue.js"></script>
-<script src="untangle.js"></script>
+<script src="untangle_noVue.js"></script>
 
 </body>
 </html>
