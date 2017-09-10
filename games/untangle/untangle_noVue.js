@@ -8,7 +8,7 @@ wrap.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-window.addEventListener('click', function(event){
+window.addEventListener('mousedown', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
     console.log("x: " + mouse.x + ", y: " + mouse.y);
@@ -53,7 +53,6 @@ var Thumb = function(r,x,y){
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
-        console.log("draw called");
     }
 
     //Kollisionserkennung
@@ -97,13 +96,26 @@ var thumbRad = 10;
 var thumbs = [];
 
 init = function(){
-    console.log("init called");
     //Greifpunkte erstellen
     for(let i = 0; i<thumbCount; i++){
         let x = randomIntFromRange(200, can.width-200);
         let y = randomIntFromRange(200, can.height-200);
         thumbs.push(new Thumb(thumbRad,x,y));
-        thumbs[i].draw();
+        /*thumbs[i].draw();
+        c.beginPath();
+        c.moveTo(thumbs[i].x,thumbs[i].y);
+        for(let j=0; j<thumbs.length; j++){
+            c.lineTo(thumbs[j].x,thumbs[j].y);
+        }
+        c.stroke();*/
+    }
+}
+
+animate = function(){
+    requestAnimationFrame(animate);
+    c.clearRect(0,0,innerWidth,innerHeight);
+    for(let i = 0; i<thumbCount; i++){
+        thumbs[i].update();
         c.beginPath();
         c.moveTo(thumbs[i].x,thumbs[i].y);
         for(let j=0; j<thumbs.length; j++){
@@ -111,12 +123,7 @@ init = function(){
         }
         c.stroke();
     }
-    console.log("init called after");
-}
-
-animate = function(){
-    requestAnimationFrame(animate);
-    c.clearRect(0,0,innerWidth,innerHeight);
 }
 
 init();
+animate();
