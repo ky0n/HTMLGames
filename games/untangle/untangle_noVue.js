@@ -8,11 +8,11 @@ wrap.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-window.addEventListener('mousedown', function(event){
+window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    console.log("x: " + mouse.x + ", y: " + mouse.y);
-})
+
+});
 
 //------responsiveCanvas---------------------------
 /*$(document).ready( function(){
@@ -66,7 +66,10 @@ var Thumb = function(r,x,y){
     }
 
     this.update = function(){
+        this.x = mouse.x;
+        this.y = mouse.y;
         this.draw();
+
     }
 }
 
@@ -95,33 +98,32 @@ var thumbRad = 10;
 
 var thumbs = [];
 
+
 init = function(){
     //Greifpunkte erstellen
     for(let i = 0; i<thumbCount; i++){
         let x = randomIntFromRange(200, can.width-200);
         let y = randomIntFromRange(200, can.height-200);
         thumbs.push(new Thumb(thumbRad,x,y));
-        /*thumbs[i].draw();
-        c.beginPath();
-        c.moveTo(thumbs[i].x,thumbs[i].y);
-        for(let j=0; j<thumbs.length; j++){
-            c.lineTo(thumbs[j].x,thumbs[j].y);
-        }
-        c.stroke();*/
     }
 }
 
 animate = function(){
     requestAnimationFrame(animate);
-    c.clearRect(0,0,innerWidth,innerHeight);
-    for(let i = 0; i<thumbCount; i++){
-        thumbs[i].update();
+    c.clearRect(0,0,can.width,can.height);
+    for(let i = 0; i < thumbs.length; i++){
+        thumbs[i].draw();
+        //zeichnen der Linien zwischen den Anfasserpunkten
         c.beginPath();
         c.moveTo(thumbs[i].x,thumbs[i].y);
         for(let j=0; j<thumbs.length; j++){
             c.lineTo(thumbs[j].x,thumbs[j].y);
         }
         c.stroke();
+        //prüfen, ob Maus sich innerhalb eines Anfasserpunktes befindet
+        if(mouse.x >= (thumbs[i].x - thumbs[i].r) && mouse.x <= (thumbs[i].x +thumbs[i].r) && mouse.y >= (thumbs[i].y - thumbs[i].r) && mouse.y <= (thumbs[i].y + thumbs[i].r)){
+            thumbs[i].update();
+        }
     }
 }
 

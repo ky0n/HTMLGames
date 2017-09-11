@@ -179,7 +179,6 @@ animate = function(){
                     circles.push(new Ball(5* randomIntFromRange(0.5,1),mouseCircle.x + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),mouseCircle.y + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),randomIntFromRange(-0.8,0.8),randomIntFromRange(-0.8,0.8)));
                     //circles[j].color = col[Math.floor(Math.random() * (col.length))];
                     circles[j].color = col[2];
-                    console.log(circles[j].color);
                     circles[j].draw();
                 }
 
