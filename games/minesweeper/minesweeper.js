@@ -9,10 +9,11 @@ let minesweeper = new Vue({
             {color: "#581f8e"},       // 3 Bomben
             {color: "#ba7821"},       // 4 Bomben
             {color: "#bc2112"}        // 5 Bomben
+            //TODO Farbe fuer 6,7,8 BOMBEN
         ],
-        height: 9, // Anzahl der Zeilen
-        width: 9,  // Anzahl der Spalten
-        numBombs: 10,
+        numOfRows: 9,
+        numOfColumns: 9,  // Anzahl der Spalten
+        numOfBombs: 10,
         rows: [
             // wird bei der Initialisierung belegt
         ],
@@ -20,10 +21,10 @@ let minesweeper = new Vue({
     },
     methods: {
         initialize: function () {
-            for (let i = 0; i < this.numBombs; i++) {
+            for (let i = 0; i < this.numOfBombs; i++) {
                 let fieldFound = false;
                 while (!fieldFound) {
-                    let k = Math.floor(Math.random() * (this.height * this.width));
+                    let k = Math.floor(Math.random() * (this.numOfRows * this.numOfColumns));
                     if (!this.bombs.includes(k)) {
                         this.bombs.push(k);
                         fieldFound = true;
@@ -32,10 +33,10 @@ let minesweeper = new Vue({
             }
 
             let tempRows = [];
-            for (let i = 0; i < this.height; i++) {
+            for (let i = 0; i < this.numOfRows; i++) {
                 let tempColumns = [];
-                for (let j = 0; j < this.width; j++) {
-                    let fieldIndex = i * this.height + j;
+                for (let j = 0; j < this.numOfColumns; j++) {
+                    let fieldIndex = i * this.numOfRows + j;
                     let field = {};
                     field.isBomb = this.bombs.includes(fieldIndex);
                     field.color = this.colors[0].color;
@@ -50,8 +51,8 @@ let minesweeper = new Vue({
             }
             this.rows = tempRows;
 
-            for (let i = 0; i < this.height; i++) {
-                for (let j = 0; j < this.width; j++) {
+            for (let i = 0; i < this.numOfRows; i++) {
+                for (let j = 0; j < this.numOfColumns; j++) {
                     let field = this.rows[i].columns[j];
                     if (!field.isBomb) {
                         if (i === 0) {
@@ -65,7 +66,7 @@ let minesweeper = new Vue({
                                 if (this.rows[i + 1].columns[j].isBomb) {
                                     field.nearBombs += 1;
                                 }
-                            } else if (j === this.width - 1) {
+                            } else if (j === this.numOfColumns - 1) {
                                 if (this.rows[i].columns[j - 1].isBomb) {
                                     field.nearBombs += 1;
                                 }
@@ -92,7 +93,7 @@ let minesweeper = new Vue({
                                     field.nearBombs += 1;
                                 }
                             }
-                        } else if (i === this.height - 1) {
+                        } else if (i === this.numOfRows - 1) {
                             if (j === 0) {
                                 if (this.rows[i - 1].columns[j].isBomb) {
                                     field.nearBombs += 1;
@@ -103,7 +104,7 @@ let minesweeper = new Vue({
                                 if (this.rows[i].columns[j + 1].isBomb) {
                                     field.nearBombs += 1;
                                 }
-                            } else if (j === this.width - 1) {
+                            } else if (j === this.numOfColumns - 1) {
                                 if (this.rows[i - 1].columns[j - 1].isBomb) {
                                     field.nearBombs += 1;
                                 }
@@ -147,7 +148,7 @@ let minesweeper = new Vue({
                                 if (this.rows[i + 1].columns[j + 1].isBomb) {
                                     field.nearBombs += 1;
                                 }
-                            } else if (j === this.width - 1) {
+                            } else if (j === this.numOfColumns - 1) {
                                 if (this.rows[i - 1].columns[j].isBomb) {
                                     field.nearBombs += 1;
                                 }
@@ -205,6 +206,7 @@ let minesweeper = new Vue({
             if (field.value === "F") {
                 flags.remainingFlags++;
                 field.value = "";
+                return;
             }
             if (field.isBomb) {
                 timeCount.stopCounting();
@@ -221,7 +223,7 @@ let minesweeper = new Vue({
         },
 
         searchEmptyFields: function (i, j) {
-            if (i < 0 || i >= this.height || j < 0 || j >= this.width) {
+            if (i < 0 || i >= this.numOfRows || j < 0 || j >= this.numOfColumns) {
                 return;
             }
 
@@ -255,7 +257,7 @@ let minesweeper = new Vue({
         },
 
         searchBombs: function (i, j) {
-            if (i < 0 || i >= this.height || j < 0 || j >= this.width) {
+            if (i < 0 || i >= this.numOfRows || j < 0 || j >= this.numOfColumns) {
                 return;
             }
 
@@ -289,20 +291,26 @@ let minesweeper = new Vue({
 
         checkForWin: function () {
             for (let i = 0; i < this.bombs.length; i++) {
-                let j = Math.floor(this.bombs[i] / this.height);
-                let k = this.bombs[i] % this.width;
+                let j = Math.floor(this.bombs[i] / this.numOfRows);
+                let k = this.bombs[i] % this.numOfColumns;
 
                 if (this.rows[j].columns[k].value !== "F") {
                     return;
                 }
             }
-            for (let i = 0; i < this.height; i++) {
-                for (let j = 0; j < this.width; j++) {
+            for (let i = 0; i < this.numOfRows; i++) {
+                for (let j = 0; j < this.numOfColumns; j++) {
                     this.rows[i].columns[j].disabled = true;
                 }
             }
             timeCount.stopCounting();
             alert('you won \n time needed: ' + timeCount.time);
+        },
+
+        setSizeAndBombs: function (numOfRows, numOfColumns, numBombs) {
+            this.numOfRows = numOfRows;
+            this.numOfColumns = numOfColumns;
+            this.numOfBombs = numBombs;
         }
     },
 
@@ -317,12 +325,13 @@ let timeCount = new Vue({
         started: false,
         time: 0,
         intervalID: null,
+        oneSecondInMilliseconds: 1000,
     },
     methods: {
         startCounting: function () {
             if (!this.started) {
                 this.started = true;
-                this.intervalID = setInterval(this.oneSecondPassed, 1000); // die Methode wird nach jeder vergangenen Sekunde aufgerufen
+                this.intervalID = setInterval(this.oneSecondPassed, this.oneSecondInMilliseconds);
             }
         },
         oneSecondPassed: function () {
@@ -342,10 +351,10 @@ let flags = new Vue({
     },
     methods: {
         fillFlagsUp() {
-            if (minesweeper.numBombs === null) {
+            if (minesweeper.numOfBombs === null) {
 
             } else {
-                this.remainingFlags = minesweeper.numBombs;
+                this.remainingFlags = minesweeper.numOfBombs;
             }
         },
         setFlag: function (field) {
@@ -377,39 +386,48 @@ let difficulty = new Vue({
     el: '#fieldsetSelection',
     data: {
         gameMode: 'Beginner',
-        height: undefined,
-        width: undefined,
-        numBombs: null
+        insertedNumOfRows: undefined,
+        insertedNumOfColumns: undefined,
+        insertedNumOfBombs: undefined,
+
+        beginnerRows: 9,
+        beginnerColumns: 9,
+        beginnerBombs: 10,
+
+        intermediateRows: 16,
+        intermediateColumns: 16,
+        intermediateBombs: 40,
+
+        expertRows: 16,
+        expertColumns: 30,
+        expertBombs: 99,
+
+        maxNumOfColumns: 40,    //TODO 99, max height and width should be 99 max bombs 9800 (on original minesweeper)
+        maxNumOfRows: 40,       //TODO 99,
+        maxNumOfBombs: this.maxNumOfColumns * this.maxNumOfRows //TODO 9800,
     },
     methods: {
         onChange: function () {
             switch (this.gameMode) {
                 case 'Beginner':
-                    minesweeper.height = 9;
-                    minesweeper.width = 9;
-                    minesweeper.numBombs = 10;
+                    minesweeper.setSizeAndBombs(this.beginnerRows, this.beginnerColumns, this.beginnerBombs);
                     break;
                 case 'Intermediate':
-                    minesweeper.height = 16;
-                    minesweeper.width = 16;
-                    minesweeper.numBombs = 40;
+                    minesweeper.setSizeAndBombs(this.intermediateRows, this.intermediateColumns, this.intermediateBombs);
                     break;
                 case 'Expert':
-                    minesweeper.height = 16;
-                    minesweeper.width = 30;
-                    minesweeper.numBombs = 99;
+                    minesweeper.setSizeAndBombs(this.expertRows, this.expertColumns, this.expertBombs);
                     break;
                 case 'Custom':
-                    if (this.height < 40 && this.width < 40 && this.numBombs < this.height * this.width) {
-                        minesweeper.height = this.height;
-                        minesweeper.width = this.width;
-                        minesweeper.numBombs = this.numBombs;
+                    if (this.insertedNumOfRows < this.maxNumOfRows && this.insertedNumOfColumns < this.maxNumOfColumns &&
+                        this.insertedNumOfBombs < this.maxNumOfBombs) {
+                        minesweeper.setSizeAndBombs(this.insertedNumOfRows, this.insertedNumOfColumns, this.insertedNumOfBombs)
                     } else {
                         return;
                     }
                     break;
             }
             restartGame.newGame();
-        }
-    },
+        },
+    }
 });
