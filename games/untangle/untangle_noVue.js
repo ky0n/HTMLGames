@@ -55,16 +55,6 @@ var Thumb = function(r,x,y){
         c.fill();
     }
 
-    //Kollisionserkennung
-    this.intersects = function(other){
-        if( getDistance( this.x, this.y, other.x, other.y) <
-            this.r + other.r ){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     this.update = function(){
         this.x = mouse.x;
         this.y = mouse.y;
