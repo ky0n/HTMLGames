@@ -8,7 +8,7 @@ wrap.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-window.addEventListener('mousedown', function(event){
+can.addEventListener('mousedown', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
     console.log("hi");
