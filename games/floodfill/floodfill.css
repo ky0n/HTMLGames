@@ -1,3 +1,12 @@
+.wrapper {
+    margin: auto;
+}
+
+.centerBox {
+    display: flex;
+    justify-content: center;
+}
+
 .colorPanel {
     display: flex;
     flex-direction: row;
@@ -14,6 +23,10 @@
     border-radius: 5px;
     margin: 5px;
     cursor: pointer;
+}
+
+.modal-content {
+    color: #000;
 }
 
 .settingsColorPanel {

@@ -1,11 +1,12 @@
 /* Add to docs */
-#scrolling {/*frame*/
-    position:fixed;
-    top:0;
+#scrolling { /*frame*/
+    position: relative;
 
-    background:#eeeeee;/*FF473D*/
-    height:10%;
-    width:100%;
+    background-color: #8ea7d1;
+    height: 10%;
+    width: 100%;
+
+    margin-bottom: 2%;
 
     overflow: hidden;
 }
@@ -33,7 +34,7 @@
 
 #scrolling li {
 
-    font-size:8vmin;/*cool*/
+    font-size: 8vmin; /*cool*/
     float: left;
     width: 10vw;
     min-width: 250px;
@@ -47,23 +48,22 @@
     -moz-border-radius: 30px;
     cursor: pointer;
     background: #FFF;
-    -webkit-transform:  scale(0.95);
-    -ms-transform:  scale(0.95);
-    -moz-transform:  scale(0.95);
+    -webkit-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    -moz-transform: scale(0.95);
     transform: scale(0.95);
 }
 
-.itemslide-active
-{/*applied to current active item*/
-    -webkit-transform:  scale(1);
-    -ms-transform:  scale(1);
-    -moz-transform:  scale(1);
+.itemslide-active { /*applied to current active item*/
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
     transform: scale(1);
 
     border: 3px solid #656565;
 }
 
 .img-responsive {
-    margin-top:2%;
+    margin-top: 1%;
     max-height: 90%;
 }

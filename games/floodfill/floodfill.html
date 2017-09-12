@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html lang="de" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Floodfill</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../style/stylenew.css">
+    <link rel="stylesheet" href="../../style/gamesGeneral.css">
     <link rel="stylesheet" href="../../carousel/carousel3.css">
     <link rel="stylesheet" href="floodfill_playground.css">
     <link rel="stylesheet" href="floodfill.css">
@@ -24,50 +23,54 @@
         </div>
     </div>
 
-    <div class="content" id="floodfill">
+    <div id="floodfill" class="content">
         <div>
-            {{moves}}/{{maxMoves}}
-            <button class="btn btn-default" v-on:click="restart">Neustart</button>
-            <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
-            <!-- Button HTML (to Trigger Modal) -->
-            <a href="#settingsModal" class="btn btn-default" data-toggle="modal">Einstellungen</a>
-        </div>
-        <div class="wrapper">
-            <table>
-                <tr v-for="row in rows">
-                    <td v-for="column in row.columns">
-                        <div v-on:click="changeColor(column.color)" class="field" v-bind:class="column.borderStyleClass" v-bind:style="{'background-color': column.color}"></div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="colorPanel">
-            <div v-for="color in gameColors" v-on:click="changeColor(color.color)" class="colorDiv" v-bind:style="{'background-color': color.color}"></div>
-        </div>
+            <div>
+                {{moves}}/{{maxMoves}}
+                <button class="btn btn-default" v-on:click="restart">Neustart</button>
+                <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
+                <!-- Button HTML (to Trigger Modal) -->
+                <a href="#settingsModal" class="btn btn-default" data-toggle="modal">Einstellungen</a>
+            </div>
+            <div class="wrapper">
+                <table>
+                    <tr v-for="row in rows">
+                        <td v-for="column in row.columns">
+                            <div v-on:click="changeColor(column.color)" class="field" v-bind:class="column.borderStyleClass" v-bind:style="{'background-color': column.color}"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="centerBox">
+                <div class="colorPanel">
+                    <div v-for="color in gameColors" v-on:click="changeColor(color.color)" class="colorDiv" v-bind:style="{'background-color': color.color}"></div>
+                </div>
+            </div>
 
-        <div id="settingsModal" class="settingsModal modal fade" ref="vuemodal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Einstellungen</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Spielfeldgröße:</p>
-                        <input type="range" id="sizeRangeslider" v-bind:min="5" max="15" value="10" v-model="size" data-show-value="true"/>
-                        <p>Farbenauswahl:</p>
-                        <div class="settingsColorPanel">
-                            <div class="colorDiv" v-for="color in colors" v-bind:class="{isSelected: color.selected}" v-on:click="colorSelection(color)" v-bind:style="{'background-color': color.color}"> </div>
+            <div id="settingsModal" class="settingsModal modal fade" ref="vuemodal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Einstellungen</h4>
                         </div>
-                        <div id="colorSelectionWarning" v-if="colors.filter(element => element.selected).length < 3" >Es müssen mindestens 3 Farben ausgewählt sein</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
-                        <button type="button" class="btn btn-primary" v-on:click="initialize" data-dismiss="modal">Einstellungen übernehmen</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                        <div class="modal-body">
+                            <p>Spielfeldgröße:</p>
+                            <input type="range" id="sizeRangeslider" v-bind:min="5" max="15" value="10" v-model="size" data-show-value="true"/>
+                            <p>Farbenauswahl:</p>
+                            <div class="settingsColorPanel">
+                                <div class="colorDiv" v-for="color in colors" v-bind:class="{isSelected: color.selected}" v-on:click="colorSelection(color)" v-bind:style="{'background-color': color.color}"> </div>
+                            </div>
+                            <div id="colorSelectionWarning" v-if="colors.filter(element => element.selected).length < 3" >Es müssen mindestens 3 Farben ausgewählt sein</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                            <button type="button" class="btn btn-primary" v-on:click="initialize" data-dismiss="modal">Einstellungen übernehmen</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
