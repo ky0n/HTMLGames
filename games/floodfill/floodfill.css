@@ -1,6 +1,6 @@
-#colorPanel {
-    overflow: auto;
-
+.colorPanel {
+    display: flex;
+    flex-direction: row;
     margin-top: 5px;
     padding: 5px;
     background-color: #eeeeee;
@@ -13,10 +13,23 @@
     width: 50px;
     border-radius: 5px;
     margin: 5px;
-    float: left;
     cursor: pointer;
+}
+
+.settingsColorPanel {
+    display: flex;
+    flex-direction: row;
+}
+
+#sizeRangeslider {
+    width: 50%;
 }
 
 .isSelected {
     border: 3px solid #656565;
+}
+
+#colorSelectionWarning {
+    margin-left: 5px;
+    color: red;
 }
