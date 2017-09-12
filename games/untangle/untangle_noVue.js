@@ -8,12 +8,18 @@ wrap.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-window.addEventListener('mousemove', function(event){
+window.addEventListener('mousedown', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-
+    console.log("hi");
 });
 
+window.addEventListener('resize', function(event){
+    can.width = window.innerWidth;
+    can.height = window.innerHeight;
+    wrap.width = window.innerWidth;
+    wrap.height = window.innerHeight;
+});
 //------responsiveCanvas---------------------------
 /*$(document).ready( function(){
     //Get the canvas & context

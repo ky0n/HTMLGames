@@ -1,5 +1,5 @@
-var can = document.getElementById("background");
-var wrap = document.getElementById("wrapper");
+let can = document.getElementById("background");
+let wrap = document.getElementById("wrapper");
 
 can.width = window.innerWidth;
 can.height = window.innerHeight;
@@ -11,14 +11,12 @@ c = can.getContext("2d");
 window.addEventListener('mousemove', function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-})
+});
 
 //------responsiveCanvas---------------------------
 $(document).ready( function(){
     //Get the canvas & context 
-    var rc = $('#background');
-    var ct = rc.get(0).getContext('2d');
-    var container = $(rc).parent();
+    let rc = $('#background');
 
     //Run function when browser resizes
     $(window).resize( respondCanvas );
@@ -33,36 +31,36 @@ $(document).ready( function(){
     //Initial call
     respondCanvas();
 
-}); 
+});
 
 
 //----data--------------------------------------------
-var mouse = {
+let mouse = {
     x: undefined,
     y: undefined
-}
+};
 
-var col = [
+let col = [
     "#8ea7d1",
     "#41A97C",
     "#C480AB"
-]
+];
 
-var Ball = function(r,x,y,dx,dy){
+let Ball = function(r,x,y,dx,dy, color){
     this.r = r;
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
-    this.color = "#8ea7d1";
+    this.color = color;
     
     this.drawMouse = function(){
         c.beginPath();
-        c.fillStyle = "#41A97C";
+        c.fillStyle = col[0];
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
-    }
+    };
     
     this.draw = function(){
         c.beginPath();
@@ -71,24 +69,20 @@ var Ball = function(r,x,y,dx,dy){
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
-    }
+    };
     
     //Kollisionserkennung
     this.intersects = function(other){
-        if( getDistance( this.x, this.y, other.x, other.y) < 
-           this.r + other.r ){
-            return true;            
-        }else{
-            return false;
-        }
-    }
+        return getDistance(this.x, this.y, other.x, other.y) <
+            this.r + other.r;
+    };
 
     /*der Kreis folgt dem Mauszeiger*/
     this.updateMouse = function(){
         this.x = mouse.x;
         this.y = mouse.y;
         this.draw();
-    }
+    };
     
     this.update = function(){
         
@@ -103,61 +97,86 @@ var Ball = function(r,x,y,dx,dy){
         //Position anhand der Geschwindigkeit anpassen
         this.x += this.dx;
         this.y += this.dy;
-
         this.draw();
     }
-}
+};
 
 //-----methods----------------------------------------
 
 //Berechnet den Abstand der beiden über ihre Koordinaten angegebenen Kreise
 function getDistance(x1, y1, x2, y2){
-    var xDistance = Math.abs(x2 - x1);
-    var yDistance = Math.abs(y2 - y1); 
+    let xDistance = Math.abs(x2 - x1);
+    let yDistance = Math.abs(y2 - y1);
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
 
-function randomIntFromRange( min, max ){
-    var rando = Math.random();
-    if(rando != 0){
-        return Math.random() * ( max - min + 1 ) + min;
+function randomNumFromRange(min, max ){
+    let rando = Math.random();
+    if(rando !== 0){
+        if (min < 0) {
+            return min + rando * (Math.abs(min)+max);
+        }else {
+            return min + rando * max;
+        }
     }else{
-        randomIntFromRange(min,max);
+        randomNumFromRange(min,max);
     }
-    
 }
 
+function explode() {
+    mouseCircle.r = MOUSE_START_RAD;
+    let countDiff = CIRCLECOUNT - circles.length;
+    let posx;
+    let posy;
+    for(let j = 0; j < (countDiff); j++){
+        let velx = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
+        let vely = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
+        if(velx >= 0){
+            posx = mouseCircle.x + randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        }else{
+            posx = mouseCircle.x - randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        }
+        if(vely >= 0){
+            posy = mouseCircle.y + randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        }else{
+            posy = mouseCircle.y - randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        }
+
+        circles.push(new Ball(5* randomNumFromRange(0.5,2),posx,posy,velx,vely,col[1]));
+        circles[j].draw();
+    }
+}
 //-----main------------------------------------------
 
-var circleCount = 250;
-var mouseGrowth = 0.2;
-var mouseStartRad = 30;
-var mouseMax = 100;
-var maxSpeed = 0.8;
-var circleSchrink = 0.7;
-
+const CIRCLECOUNT = 400;
+const MOUSE_GROWTH = 0.2;
+const MOUSE_START_RAD = 30;
+const MOUSE_MAX = 100;
+const SPEED_MAX = 1.2;
+const CIRCLE_SHRINK = 0.8;
+const CIRCLE_MIN = 2;
 //Kreis um Mauszeiger erstellen
-var mouseCircle = new Ball(mouseStartRad,can.width-100,can.height-100,0,0);
-var circles = [];
+let mouseCircle = new Ball(MOUSE_START_RAD,can.width-100,can.height-100,0,0,col[0]);
+let circles = [];
 
 init = function(){
 
     mouseCircle.drawMouse();
 
     //Partikel erstellen
-    for(var i = 0; i<circleCount; i++){
-        var r = 5* randomIntFromRange(0.5,1);
-        var x = Math.random()*(can.width-10);
-        var y = Math.random()*(can.height-10);
-        var dx = randomIntFromRange(-maxSpeed,maxSpeed);
-        var dy = randomIntFromRange(-maxSpeed,maxSpeed);
-        circles.push(new Ball(r,x,y,dx,dy));
-        circles[i].color = col[Math.floor(Math.random() * (col.length))];
+    for(let i = 0; i<CIRCLECOUNT; i++){
+        let r = 5* randomNumFromRange(0.5,2);
+        let x = Math.random()*(can.width-10);
+        let y = Math.random()*(can.height-10);
+        let dx = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
+        let dy = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
+        let color = col[Math.floor(Math.random() * (col.length))];
+        circles.push(new Ball(r,x,y,dx,dy,color));
+        //circles[i].color = col[Math.floor(Math.random() * (col.length))];
         circles[i].draw();
     }
-}
-
+};
 
 animate = function(){
     requestAnimationFrame(animate);
@@ -168,33 +187,27 @@ animate = function(){
         /*wird jedes mal aufgerufen, wenn der Mauskreis einen anderne berührt*/
         if(circles[i].intersects(mouseCircle)){
 
-            /*der Mauskreis wird bei jeder Berührung mit einem anderen Kreis größer, bis er 100 erreicht, dannach wird
-            * er auf den Startradius zurückgesetzt*/
-            if(mouseCircle.r <= mouseMax){
-                mouseCircle.r += mouseGrowth;
-
-            }else{
-                mouseCircle.r = mouseStartRad;
-                for(let j = 0; j < (circleCount - circles.length); j++){
-                    circles.push(new Ball(5* randomIntFromRange(0.5,1),mouseCircle.x + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),mouseCircle.y + randomIntFromRange(mouseCircle.r,mouseCircle.r +5),randomIntFromRange(-0.8,0.8),randomIntFromRange(-0.8,0.8)));
-                    //circles[j].color = col[Math.floor(Math.random() * (col.length))];
-                    circles[j].color = col[2];
-                    circles[j].draw();
-                }
-
-            }
-
-            /*ist ein Kreis noch groß genug, um in seinem Radius nicht ins Negative zu kommen, so wird von diesem 0,5
+            /*ist ein Kreis noch groß genug, um in seinem Radius nicht ins Negative zu kommen, so wird von diesem
+            * der circleShrink-Wert
             * abgezogen, solange er den Mauskreis berührt, sobald er 0 erreichen würde wird der Kreis aus der Liste
             * entfernt und verschwindet*/
-            if((circles[i].r - circleSchrink) > 0){
-                circles[i].r -= circleSchrink;
+            if((circles[i].r - CIRCLE_SHRINK) > CIRCLE_MIN){
+                circles[i].r -= CIRCLE_SHRINK;
             }else{
                 circles = circles.slice(0,i).concat( circles.slice(i+1) );
             }
+
+            /*der Mauskreis wird bei jeder Berührung mit einem anderen Kreis größer, bis er 100 erreicht,
+            dannach wird er auf den Startradius zurückgesetzt*/
+            if(mouseCircle.r <= MOUSE_MAX){
+                mouseCircle.r += MOUSE_GROWTH;
+
+            }else{
+                explode();
+            }
         }
     }
-}
+};
 
 init();
 animate();
