@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Carousel 2</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="carousel2.css">
+
+</head>
+<body>
+
+
+<div id="nav" >
+    <div class="row">
+        <div id="myCarousel" class="carousel slide">
+
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <!--<li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>-->
+            </ol>
+
+            <a class="left carousel-control" href="#eventCarousel" data-slide="prev"></a>
+            <a class="right carousel-control" href="#eventCarousel" data-slide="next"></a>
+
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="row-fluid">
+                        <div class="gameItem" v-for="(item, index) in gameItems">
+                            <a v-bind:href="item.url" class="thumbnail"><img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                                <div class="text-center">{{item.game}}</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/carousel-inner-->
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/nav.js"></script>
+<script src="carousel2.js"></script>
+
+</body>
+</html>

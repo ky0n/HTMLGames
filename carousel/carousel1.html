@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Carousel 1</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="carousel1.css">
+
+</head>
+<body>
+
+
+<div id="nav" >
+    <div class="row">
+        <div class="span12">
+            <div >
+                <div id="myCarousel" class="carousel fdi-Carousel slide">
+                    <!-- Carousel items -->
+                    <div class="carousel fdi-Carousel slide" id="eventCarousel" data-interval="0">
+                        <div class="carousel-inner onebyone-carosel">
+
+                            <div v-bind:id="'item' + index" class="item" v-for="(item, index) in gameItems">
+                                <div class="col-md-4">
+                                    <a v-bind:href="item.url"><img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                                        <div class="text-center">{{item.game}}</div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <a class="left carousel-control" href="#eventCarousel" data-slide="prev"></a>
+                        <a class="right carousel-control" href="#eventCarousel" data-slide="next"></a>
+                    </div>
+                    <!--/carousel-inner-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../js/nav.js"></script>
+<script src="carousel1.js"></script>
+
+</body>
+</html>

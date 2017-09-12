@@ -6,12 +6,15 @@ new Vue({
 
     data: {
         colors: [ //TODO find good colors
-            {color: 'rgb(255, 87, 34)', selected: true},
-            {color: 'rgb(156, 39, 176)', selected: true},
-            {color: 'rgb(33, 150, 243)', selected: true},
-            {color: 'rgb(255, 235, 59)', selected: true},
-            {color: 'rgb(139, 195, 74)', selected: true},
-            {color: 'cyan', selected: true}
+            {color: '#c6101d', selected: true},
+            {color: '#ee7f00', selected: true},
+            {color: '#ffc830', selected: true},
+            {color: '#cddc39', selected: true},
+            {color: '#8bc34a', selected: true},
+            {color: '#00bcd4', selected: true},
+            {color: '#3f51b5', selected: true},
+            //{color: '#be1b81', selected: true},
+            {color: '#9c27b0', selected: true}
         ],
         gameColors: [],
         size: 10,
@@ -71,7 +74,7 @@ new Vue({
             this.floodFill(0, 0, oldColor, newColor);
             for (let i = 0; i < this.gameSize; i++) {
                 for (let j = 0; j < this.gameSize; j++) {
-                    if (this.rows[i].columns[j].index != -1 && this.rows[i].columns[j].borderStyleClass != 'four') {
+                    if (this.rows[i].columns[j].index !== -1 && this.rows[i].columns[j].borderStyleClass !== 'four') {
                         this.changeBorderStyle(i, j);
                     }
                 }
@@ -92,7 +95,7 @@ new Vue({
                 return;
             }
 
-            if (this.rows[x].columns[y].color === oldColor && this.rows[x].columns[y].index != this.moves) {
+            if (this.rows[x].columns[y].color === oldColor && this.rows[x].columns[y].index !== this.moves) {
                 this.rows[x].columns[y].color = newColor;
                 this.coloredFields++;
                 this.floodFill(x+1, y, oldColor, newColor);
@@ -296,16 +299,16 @@ new Vue({
             }
 
             // Ecken prüfen
-            if (l && t && this.rows[x-1].columns[y-1].color != color) {
+            if (l && t && this.rows[x-1].columns[y-1].color !== color) {
                 cLT = true;
             }
-            if (l && b && this.rows[x+1].columns[y-1].color != color) {
+            if (l && b && this.rows[x+1].columns[y-1].color !== color) {
                 cLB = true;
             }
-            if (r && t && this.rows[x-1].columns[y+1].color != color) {
+            if (r && t && this.rows[x-1].columns[y+1].color !== color) {
                 cRT = true;
             }
-            if (r && b && this.rows[x+1].columns[y+1].color != color) {
+            if (r && b && this.rows[x+1].columns[y+1].color !== color) {
                 cRB = true;
             }
 
@@ -348,11 +351,7 @@ new Vue({
         },
 
         colorSelection: function(element) {
-            if (element.selected && this.colors.filter(element => element.selected).length > 3) {
-                element.selected = false;
-                return;
-            }
-            element.selected = true;
+            element.selected = !element.selected
         },
     },
 
@@ -365,3 +364,18 @@ new Vue({
         $(this.$refs.vuemodal).on("hidden.bs.modal", this.undoSettings);
     },
 });
+
+/*
+let settings = new Vue({
+    el: '#settingsModal',
+
+    data: {
+        minRange: 5,
+        maxRange: 15,
+
+    },
+
+    methods: {
+
+    },
+});*/
