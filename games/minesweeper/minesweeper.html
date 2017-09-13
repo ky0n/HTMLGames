@@ -45,24 +45,23 @@
     </div>
     <form id="difficultySelection">
         <fieldset id="fieldsetSelection" v-on:change="onChange()">
-            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
-            <label for="beginner"> Beginner </label><br>
+            <input type="radio" id="beginner" name="difficulty" value="" v-model="gameMode">
+            <label for="beginner"> {{beginner}} </label><br>
             <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
-            <label for="intermediate"> Intermediate </label><br>
+            <label for="intermediate"> {{intermediate}} </label><br>
             <input type="radio" id="expert" name="difficulty" value="Expert" v-model="gameMode">
-            <label for="expert"> Expert </label><br>
+            <label for="expert"> {{expert}} </label><br>
             <hr>
             <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
-            <label for="custom"> Costum </label><br>
+            <label for="custom"> {{custom}} </label><br>
             <p v-if="gameMode === 'Custom'">
-                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="height"> <br>
-                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="width"> <br>
-                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="numBombs"> <br>
+                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="insertedNumOfRows"> <br>
+                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="insertedNumOfColumns"> <br>
+                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="insertedNumOfBombs"> <br>
             </p>
         </fieldset>
     </form>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="../../js/vue.js"></script>

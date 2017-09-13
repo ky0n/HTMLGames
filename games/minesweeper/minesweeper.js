@@ -1,3 +1,6 @@
+/**
+ * Created By Hendrik
+ */
 let minesweeper = new Vue({
     el: '#minesweeperField',
     data: {
@@ -21,6 +24,12 @@ let minesweeper = new Vue({
     },
     methods: {
         initialize: function () {
+            this.spawnBombs();
+            this.initializeFields();
+            this.saveNearBombs();
+        },
+
+        spawnBombs: function () {
             for (let i = 0; i < this.numOfBombs; i++) {
                 let fieldFound = false;
                 while (!fieldFound) {
@@ -31,7 +40,9 @@ let minesweeper = new Vue({
                     }
                 }
             }
+        },
 
+        initializeFields: function () {
             let tempRows = [];
             for (let i = 0; i < this.numOfRows; i++) {
                 let tempColumns = [];
@@ -50,7 +61,9 @@ let minesweeper = new Vue({
                 tempRows[i] = {columns: tempColumns};
             }
             this.rows = tempRows;
+        },
 
+        saveNearBombs: function () {
             for (let i = 0; i < this.numOfRows; i++) {
                 for (let j = 0; j < this.numOfColumns; j++) {
                     let field = this.rows[i].columns[j];
@@ -206,7 +219,6 @@ let minesweeper = new Vue({
             if (field.value === "F") {
                 flags.remainingFlags++;
                 field.value = "";
-                return;
             }
             if (field.isBomb) {
                 timeCount.stopCounting();
@@ -385,40 +397,44 @@ let restartGame = new Vue({
 let difficulty = new Vue({
     el: '#fieldsetSelection',
     data: {
-        gameMode: 'Beginner',
+        gameMode: this.beginner,
         insertedNumOfRows: undefined,
         insertedNumOfColumns: undefined,
         insertedNumOfBombs: undefined,
 
+        beginner: 'Beginner',
         beginnerRows: 9,
         beginnerColumns: 9,
         beginnerBombs: 10,
 
+        intermediate: 'Intermediate',
         intermediateRows: 16,
         intermediateColumns: 16,
         intermediateBombs: 40,
 
+        expert: 'Expert',
         expertRows: 16,
         expertColumns: 30,
         expertBombs: 99,
 
-        maxNumOfColumns: 40,    //TODO 99, max height and width should be 99 max bombs 9800 (on original minesweeper)
-        maxNumOfRows: 40,       //TODO 99,
-        maxNumOfBombs: this.maxNumOfColumns * this.maxNumOfRows //TODO 9800,
+        custom: 'Custom',
+        maxNumOfColumns: 99,
+        maxNumOfRows: 99,
+        maxNumOfBombs: this.maxNumOfColumns * this.maxNumOfRows - 1
     },
     methods: {
         onChange: function () {
             switch (this.gameMode) {
-                case 'Beginner':
+                case this.beginner:
                     minesweeper.setSizeAndBombs(this.beginnerRows, this.beginnerColumns, this.beginnerBombs);
                     break;
-                case 'Intermediate':
+                case this.intermediate:
                     minesweeper.setSizeAndBombs(this.intermediateRows, this.intermediateColumns, this.intermediateBombs);
                     break;
-                case 'Expert':
+                case this.expert:
                     minesweeper.setSizeAndBombs(this.expertRows, this.expertColumns, this.expertBombs);
                     break;
-                case 'Custom':
+                case this.custom:
                     if (this.insertedNumOfRows < this.maxNumOfRows && this.insertedNumOfColumns < this.maxNumOfColumns &&
                         this.insertedNumOfBombs < this.maxNumOfBombs) {
                         minesweeper.setSizeAndBombs(this.insertedNumOfRows, this.insertedNumOfColumns, this.insertedNumOfBombs)
