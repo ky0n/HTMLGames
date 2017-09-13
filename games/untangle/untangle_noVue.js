@@ -1,26 +1,41 @@
-var can = document.getElementById("game");
 var wrap = document.getElementById("wrapper");
+var can = document.getElementById("game");
 
-can.width = window.innerWidth;
-can.height = window.innerHeight;
 wrap.width = window.innerWidth;
 wrap.height = window.innerHeight;
+can.width = window.innerWidth;
+can.height = window.innerHeight;
 
 c = can.getContext("2d");
 
-can.addEventListener('mousedown', function(event){
-    mouse.x = event.x;
-    mouse.y = event.y;
-    console.log("hi");
+//---Enventlistening-------------------------------------------------------
+can.addEventListener('mousedown', function(){
+    can.addEventListener('mousemove', onMouseMove);
+    can.addEventListener('mouseup', onMouseUp);
 });
 
-window.addEventListener('resize', function(event){
+function onMouseMove(event) {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+}
+
+function onMouseUp(){
+    can.removeEventListener('mousemove', onMouseMove);
+    can.removeEventListener('mouseup', onMouseUp);
+}
+//--------------------------------------------------------------------------
+
+
+//------responsiveCanvas---------------------------
+
+/*window.addEventListener('resize', function(event){
     can.width = window.innerWidth;
     can.height = window.innerHeight;
     wrap.width = window.innerWidth;
     wrap.height = window.innerHeight;
-});
-//------responsiveCanvas---------------------------
+
+});*/
+
 /*$(document).ready( function(){
     //Get the canvas & context
     var rc = $('#game');
