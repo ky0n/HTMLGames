@@ -13,20 +13,26 @@ let sudoku = new Vue({
         givenFieldSign: 0,
         lastClicked: undefined,
         rows: [],
-        sudoku: [
-            [0, 8, 9, 2, 0, 3, 0, 0, 1],
-            [0, 0, 6, 0, 8, 5, 0, 0, 0],
-            [0, 0, 4, 6, 9, 0, 0, 0, 0],
-            [6, 1, 0, 0, 0, 0, 8, 0, 0],
-            [0, 0, 7, 0, 0, 0, 2, 0, 0],
-            [0, 0, 5, 0, 0, 0, 0, 1, 3],
-            [0, 0, 0, 0, 1, 6, 9, 0, 0],
-            [0, 0, 0, 8, 5, 0, 1, 0, 0],
-            [4, 0, 1, 9, 3, 2, 0, 7, 8]
+        sudoku2: [
+            [0, 0, 0, 2, 0, 0, 0, 6, 3],
+            [3, 0, 0, 0, 0, 5, 4, 0, 1],
+            [0, 0, 1, 0, 0, 3, 9, 8, 0],
+            [0, 0, 0, 0, 0, 0, 0, 9, 0],
+            [0, 0, 0, 5, 3, 8, 0, 0, 0],
+            [0, 3, 0, 0, 0, 0, 0, 0, 0],
+            [0, 2, 6, 3, 0, 0, 5, 0, 0],
+            [5, 0, 3, 7, 0, 0, 0, 0, 8],
+            [4, 7, 0, 0, 0, 1, 0, 0, 0]
         ],
+
+        numbersForSudoku: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        sudoku: [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]],
     },
     methods: {
         initialize: function () {
+            console.log("p");
             let tempRows = [];
             for (let i = 0; i < this.squareSize; i++) {
                 let tempColumns = [];
@@ -36,7 +42,8 @@ let sudoku = new Vue({
                 tempRows[i] = {columns: tempColumns};
             }
             this.rows = tempRows;
-            this.solveSudoku();
+            //this.solveSudoku();
+            this.fillWithRandomNumber();
         },
 
         setPropertiesForIndex: function (row, column) {
@@ -47,11 +54,13 @@ let sudoku = new Vue({
                 field.number = "";
                 field.color = this.colors.emptyField;
                 field.given = false;
+                console.log("yi");
             } else {
                 field.number = this.sudoku[row][column];
                 field.color = this.colors.givenField;
                 field.given = true;
             }
+            console.log("yi2");
             return field;
         },
 
@@ -105,6 +114,10 @@ let sudoku = new Vue({
         },
 
         solveSudoku: function () {
+            if (!this.sudoku[0] instanceof Array) {
+                return false;
+            }
+
             let allFieldsCalculated = false;
             let currentRow = 0;
             let currentColumn = 0;
@@ -113,66 +126,67 @@ let sudoku = new Vue({
             while (!allFieldsCalculated) {
                 //console.log("XX: "+currentRow+" "+currentColumn);
                 breaker++;
-                if(breaker > 20000){
-                    return;
+                if (breaker > 20000) {
+                    return false;
                 }
-                if (this.sudoku[currentRow][currentColumn] === this.givenFieldSign || !isForward){
+                if (this.sudoku[currentRow][currentColumn] === this.givenFieldSign || !isForward) {
                     let isCorrect = this.calculateNumberForField(currentRow, currentColumn, isForward);
                     //console.log("isCorrect: "+isCorrect);
-                    if(isCorrect){
+                    if (isCorrect) {
                         isForward = true;
-                        if(currentColumn < 9){
-                            currentColumn++;
-                        }else{
-                            currentRow++;
-                            currentColumn = 0;
-                        }
-                    }else{
-                        if(currentColumn === 0 && currentRow === 0){
-                            //console.log("keine Lösung");
-                            return;
-                        }
-                        isForward = false;
-                        if(currentColumn > 0){
-                            currentColumn--;
-                        }else{
-                            currentRow--;
-                            currentColumn = 8;
-                        }
-                    }
-                }else{
-                    if(isForward) {
                         if (currentColumn < 9) {
                             currentColumn++;
                         } else {
                             currentRow++;
                             currentColumn = 0;
                         }
-                    }else{
-                        if(currentColumn > 0){
+                    } else {
+                        if (currentColumn === 0 && currentRow === 0) {
+                            //console.log("keine Lösung");
+                            return false;
+                        }
+                        isForward = false;
+                        if (currentColumn > 0) {
                             currentColumn--;
-                        }else{
+                        } else {
+                            currentRow--;
+                            currentColumn = 8;
+                        }
+                    }
+                } else {
+                    if (isForward) {
+                        if (currentColumn < 9) {
+                            currentColumn++;
+                        } else {
+                            currentRow++;
+                            currentColumn = 0;
+                        }
+                    } else {
+                        if (currentColumn > 0) {
+                            currentColumn--;
+                        } else {
                             currentRow--;
                             currentColumn = 8;
                         }
                     }
                 }
-                if(currentRow === 9){ // schon geaddet
+                if (currentRow === 9) { // schon geaddet
                     allFieldsCalculated = true;
                 }
             }
+            
         },
 
         calculateNumberForField: function (currentRow, currentColumn, isForward) {
             //console.log("given row: "+currentRow+" given column: "+currentColumn);
-            if(this.rows[currentRow].columns[currentColumn].given){
+            if (this.rows[currentRow].columns[currentColumn].given) {
                 return isForward;
             }
-            if(!isForward){
+            if (!isForward) {
                 console.log("back");
                 var oldInput = this.rows[currentRow].columns[currentColumn].number;
             }
-            for(let input = isForward ? 1 : oldInput+1; input < 10; input++) {
+            for (let input = isForward ? 1 : oldInput + 1; input < 10; input++) {
                 let isUnique = true;
 
                 let quarterRow = this.findQuarterPosition(currentRow);
@@ -187,24 +201,24 @@ let sudoku = new Vue({
                     if (!isUnique) {
                         break;
                     }
-                    if (quarterColumn%3 === 2) {
+                    if (quarterColumn % 3 === 2) {
                         quarterRow++;
                         quarterColumn = this.findQuarterPosition(currentColumn);
                     } else {
                         quarterColumn++;
                     }
-                    if(iterator === 8){
+                    if (iterator === 8) {
                         return isUnique
                     }
                 }
             }
-            if(this.rows[currentRow].columns[currentColumn].number === 9){
+            if (this.rows[currentRow].columns[currentColumn].number === 9) {
                 this.rows[currentRow].columns[currentColumn].number = "";
             }
             return false;
         },
 
-        containsNumber: function(quarterRow, quarterColumn, currentRow, currentColumn, input, iterator){
+        containsNumber: function (quarterRow, quarterColumn, currentRow, currentColumn, input, iterator) {
             if (iterator !== currentRow) {
                 if (this.rows[iterator].columns[currentColumn].number === input) {
                     //console.log("x");
@@ -217,7 +231,8 @@ let sudoku = new Vue({
                     return false;
                 }
             }
-            if (quarterRow === currentRow && quarterColumn === currentColumn){}else{
+            if (quarterRow === currentRow && quarterColumn === currentColumn) {
+            } else {
                 //console.log("currentRow Quarter: "+ quarterRow+ " currentColumn Quarter: "+quarterColumn);
                 if (this.rows[quarterRow].columns[quarterColumn].number === input) {
                     //console.log("z");
@@ -239,9 +254,28 @@ let sudoku = new Vue({
                 return 0;
             }
         },
-    },
 
+        fillWithRandomNumber: function () {
+            let solvable = false;
+            while (!solvable) {
+                let randomColumn = Math.floor(Math.random() * 8);
+                let randomRow = Math.floor(Math.random() * 8);
+                console.log("randomColumn: "+randomColumn+" randomRow: "+randomRow);
+                if (this.sudoku[randomRow][randomColumn] === 0) {
+                    let randomNumber = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
+                    this.sudoku[randomRow][randomColumn] = randomNumber;
+                    this.rows[randomRow].columns[randomColumn].color = this.colors.givenField;
+                    this.rows[randomRow].columns[randomColumn].given = true;
+                    this.rows[randomRow].columns[randomColumn].number = randomNumber;
+                }
+                if (this.solveSudoku()) {
+                    solvable = true;
+                }
+            }
+        },
+    },
     created() {
+        console.log("hallo?");
         this.initialize();
     }
 });
