@@ -1,5 +1,6 @@
-var wrap = document.getElementById("wrapper");
-var can = document.getElementById("game");
+let wrap = document.getElementById("wrapper");
+let can = document.getElementById("game");
+let restart = document.getElementById("restart");
 
 wrap.width = window.innerWidth;
 wrap.height = window.innerHeight;
@@ -9,6 +10,10 @@ can.height = window.innerHeight;
 c = can.getContext("2d");
 
 //---Enventlistening-------------------------------------------------------
+restart.addEventListener('click', function (event) {
+    init();
+});
+
 can.addEventListener('mousedown', function(){
     can.addEventListener('mousemove', onMouseMove);
     can.addEventListener('mouseup', onMouseUp);
@@ -56,12 +61,12 @@ function onMouseUp(){
 });*/
 
 //----data--------------------------------------------
-var mouse = {
+let mouse = {
     x: undefined,
     y: undefined
 }
 
-var Thumb = function(r,x,y){
+let Thumb = function(r,x,y){
     this.r = r;
     this.x = x;
     this.y = y;
@@ -76,11 +81,19 @@ var Thumb = function(r,x,y){
         c.fill();
     }
 
-    this.update = function(){
-        this.x = mouse.x;
-        this.y = mouse.y;
-        this.draw();
+    this.drawLineTo = function(other){
+        c.beginPath();
+        c.moveTo(this.x,this.y);
+        c.lineTo(other.x,other.y);
+        c.stroke();
+    }
 
+    this.update = function(){
+        this.draw();
+        if(mouse.x >= (this.x - this.r) && mouse.x <= (this.x +this.r) && mouse.y >= (this.y - this.r) && mouse.y <= (this.y + this.r)){
+            this.x = mouse.x;
+            this.y = mouse.y;
+        }
     }
 }
 
@@ -88,34 +101,51 @@ var Thumb = function(r,x,y){
 
 //Berechnet den Abstand der beiden über ihre Koordinaten angegebenen Kreise
 function getDistance(x1, y1, x2, y2){
-    var xDistance = Math.abs(x2 - x1);
-    var yDistance = Math.abs(y2 - y1);
+    let xDistance = Math.abs(x2 - x1);
+    let yDistance = Math.abs(y2 - y1);
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
 function randomIntFromRange( min, max ){
-    var rando = Math.random();
-    if(rando != 0){
-        return Math.random() * ( max - min + 1 ) + min;
+    let rando = Math.random();
+    if(rando !== 0){
+        return Math.floor(rando*(max-min+1)+min);
     }else{
         randomIntFromRange(min,max);
     }
 }
 
+//TODO: not working right now
+function drawLines(){
+
+    if(thumbs.length > 0){
+        for(let i = 0; i<thumbs.length; i++) {
+            randJ = randomIntFromRange(2, 5);
+            for (let j = 0; j < randJ ; j++) {
+                let k = randomIntFromRange(0, 6);
+                console.log(k);
+                thumbs[i].drawLineTo(thumbs[k]);
+            }
+        }
+    }
+}
+
 //-----main------------------------------------------
 
-var thumbCount = 7;
-var thumbRad = 10;
+let thumbCount = 7;
+let thumbRad = 10;
 
-var thumbs = [];
+let thumbs = [];
 
 
 init = function(){
+    c.clearRect(0,0,can.width,can.height);
     //Greifpunkte erstellen
     for(let i = 0; i<thumbCount; i++){
         let x = randomIntFromRange(200, can.width-200);
         let y = randomIntFromRange(200, can.height-200);
         thumbs.push(new Thumb(thumbRad,x,y));
+        thumbs[i].draw();
     }
 }
 
@@ -123,20 +153,22 @@ animate = function(){
     requestAnimationFrame(animate);
     c.clearRect(0,0,can.width,can.height);
     for(let i = 0; i < thumbs.length; i++){
-        thumbs[i].draw();
+        thumbs[i].update();
+
+        //TODO not working right now
         //zeichnen der Linien zwischen den Anfasserpunkten
-        c.beginPath();
-        c.moveTo(thumbs[i].x,thumbs[i].y);
-        for(let j=0; j<thumbs.length; j++){
-            c.lineTo(thumbs[j].x,thumbs[j].y);
+        for(let i = 0; i<thumbs.length; i++){
+            for( let j = 0; j < randomIntFromRange(2,5); j++){
+                let k = randomIntFromRange(0,6);
+                console.log(k);
+                thumbs[i].drawLineTo(thumbs[k]);
+            }
         }
-        c.stroke();
-        //prüfen, ob Maus sich innerhalb eines Anfasserpunktes befindet
-        if(mouse.x >= (thumbs[i].x - thumbs[i].r) && mouse.x <= (thumbs[i].x +thumbs[i].r) && mouse.y >= (thumbs[i].y - thumbs[i].r) && mouse.y <= (thumbs[i].y + thumbs[i].r)){
-            thumbs[i].update();
-        }
+
+
+
     }
 }
 
 init();
-animate();
+//animate();
