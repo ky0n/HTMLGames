@@ -71,6 +71,7 @@ let Thumb = function(r,x,y){
     this.x = x;
     this.y = y;
     this.color = "#000";
+    this.bindings = [];
 
     this.draw = function(){
         c.beginPath();
@@ -94,7 +95,11 @@ let Thumb = function(r,x,y){
             this.x = mouse.x;
             this.y = mouse.y;
         }
+        for(let i = 0; i<this.bindings.length; i++){
+            this.drawLineTo(this.bindings[i]);
+        }
     }
+
 }
 
 //-----methods----------------------------------------
@@ -115,16 +120,15 @@ function randomIntFromRange( min, max ){
     }
 }
 
-//TODO: not working right now
 function drawLines(){
 
     if(thumbs.length > 0){
         for(let i = 0; i<thumbs.length; i++) {
-            randJ = randomIntFromRange(2, 5);
+            let randJ = randomIntFromRange(2, 5);
             for (let j = 0; j < randJ ; j++) {
                 let k = randomIntFromRange(0, 6);
-                console.log(k);
                 thumbs[i].drawLineTo(thumbs[k]);
+                thumbs[i].bindings.push(thumbs[k]);
             }
         }
     }
@@ -132,8 +136,8 @@ function drawLines(){
 
 //-----main------------------------------------------
 
-let thumbCount = 7;
-let thumbRad = 10;
+const THUMBCOUNT = 7;
+const THUMBRAD = 10;
 
 let thumbs = [];
 
@@ -141,12 +145,13 @@ let thumbs = [];
 init = function(){
     c.clearRect(0,0,can.width,can.height);
     //Greifpunkte erstellen
-    for(let i = 0; i<thumbCount; i++){
+    for(let i = 0; i<THUMBCOUNT; i++){
         let x = randomIntFromRange(200, can.width-200);
         let y = randomIntFromRange(200, can.height-200);
-        thumbs.push(new Thumb(thumbRad,x,y));
+        thumbs.push(new Thumb(THUMBRAD,x,y));
         thumbs[i].draw();
     }
+    drawLines();
 }
 
 animate = function(){
@@ -154,21 +159,8 @@ animate = function(){
     c.clearRect(0,0,can.width,can.height);
     for(let i = 0; i < thumbs.length; i++){
         thumbs[i].update();
-
-        //TODO not working right now
-        //zeichnen der Linien zwischen den Anfasserpunkten
-        for(let i = 0; i<thumbs.length; i++){
-            for( let j = 0; j < randomIntFromRange(2,5); j++){
-                let k = randomIntFromRange(0,6);
-                console.log(k);
-                thumbs[i].drawLineTo(thumbs[k]);
-            }
-        }
-
-
-
     }
 }
 
 init();
-//animate();
+animate();
