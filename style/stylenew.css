@@ -28,8 +28,7 @@ body {
 
 /*canvas*/
 #background {
-    /*background-color: #1d293d;*/
-    background-color: #0b0099;
+    background-color: #1d293d;
     top: 0;
     z-index: 1;
     position: fixed; 

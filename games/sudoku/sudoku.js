@@ -124,14 +124,12 @@ let sudoku = new Vue({
             let isForward = true;
             let breaker = 0;
             while (!allFieldsCalculated) {
-                //console.log("XX: "+currentRow+" "+currentColumn);
                 breaker++;
                 if (breaker > 20000) {
                     return false;
                 }
                 if (this.sudoku[currentRow][currentColumn] === this.givenFieldSign || !isForward) {
                     let isCorrect = this.calculateNumberForField(currentRow, currentColumn, isForward);
-                    //console.log("isCorrect: "+isCorrect);
                     if (isCorrect) {
                         isForward = true;
                         if (currentColumn < 9) {
@@ -142,7 +140,6 @@ let sudoku = new Vue({
                         }
                     } else {
                         if (currentColumn === 0 && currentRow === 0) {
-                            //console.log("keine Lösung");
                             return false;
                         }
                         isForward = false;
@@ -170,7 +167,7 @@ let sudoku = new Vue({
                         }
                     }
                 }
-                if (currentRow === 9) { // schon geaddet
+                if (currentRow === 9) {
                     allFieldsCalculated = true;
                 }
             }
@@ -178,7 +175,6 @@ let sudoku = new Vue({
         },
 
         calculateNumberForField: function (currentRow, currentColumn, isForward) {
-            //console.log("given row: "+currentRow+" given column: "+currentColumn);
             if (this.rows[currentRow].columns[currentColumn].given) {
                 return isForward;
             }
@@ -191,13 +187,10 @@ let sudoku = new Vue({
 
                 let quarterRow = this.findQuarterPosition(currentRow);
                 let quarterColumn = this.findQuarterPosition(currentColumn);
-                //console.log(" qq: "+quarterRow + " "+quarterColumn);
-                //console.log("input: "+input);
                 for (let iterator = 0; iterator < 9; iterator++) {
                     this.rows[currentRow].columns[currentColumn].number = input;
 
                     isUnique = isUnique && this.containsNumber(quarterRow, quarterColumn, currentRow, currentColumn, input, iterator);
-                    //console.log("isUnique: "+isUnique + " Iterator: "+iterator);
                     if (!isUnique) {
                         break;
                     }
@@ -221,21 +214,17 @@ let sudoku = new Vue({
         containsNumber: function (quarterRow, quarterColumn, currentRow, currentColumn, input, iterator) {
             if (iterator !== currentRow) {
                 if (this.rows[iterator].columns[currentColumn].number === input) {
-                    //console.log("x");
                     return false;
                 }
             }
             if (iterator !== currentColumn) {
                 if (this.rows[currentRow].columns[iterator].number === input) {
-                    //console.log("y");
                     return false;
                 }
             }
             if (quarterRow === currentRow && quarterColumn === currentColumn) {
             } else {
-                //console.log("currentRow Quarter: "+ quarterRow+ " currentColumn Quarter: "+quarterColumn);
                 if (this.rows[quarterRow].columns[quarterColumn].number === input) {
-                    //console.log("z");
                     return false;
                 }
             }
@@ -257,11 +246,17 @@ let sudoku = new Vue({
 
         fillWithRandomNumber: function () {
             let solvable = false;
+            let breaker = 0;
             while (!solvable) {
+                breaker++;
+                if(breaker > 30){
+                    console.log("rip");
+                    return;
+                }
                 let randomColumn = Math.floor(Math.random() * 8);
                 let randomRow = Math.floor(Math.random() * 8);
                 console.log("randomColumn: "+randomColumn+" randomRow: "+randomRow);
-                if (this.sudoku[randomRow][randomColumn] === 0) {
+                if (!this.rows[randomRow].columns[randomColumn].given) {
                     let randomNumber = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
                     this.sudoku[randomRow][randomColumn] = randomNumber;
                     this.rows[randomRow].columns[randomColumn].color = this.colors.givenField;
@@ -275,7 +270,6 @@ let sudoku = new Vue({
         },
     },
     created() {
-        console.log("hallo?");
         this.initialize();
     }
 });
