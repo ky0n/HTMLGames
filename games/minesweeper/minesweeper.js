@@ -4,23 +4,32 @@
 let minesweeper = new Vue({
     el: '#minesweeperField',
     data: {
-        colors: [
-            {color: "#87776e"},       // Felder
-            {color: "#000000"},       // ist Bombe
-            {color: "#1c49bc"},       // 1 Bombe
-            {color: "#1f960d"},       // 2 Bomben
-            {color: "#581f8e"},       // 3 Bomben
-            {color: "#ba7821"},       // 4 Bomben
-            {color: "#bc2112"}        // 5 Bomben
-            //TODO Farbe fuer 6,7,8 BOMBEN
-        ],
+        colors: {
+            unclickedField: "#87776e",
+            isBomb: "#000000",
+            clickedFieldWithBomb: "#f90000",
+            numberOfNearBombs: [
+                "#2e5cb2", // 1 near bomb
+                "#1f960d", // 2 near bombs
+                "#d63131", // 3 near bombs
+                "#0e1e84", // 4 near bombs
+                "#87530e", // 5 near bombs
+                "#00FFFF", // 6 near bombs
+                "#111111", // 7 near bombs
+                "#827f78"  // 8 near bombs
+            ],
+        },
         numOfRows: 9,
-        numOfColumns: 9,  // Anzahl der Spalten
+        numOfColumns: 9,
         numOfBombs: 10,
         rows: [
-            // wird bei der Initialisierung belegt
+            // wird bei der Initialisierung-Methode belegt
         ],
         bombs: [],
+        imagesForButtons: {
+            bomb: "Bomb.svg",
+            flag: "Flag.svg"
+        }
     },
     methods: {
         initialize: function () {
@@ -50,12 +59,13 @@ let minesweeper = new Vue({
                     let fieldIndex = i * this.numOfRows + j;
                     let field = {};
                     field.isBomb = this.bombs.includes(fieldIndex);
-                    field.color = this.colors[0].color;
+                    field.color = this.colors.unclickedField;
                     field.disabled = false;
                     field.clicked = false;
                     field.row = i;
                     field.column = j;
                     field.nearBombs = 0;
+                    field.image = null;
                     tempColumns[j] = field;
                 }
                 tempRows[i] = {columns: tempColumns};
@@ -204,7 +214,6 @@ let minesweeper = new Vue({
                                 }
                             }
                         }
-                        field.color = this.colors[0].color;
                     }
                 }
             }
@@ -216,19 +225,18 @@ let minesweeper = new Vue({
             timeCount.startCounting();
             field.disabled = true;
             field.clicked = true;
-            if (field.value === "F") {
+            if (field.image === this.imagesForButtons.flag) {
                 flags.remainingFlags++;
-                field.value = "";
+                field.image = null;
             }
             if (field.isBomb) {
                 timeCount.stopCounting();
-                this.clickedBomb = field;
-                this.searchBombs(this.clickedBomb.row, this.clickedBomb.column);
+                this.searchBombs(field.row, field.column, field);
             } else {
                 if (field.nearBombs === 0) {
                     this.searchEmptyFields(field.row, field.column);
                 } else {
-                    field.color = this.colors[field.nearBombs + 1].color;
+                    field.color = this.colors.numberOfNearBombs[field.nearBombs];
                     field.value = "" + field.nearBombs;
                 }
             }
@@ -245,11 +253,12 @@ let minesweeper = new Vue({
             if (field.nearBombs === 0 && !field.visitedForEmptiness) {
                 field.visitedForEmptiness = true;
                 field.clicked = true;
-                if (field.value === "F") {
+                if (field.image === this.imagesForButtons.flag) {
+                    field.image = null;
                     flags.remainingFlags++;
                 }
                 field.value = null;
-                field.color = this.colors[field.nearBombs + 1].color;
+                field.color = this.colors.numberOfNearBombs[field.nearBombs];
 
                 this.searchEmptyFields(i + 1, j);
                 this.searchEmptyFields(i, j + 1);
@@ -262,13 +271,17 @@ let minesweeper = new Vue({
             } else if (field.nearBombs !== 0 && !field.visitedForEmptiness && !field.visitedNeighbour) {
                 field.visitedNeighbour = true;
                 field.clicked = true;
-                field.color = this.colors[field.nearBombs + 1].color;
+                field.color = this.colors.numberOfNearBombs[field.nearBombs];
+                if (field.image === this.imagesForButtons.flag) {
+                    field.image = null;
+                    flags.remainingFlags++;
+                }
                 field.value = "" + field.nearBombs;
 
             }
         },
 
-        searchBombs: function (i, j) {
+        searchBombs: function (i, j, firstClickedField) {
             if (i < 0 || i >= this.numOfRows || j < 0 || j >= this.numOfColumns) {
                 return;
             }
@@ -278,13 +291,13 @@ let minesweeper = new Vue({
 
             if (!field.visitedForBomb) {
                 field.visitedForBomb = true;
-                if (field.isBomb && !Object.is(field, this.clickedBomb)) { //Object.is checkt ob die beiden Objekte gleich sind
-                    field.value = "B";
-                    field.color = this.colors[1].color;
+                if (field.isBomb && !Object.is(field, firstClickedField)) { //Object.is checkt ob die beiden Objekte gleich sind
+                    field.image = this.imagesForButtons.bomb;
+                    field.color = this.colors.unclickedField;
                     field.clicked = true;
-                } else if (Object.is(field, this.clickedBomb)) {
-                    field.value = "B";
-                    field.color = this.colors[6].color;
+                } else if (Object.is(field, firstClickedField)) {
+                    field.image = this.imagesForButtons.bomb;
+                    field.background = this.colors.clickedFieldWithBomb;
                 }
                 this.searchBombs(i + 1, j);
                 this.searchBombs(i, j + 1);
@@ -296,8 +309,12 @@ let minesweeper = new Vue({
         /* right click things : */
 
         rightClick: function (field, event) {
+            if (field.image === this.imagesForButtons.flag) {
+                return;
+            }
             event.preventDefault();
-            flags.setFlag(field);
+            field.image = this.imagesForButtons.flag;
+            flags.setFlag();
             this.checkForWin();
         },
 
@@ -306,7 +323,7 @@ let minesweeper = new Vue({
                 let j = Math.floor(this.bombs[i] / this.numOfRows);
                 let k = this.bombs[i] % this.numOfColumns;
 
-                if (this.rows[j].columns[k].value !== "F") {
+                if (this.rows[j].columns[k].value !== this.imagesForButtons.flag) { // doesnt work for expert and more fields..
                     return;
                 }
             }
@@ -369,10 +386,8 @@ let flags = new Vue({
                 this.remainingFlags = minesweeper.numOfBombs;
             }
         },
-        setFlag: function (field) {
-            if (this.remainingFlags > 0 && field.value !== "F") {
-                field.value = "F";
-                field.color = "red";
+        setFlag: function () {
+            if (this.remainingFlags > 0) {
                 this.remainingFlags--;
             } else {
                 //TODO sound ?
@@ -397,7 +412,7 @@ let restartGame = new Vue({
 let difficulty = new Vue({
     el: '#fieldsetSelection',
     data: {
-        gameMode: this.beginner,
+        gameMode: null,
         insertedNumOfRows: undefined,
         insertedNumOfColumns: undefined,
         insertedNumOfBombs: undefined,
@@ -445,5 +460,9 @@ let difficulty = new Vue({
             }
             restartGame.newGame();
         },
+    },
+
+    created(){
+        this.gameMode = this.beginner;
     }
 });

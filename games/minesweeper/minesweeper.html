@@ -36,7 +36,8 @@
                                 v-bind:disabled="column.disabled"
                                 v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
                                 v-cloak>
-                            {{column.value}}
+                            <p v-if="column.image === null">{{column.value}}</p>
+                            <img v-if="column.image !== null" v-bind:src="column.image">
                         </button>
                     </td>
                 </tr>
@@ -45,7 +46,7 @@
     </div>
     <form id="difficultySelection">
         <fieldset id="fieldsetSelection" v-on:change="onChange()">
-            <input type="radio" id="beginner" name="difficulty" value="" v-model="gameMode">
+            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
             <label for="beginner"> {{beginner}} </label><br>
             <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
             <label for="intermediate"> {{intermediate}} </label><br>
@@ -55,9 +56,12 @@
             <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
             <label for="custom"> {{custom}} </label><br>
             <p v-if="gameMode === 'Custom'">
-                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="insertedNumOfRows"> <br>
-                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="insertedNumOfColumns"> <br>
-                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="insertedNumOfBombs"> <br>
+                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="insertedNumOfRows">
+                <br>
+                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="insertedNumOfColumns">
+                <br>
+                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="insertedNumOfBombs">
+                <br>
             </p>
         </fieldset>
     </form>
