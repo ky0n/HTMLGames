@@ -11,9 +11,10 @@
 
 </head>
 <body>
-<div>
-    <nav id="nav" class="navbar navbar-inverse navbar-static-top bg-primary" role="navigation" style="margin: 0">
-        <!---margin wenn möglich in css datei -->
+<div id="nav">
+
+    <!--
+
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -25,8 +26,7 @@
                 </button>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
                 <ul class="nav navbar-nav  nav-pills">
                     <li><a href="index.html">{{home}}</a></li>
                     <li role="presentation" class="dropdown">
@@ -56,68 +56,40 @@
         </div>
     </nav>
 
+    -->
+
     <main>
         <div id="wrapper">
             <div class="container" id="contentWrapper">
                 <div class="page-header">
-                    <h1>{{headline}}</h1>
+                    <h1><b>{{headline}}</b></h1>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 col-md-4 ani">
-                        <a href="games/mastermind/mastermind.html" class="btn">
+
+
+                    <div v-for="(item, index) in gameItems" class="col-sm-6 col-md-3 thumnail-box">
+                        <a v-bind:href="item.url" style="text-decoration: none">
                             <div class="thumbnail">
-                                <img src="pictures/mastermind.jpg" alt="...">
+                                <img v-bind:src="item.thumbnail" alt="...">
                                 <div class="caption">
-                                    <h3>Mastermind</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 ani">
-                        <a href="games/floodfill/floodfill.html" class="btn">
-                            <div class="thumbnail">
-                                <img src="pictures/floodfill.png" alt="...">
-                                <div class="caption">
-                                    <h3>Floodfill</h3>
+                                    <h3>{{item.game}}</h3>
                                 </div>
                             </div>
                         </a>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 ani">
-                        <a href="games/minesweeper/minesweeper.html" class="btn">
-                            <div class="thumbnail">
-                                <img src="profilbild-Kopie-6.jpg" alt="...">
-                                <div class="caption">
-                                    <h3>Minesweeper</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 ani">
-                        <a href="games/untangle/untangle.html" class="btn">
-                            <div class="thumbnail">
-                                <img src="profilbild-Kopie-6.jpg" alt="...">
-                                <div class="caption">
-                                    <h3>Untangle</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
                 </div>
             </div>
-            <canvas id="background"></canvas>
         </div>
     </main>
 </div>
+<canvas id="background"></canvas>
 
 <!-- Externe Bibliotheken -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="js/vue.js"></script>
 
-<script src="js/indexnew_test.js"></script> <!---muss hier als js zuerst stehen--->
 <script src="js/canvas.js"></script>
 <script src="js/nav.js"></script>
 <script>

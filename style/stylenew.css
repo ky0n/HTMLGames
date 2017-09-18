@@ -7,18 +7,32 @@ body {
 
 .jumbotron {
     background-color: aqua;
-
 }
 
 .dropdown {
     text-align: center;
 }
 
-
-.page-header {
-    color: white;
+.thumbnail {
+    background-color: rgba(57, 83, 121, 0.5);
+    border: none;
+    margin: 0;
+    padding: 0;
 }
 
+.thumbnail .caption {
+    /*color: #FE8C06;*/
+    color: #3e3e3e;
+
+}
+
+.page-header {
+    color: #3e3e3e;
+    font-family: "Bradley Hand ITC";
+    font-size: x-large;
+    font-weight: 900;
+
+}
 
 #wrapper {
     display: block;
@@ -28,7 +42,7 @@ body {
 
 /*canvas*/
 #background {
-    background-color: #1d293d;
+    background-color: #f9fbfe;
     top: 0;
     z-index: 1;
     position: fixed; 
@@ -42,6 +56,42 @@ body {
     position: relative;
     z-index: 2;
 
+}
+
+.thumnail-box {
+
+    margin: 0 4%;
+    padding: 0;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.18);
+
+
+    isplay: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    text-decoration: none !important;
+    background-image: none;
+    border-radius: 4px;
+}
+
+.thumnail-box:hover {
+
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.18);
+
+    transform: translate(0,-1px);
+    -webkit-transform: translate(0,-1px); /** Chrome & Safari **/
+    -o-transform: translate(0,-1px); /** Opera **/
+    -moz-transform: translate(0,-1px); /** Firefox **/
 }
 
 
