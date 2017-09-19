@@ -136,8 +136,8 @@ function explode() {
     let posy;
     for (let j = 0; j < (countDiff); j++) {
         let angle = Math.random() * Math.PI * 2;
-        posx = mouseCircle.x + Math.cos(angle) * (MOUSE_MAX - Math.floor(Math.random() * 40));
-        posy = mouseCircle.y + Math.sin(angle) * (MOUSE_MAX - Math.floor(Math.random() * 40));
+        posx = mouseCircle.x + Math.cos(angle) * (MOUSE_MAX - Math.floor(Math.random() * 25));
+        posy = mouseCircle.y + Math.sin(angle) * (MOUSE_MAX - Math.floor(Math.random() * 25));
 
 
         let speedX;
