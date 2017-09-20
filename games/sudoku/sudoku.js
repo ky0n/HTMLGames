@@ -311,14 +311,15 @@ let sudokuObj = new Vue({
                 let textRange = node.createTextRange();
                 textRange.collapse(true);
                 textRange.moveEnd(pos);
-                textRange.moveStart(pos);
+                textRange.moveStart('0');
                 textRange.select();
                 return true;
             } else if (node.setSelectionRange) { // fuer Chrome und Mozilla
-                node.setSelectionRange(pos, pos);
+                node.setSelectionRange(0, pos);
                 return true;
             }
             return false;
+
         },
 
         isNumber: function (value, event) {
