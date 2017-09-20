@@ -68,7 +68,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
-                            <button type="button" class="btn btn-primary" v-on:click="initialize" data-dismiss="modal">Einstellungen übernehmen</button>
+                            <button type="button" class="btn btn-primary" v-on:click="initialize" v-bind:disabled="colors.filter(element => element.selected).length < 3" data-dismiss="modal">Einstellungen übernehmen</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
