@@ -80,6 +80,7 @@ button {
 
 .clickedButton{
     background-color: #c0c1cb;
+    font-weight: bold;
 
 }
 

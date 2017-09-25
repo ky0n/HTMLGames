@@ -56,16 +56,19 @@
                         </div>
                         <div class="modal-body">
                             <p>Spielfeldgröße:</p>
+                            <div id="FieldSizeWrapper">
                             <input type="range" id="sizeRangeslider" v-bind:min="5" max="15" value="10" v-model="size" data-show-value="true"/>
-                            <p>Farbenauswahl:</p>
+                            <p id="currentFieldSize">{{size}}</p>
+                            </div>
+                            <p id="colorSelectionHeader">Farbenauswahl:</p>
                             <div class="settingsColorPanel">
-                                <div class="colorDiv" v-for="color in colors" v-bind:class="{isSelected: color.selected}" v-on:click="colorSelection(color)" v-bind:style="{'background-color': color.color}"> </div>
+                                <div class="colorDiv" v-for="color in colors" v-bind:class="[color.selected ? 'isSelected' : 'crossed']" v-on:click="colorSelection(color)" v-bind:style="{'background-color': color.color}"> </div>
                             </div>
                             <div id="colorSelectionWarning" v-if="colors.filter(element => element.selected).length < 3" >Es müssen mindestens 3 Farben ausgewählt sein</div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
-                            <button type="button" class="btn btn-primary" v-on:click="initialize" data-dismiss="modal">Einstellungen übernehmen</button>
+                            <button type="button" class="btn btn-primary" v-on:click="initialize" v-bind:disabled="colors.filter(element => element.selected).length < 3" data-dismiss="modal">Einstellungen übernehmen</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

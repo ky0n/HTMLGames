@@ -1,7 +1,7 @@
 /**
  * Created by romy on 12.09.2017.
  */
-new Vue({
+let scrolling = new Vue({
     el: '#scrolling',
 
     data: {
@@ -9,7 +9,9 @@ new Vue({
     },
 
     method: {
-
+        scrollFunction: function () {
+            console.log("Scroll");
+        },
     },
 
     created() {

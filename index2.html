@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Logik Spiele</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/stylenew2.css">
+    <link rel="stylesheet" href="style/animate.css">
+    <link rel="stylesheet" href="style/navStyle.css">
+
+</head>
+<body>
+<div id="nav">
+    <main>
+        <div id="header" class="jumbotron text-center">
+            <h1 class="headline" ><b>{{headline}}</b></h1>
+        </div>
+        <div id="wrapper">
+            <div class="container" id="contentWrapper">
+                <div class="row">
+                    <div v-for="(item, index) in gameItems" class="col-sm-6 col-md-3 thumnail-box">
+                        <a v-bind:href="item.url" style="text-decoration: none">
+                            <div class="thumbnail">
+                                <img v-bind:src="item.thumbnail" alt="...">
+                                <div class="caption">
+                                    <h3>{{item.game}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<canvas id="background"></canvas>
+
+<!-- Externe Bibliotheken -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/vue.js"></script>
+
+<script src="js/canvas2.js"></script>
+<script src="js/nav.js"></script>
+<script>
+    $(".ani").hover(
+        function () {
+            $(this).addClass('animated pulse')
+        },
+        function () {
+            $(this).removeClass('animated pulse')
+        }
+    )
+</script>
+
+</body>
+</html>

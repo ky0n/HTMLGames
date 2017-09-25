@@ -40,10 +40,11 @@ let mouse = {
     y: undefined
 };
 
-let col = [
-    "#8ea7d1",
-    "#41A97C",
-    "#C480AB"
+var col = [
+    "rgba(165, 205, 179, 0.6)",
+    "rgba(150, 183, 198, 0.6)",
+    "rgba(223, 129, 91, 0.6)",
+    "rgba(229, 211, 137, 0.6)",
 ];
 
 let Ball = function(r,x,y,dx,dy, color){
@@ -56,7 +57,6 @@ let Ball = function(r,x,y,dx,dy, color){
     
     this.drawMouse = function(){
         c.beginPath();
-        c.fillStyle = col[0];
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
@@ -143,7 +143,7 @@ function explode() {
             posy = mouseCircle.y - randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
         }
 
-        circles.push(new Ball(5* randomNumFromRange(0.5,2),posx,posy,velx,vely,col[1]));
+        circles.push(new Ball(5* randomNumFromRange(0.5,2),posx,posy,velx,vely,col[0]));
         circles[j].draw();
     }
 }
