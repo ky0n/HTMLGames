@@ -2,11 +2,8 @@
 body {
     align: center;
     justify-content: center;
+    color: rgba(255,255,255,0.9);
     /*background-color:aquamarine;*/
-}
-
-.jumbotron {
-    background-color: aqua;
 }
 
 .dropdown {
@@ -22,12 +19,12 @@ body {
 
 .thumbnail .caption {
     /*color: #FE8C06;*/
-    color: #3e3e3e;
+    color: rgba(255,255,255,0.75);
 
 }
 
 .page-header {
-    color: #3e3e3e;
+
     font-family: "Bradley Hand ITC";
     font-size: x-large;
     font-weight: 900;
@@ -42,14 +39,11 @@ body {
 
 /*canvas*/
 #background {
-    background-color: #f9fbfe;
+    background-color: #1d293d;
+    /*background: #f9fbfe;*/
     top: 0;
     z-index: 1;
     position: fixed; 
-}
-
-.myStyle {
-    background-color: #446E73;
 }
 
 #contentWrapper {

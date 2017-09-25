@@ -1,6 +1,8 @@
 body {
     height: 100%;
-    background-color: #f9fbfe;
+    background-color: #1d293d;
+    /*background: #f9fbfe;*/
+    color: rgba(255,255,255,0.75);
 }
 
 .content {

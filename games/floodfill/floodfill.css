@@ -1,6 +1,6 @@
 .wrapper {
     margin: auto;
-    box-shadow: 10px 10px 30px #AAA;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.18);
 }
 
 .centerBox {
