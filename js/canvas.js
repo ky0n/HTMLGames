@@ -40,12 +40,12 @@ let mouse = {
     y: undefined
 };
 
-let newCol = "rgba(150, 183, 198, 0.6)";
+let newCol = "rgba(150, 183, 198, 0.6)"; //blue
 
 let col = [
-    "rgba(165, 205, 179, 0.6)",
-    "rgba(223, 129, 91, 0.6)",
-    "rgba(229, 211, 137, 0.6)",
+    "rgba(165, 205, 179, 0.6)", //green
+    "rgba(223, 129, 91, 0.6)", //red
+    "rgba(229, 211, 137, 0.6)", //yellow
 ];
 
 let Ball = function(r,x,y,dx,dy, color){

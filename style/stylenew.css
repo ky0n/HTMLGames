@@ -3,7 +3,6 @@ body {
     align: center;
     justify-content: center;
     color: rgba(255,255,255,0.9);
-    /*background-color:aquamarine;*/
 }
 
 .dropdown {
@@ -49,12 +48,11 @@ body {
 #contentWrapper {
     position: relative;
     z-index: 2;
-
 }
 
 .thumnail-box {
 
-    margin: 0 4%;
+    margin: 4%;
     padding: 0;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.18);
 
