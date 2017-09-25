@@ -10,7 +10,7 @@ can.height = window.innerHeight;
 c = can.getContext("2d");
 
 //---Enventlistening-------------------------------------------------------
-restart.addEventListener('click', function (event) {
+restart.addEventListener('click', function () {
     init();
 });
 
@@ -144,6 +144,7 @@ let thumbs = [];
 
 init = function(){
     c.clearRect(0,0,can.width,can.height);
+    thumbs.length = 0;
     //Greifpunkte erstellen
     for(let i = 0; i<THUMBCOUNT; i++){
         let x = randomIntFromRange(200, can.width-200);
