@@ -44,41 +44,31 @@ new Vue({
 
             this.rows = rows;
         },
-    },
 
-    move: function () {
-        if (up) {
-            for (let i = 1; i < 4; i++) {
-                for (let j = 0; j < 4; j++) {
+        move: function () {
+          //left
+          if (true) {
 
-                    let current = rows[i].columns[j].value;
-                    if (current !== 0) {
+                for (let z = 0; z < 4; z++) {
+                    for (let s = 0; s < 4; s++) {
 
-                        let k = 0;
-                        while ()
+                        let current = this.rows[z].columns[s].value;
+                        if (current === 0) {
 
-                        for (let k = 0; k < i; k++) {
-                            let last = rows[k].columns[j].value;
-                            if (last === 0) {
-                                last = current;
-
+                          if (s < 3){
+                            let n = s + 1;
+                            while (n < 2 && this.rows[z].columns[n].value === 0) {
+                              n++;
                             }
+                            this.rows[z].columns[s].value = this.rows[z].columns[n].value;
+                            this.rows[z].columns[n].value = 0;
+                          }
                         }
                     }
-
                 }
             }
-        } else if (right) {
-            for (let i = 0; i < 4; i++) {
-                for (let j = 1; j < 4; j++) {
-                    let current = rows[i].columns[j].value;
-                    let next = rows[i].columns[j + 1].value;
-                    while (next === 0){
 
-                    }
-                }
-            }
-        }
+        },
     },
     created(){
         this.initialize();

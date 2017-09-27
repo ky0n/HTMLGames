@@ -16,7 +16,7 @@
             <button class="btn btn-default" v-on:click="">Neustart</button>
             <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
         </div>
-        <div class="wrapper">
+        <div class="wrapper" @click="move">
             <table style="width:100%">
                 <tr v-for="row in rows">
                     <td v-for="column in row.columns">
