@@ -1,0 +1,37 @@
+<html lang="de" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Floodfill</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/gamesGeneral.css">
+    <link rel="stylesheet" href="2048.css">
+
+</head>
+<body>
+
+<div id="twentyfourtyeight" class="content">
+    <div>
+        <div>
+            <button class="btn btn-default" v-on:click="">Neustart</button>
+            <button class="btn btn-default" v-on:click="initialize">Neues Spiel</button>
+        </div>
+        <div class="wrapper">
+            <table style="width:100%">
+                <tr v-for="row in rows">
+                    <td v-for="column in row.columns">
+                        <div class="" v-bind:style="{'background-color': column.color}">{{ column.value }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="2048.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+.wrapper {
+    margin: auto;
+    box-shadow: 10px 10px 30px #AAA;
+}
+
+.centerBox {
+    display: flex;
+    justify-content: center;
+}
+
+.colorPanel {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #eeeeee;
+    border: 3px solid #656565;
+    border-radius: 5px;
+}
+
+.colorDiv {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.modal-content {
+    color: #000;
+}
+
+.settingsColorPanel {
+    display: flex;
+    flex-direction: row;
+}
+
+#FieldSizeWrapper{
+    position: relative;
+}
+
+#sizeRangeslider {
+    width: 50%;
+}
+
+#currentFieldSize{
+    width: 30px;
+    margin-left: 55%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: lightgray;
+    text-align: center;
+}
+
+.isSelected {
+    border: 3px solid #656565;
+}
+
+.crossed {
+    background:
+            linear-gradient(to top left,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) calc(50% - 0.8px),
+            rgba(0,0,0,1) 50%,
+            rgba(0,0,0,0) calc(50% + 0.8px),
+            rgba(0,0,0,0) 100%),
+            linear-gradient(to top right,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) calc(50% - 0.8px),
+            rgba(0,0,0,1) 50%,
+            rgba(0,0,0,0) calc(50% + 0.8px),
+            rgba(0,0,0,0) 100%);
+
+    opacity: 0.7;
+}
+
+#colorSelectionWarning {
+    margin-left: 5px;
+    color: red;
+}
+
