@@ -5,7 +5,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/gamesGeneral.css">
-    <link rel="stylesheet" href="../../carousel/carousel3.css">
+    <link rel="stylesheet" href="../../style/nav.css">
     <link rel="stylesheet" href="floodfill_playground.css">
     <link rel="stylesheet" href="floodfill.css">
 
@@ -13,11 +13,12 @@
 <body>
 
     <div id="nav">
-        <div id="scrolling">
+        <div id="scrolling" >
             <ul>
                 <li v-for="(item, index) in gameItems">
-                    <img v-bind:src="item.thumbnail" class="img-responsive center-block">
-                    <!--<div class="text-center">{{item.game}}</div>-->
+                    <div class="img-text" v-bind:title="item.game">
+                        <img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                    </div>
                 </li>
             </ul>
         </div>

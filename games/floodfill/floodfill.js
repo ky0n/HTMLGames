@@ -9,7 +9,7 @@ new Vue({
             {color: '#c6101d', selected: true},
             {color: '#ee7f00', selected: true},
             {color: '#ffc830', selected: true},
-            {color: '#cddc39', selected: true},
+            {color: '#cddc39', selected: false},
             {color: '#8bc34a', selected: true},
             {color: '#00bcd4', selected: true},
             {color: '#3f51b5', selected: true},
