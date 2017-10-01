@@ -1,9 +1,13 @@
-/* Add to docs */
+/* navigation styles */
+#nav {
+    height: 10vh;
+}
+
 #scrolling { /*frame*/
     position: relative;
 
     background-color: rgba(150, 183, 198, 1);
-    height: 10%;
+    height: 100%;
     width: 100%;
 
     margin-bottom: 2%;
@@ -66,4 +70,28 @@
 .img-responsive {
     margin-top: 1%;
     max-height: 90%;
+}
+
+/*  */
+.img-text {
+    width: 80%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.img-text:after {
+    content: attr(title);
+    position: absolute;
+    top: calc(100% + 50px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    transition: all 0.3s;
+}
+
+.img-text:hover:after {
+    top: 50%;
 }

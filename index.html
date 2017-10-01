@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/stylenew.css">
     <link rel="stylesheet" href="style/animate.css">
-    <link rel="stylesheet" href="style/navStyle.css">
 
 </head>
 <body>
@@ -67,7 +66,7 @@
                 <div class="row">
 
 
-                    <div v-for="(item, index) in gameItems" class="col-sm-6 col-md-3 thumnail-box">
+                    <div v-for="(item, index) in gameItems" class="col-sm-6 col-md-3 thumnail-box ani">
                         <a v-bind:href="item.url" style="text-decoration: none">
                             <div class="thumbnail">
                                 <img v-bind:src="item.thumbnail" alt="...">

@@ -40,11 +40,12 @@ let mouse = {
     y: undefined
 };
 
-var col = [
-    "rgba(165, 205, 179, 0.6)",
-    "rgba(150, 183, 198, 0.6)",
-    "rgba(223, 129, 91, 0.6)",
-    "rgba(229, 211, 137, 0.6)",
+let newCol = "rgba(150, 183, 198, 0.6)"; //blue
+
+let col = [
+    "rgba(165, 205, 179, 0.6)", //green
+    "rgba(223, 129, 91, 0.6)", //red
+    "rgba(229, 211, 137, 0.6)", //yellow
 ];
 
 let Ball = function(r,x,y,dx,dy, color){
@@ -54,14 +55,14 @@ let Ball = function(r,x,y,dx,dy, color){
     this.dx = dx;
     this.dy = dy;
     this.color = color;
-    
+
     this.drawMouse = function(){
         c.beginPath();
         c.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
         c.stroke();
         c.fill();
     };
-    
+
     this.draw = function(){
         c.beginPath();
         c.strokeStyle = this.color;
@@ -70,7 +71,7 @@ let Ball = function(r,x,y,dx,dy, color){
         c.stroke();
         c.fill();
     };
-    
+
     //Kollisionserkennung
     this.intersects = function(other){
         return getDistance(this.x, this.y, other.x, other.y) <
@@ -83,17 +84,17 @@ let Ball = function(r,x,y,dx,dy, color){
         this.y = mouse.y;
         this.draw();
     };
-    
+
     this.update = function(){
-        
+
         //Geschwindigkeit am Fensterrand umkehren
         if(this.x >= (innerWidth - this.r)||this.x <= (0 + this.r)){
             this.dx = -this.dx;
         }
         if((this.y + this.r) > innerHeight || (this.y - this.r) < 0){
             this.dy = -this.dy;
-        } 
-        
+        }
+
         //Position anhand der Geschwindigkeit anpassen
         this.x += this.dx;
         this.y += this.dy;
@@ -127,23 +128,54 @@ function randomNumFromRange(min, max ){
 function explode() {
     mouseCircle.r = MOUSE_START_RAD;
     let countDiff = CIRCLECOUNT - circles.length;
-    let posx;
-    let posy;
+
     for(let j = 0; j < (countDiff); j++){
-        let velx = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
-        let vely = randomNumFromRange(-SPEED_MAX,SPEED_MAX);
-        if(velx >= 0){
-            posx = mouseCircle.x + randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
-        }else{
-            posx = mouseCircle.x - randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        let angle = Math.random() * Math.PI * 2;
+        let posx = mouseCircle.x + Math.cos(angle) * (MOUSE_MAX - Math.floor(Math.random() * 25));
+        let posy = mouseCircle.y + Math.sin(angle) * (MOUSE_MAX - Math.floor(Math.random() * 25));
+
+        let speedX;
+        let speedY;
+        if (posx > mouseCircle.x) {
+            speedX = Math.random() * SPEED_MAX;
+        } else {
+            speedX = Math.random() * -SPEED_MAX;
         }
-        if(vely >= 0){
-            posy = mouseCircle.y + randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
-        }else{
-            posy = mouseCircle.y - randomNumFromRange(mouseCircle.r,mouseCircle.r + 10);
+        if (posy > mouseCircle.y) {
+            speedY = Math.random() * SPEED_MAX;
+        } else {
+            speedY = Math.random() * -SPEED_MAX;
         }
 
-        circles.push(new Ball(5* randomNumFromRange(0.5,2),posx,posy,velx,vely,col[0]));
+        if (posy > innerHeight || posy < 0) {
+            if (posy > innerHeight) {
+                posy = innerHeight - 20;
+                if (speedY > 0) {
+                    speedY = -speedY;
+                }
+            } else {
+                posy = 20;
+                if (speedY < 0) {
+                    speedY = -speedY;
+                }
+            }
+        }
+        if (posx > innerWidth || posx < 0) {
+            if (posx > innerWidth) {
+                posx = innerWidth - 20;
+                if (speedX > 0) {
+                    speedX = -speedX;
+                }
+            } else {
+                posx = 20;
+                if (speedX < 0) {
+                    speedX = -speedX;
+                }
+            }
+            speedY = -speedY;
+        }
+
+        circles.push(new Ball(5 * randomNumFromRange(0.5, 2), posx, posy, speedX, speedY, newCol));
         circles[j].draw();
     }
 }
@@ -157,7 +189,7 @@ const SPEED_MAX = 1.2;
 const CIRCLE_SHRINK = 0.8;
 const CIRCLE_MIN = 2;
 //Kreis um Mauszeiger erstellen
-let mouseCircle = new Ball(MOUSE_START_RAD,can.width-100,can.height-100,0,0,col[0]);
+let mouseCircle = new Ball(MOUSE_START_RAD,can.width-100,can.height-100,0,0,newCol);
 let circles = [];
 
 init = function(){

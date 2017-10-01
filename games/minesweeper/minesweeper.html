@@ -7,68 +7,84 @@
     <title>Minesweeper</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/gamesGeneral.css">
+    <link rel="stylesheet" href="../../style/nav.css">
     <link rel="stylesheet" href="minesweeper.css">
-    <link rel="stylesheet" href="../../style/animate.css">
 </head>
 <body>
 
-<div id="entireGame">
-    <div id="minesweeper">
-        <div id="displayParent">
-            <p id="timeCount" v-cloak>
-                {{time}}
-            </p>
-            <button id="restartButton" v-on:click="newGame()">
-                <!-- keine Copyrights dafür -->
-                <svg style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="info"></g><g id="icons"><g id="reload"><path d="M23,5.4v-2c0-0.9-1.1-1.3-1.7-0.7l-2.2,2.2C17.4,3.7,15.3,3,13,3C9.2,3,5.8,5,4.1,7.4C3.7,8.1,4.2,9,5,9h0    c0.3,0,0.6-0.2,0.8-0.5C7.1,6.8,9.4,6,12,6c1.8,0,3.5,0.4,4.8,1.2l-2.1,2.1c-0.6,0.6-0.2,1.7,0.7,1.7h2H22h0c0.6,0,1-0.4,1-1V5.4    C23,5.4,23,5.4,23,5.4z"></path><path d="M19.7,15L19.7,15c-0.4,0-0.7,0.2-0.9,0.5c-1.2,1.7-3.5,2.5-6.1,2.5c-2,0-3.9-0.5-5.1-1.5l1.8-1.8C9.9,14.1,9.5,13,8.6,13    h-2H2c-0.6,0-1,0.4-1,1v4.6v2c0,0.9,1.1,1.3,1.7,0.7l2.4-2.4c1.7,1.3,4,2.1,6.5,2.1c3.9,0,7.2-2,8.9-4.5C21,15.9,20.5,15,19.7,15z    "></path></g></g></svg>
-            </button>
-            <p id="flags" v-cloak>
-                {{remainingFlags}}
-            </p>
-        </div>
-        <div id="minesweeperField">
-            <table id="table">
-                <tr v-for="row in rows">
-                    <td v-for="column in row.columns">
-                        <button v-on:click.left="leftClick(column)" v-on:mousedown.right="rightClick(column, $event)"
-                                v-on:contextmenu.prevent=""
-                                v-bind:style="{'color': column.color}"
-                                v-bind:disabled="column.disabled"
-                                v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
-                                v-cloak>
-                            <p v-if="column.image === null">{{column.value}}</p>
-                            <img v-if="column.image !== null" v-bind:src="column.image">
-                        </button>
-                    </td>
-                </tr>
-            </table>
+    <div id="nav">
+        <div id="scrolling" >
+            <ul>
+                <li v-for="(item, index) in gameItems">
+                    <div class="img-text" v-bind:title="item.game">
+                        <img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-    <form id="difficultySelection">
-        <fieldset id="fieldsetSelection" v-on:change="onChange()">
-            <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
-            <label for="beginner"> {{beginner}} </label><br>
-            <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
-            <label for="intermediate"> {{intermediate}} </label><br>
-            <input type="radio" id="expert" name="difficulty" value="Expert" v-model="gameMode">
-            <label for="expert"> {{expert}} </label><br>
-            <hr>
-            <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
-            <label for="custom"> {{custom}} </label><br>
-            <p v-if="gameMode === 'Custom'">
-                <input id="height" name="difficulty" value="height" placeholder="Height" v-model="insertedNumOfRows">
-                <br>
-                <input id="width" name="difficulty" value="width" placeholder="Width" v-model="insertedNumOfColumns">
-                <br>
-                <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="insertedNumOfBombs">
-                <br>
-            </p>
-        </fieldset>
-    </form>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="../../js/vue.js"></script>
-<script src="minesweeper.js"></script>
+
+    <div id="entireGame" class="content">
+        <div id="minesweeper">
+            <div id="displayParent">
+                <p id="timeCount" v-cloak>
+                    {{time}}
+                </p>
+                <button id="restartButton" v-on:click="newGame()">
+                    <!-- keine Copyrights dafür -->
+                    <svg style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="info"></g><g id="icons"><g id="reload"><path d="M23,5.4v-2c0-0.9-1.1-1.3-1.7-0.7l-2.2,2.2C17.4,3.7,15.3,3,13,3C9.2,3,5.8,5,4.1,7.4C3.7,8.1,4.2,9,5,9h0    c0.3,0,0.6-0.2,0.8-0.5C7.1,6.8,9.4,6,12,6c1.8,0,3.5,0.4,4.8,1.2l-2.1,2.1c-0.6,0.6-0.2,1.7,0.7,1.7h2H22h0c0.6,0,1-0.4,1-1V5.4    C23,5.4,23,5.4,23,5.4z"></path><path d="M19.7,15L19.7,15c-0.4,0-0.7,0.2-0.9,0.5c-1.2,1.7-3.5,2.5-6.1,2.5c-2,0-3.9-0.5-5.1-1.5l1.8-1.8C9.9,14.1,9.5,13,8.6,13    h-2H2c-0.6,0-1,0.4-1,1v4.6v2c0,0.9,1.1,1.3,1.7,0.7l2.4-2.4c1.7,1.3,4,2.1,6.5,2.1c3.9,0,7.2-2,8.9-4.5C21,15.9,20.5,15,19.7,15z    "></path></g></g></svg>
+                </button>
+                <p id="flags" v-cloak>
+                    {{remainingFlags}}
+                </p>
+            </div>
+            <div id="minesweeperField">
+                <table id="table">
+                    <tr v-for="row in rows">
+                        <td v-for="column in row.columns">
+                            <button v-on:click.left="leftClick(column)" v-on:mousedown.right="rightClick(column, $event)"
+                                    v-on:contextmenu.prevent=""
+                                    v-bind:style="{'color': column.color}"
+                                    v-bind:disabled="column.disabled"
+                                    v-bind:class="[column.clicked ? 'clickedButton' : 'unclickedButton']"
+                                    v-cloak>
+                                <p v-if="column.image === null">{{column.value}}</p>
+                                <img v-if="column.image !== null" v-bind:src="column.image">
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <form id="difficultySelection">
+            <fieldset id="fieldsetSelection" v-on:change="onChange()">
+                <input type="radio" id="beginner" name="difficulty" value="Beginner" v-model="gameMode">
+                <label for="beginner"> {{beginner}} </label><br>
+                <input type="radio" id="intermediate" name="difficulty" value="Intermediate" v-model="gameMode">
+                <label for="intermediate"> {{intermediate}} </label><br>
+                <input type="radio" id="expert" name="difficulty" value="Expert" v-model="gameMode">
+                <label for="expert"> {{expert}} </label><br>
+                <hr>
+                <input type="radio" id="custom" name="difficulty" value="Custom" v-model="gameMode">
+                <label for="custom"> {{custom}} </label><br>
+                <p v-if="gameMode === 'Custom'">
+                    <input id="height" name="difficulty" value="height" placeholder="Height" v-model="insertedNumOfRows">
+                    <br>
+                    <input id="width" name="difficulty" value="width" placeholder="Width" v-model="insertedNumOfColumns">
+                    <br>
+                    <input id="bombs" name="diffiuculty" value="bombs" placeholder="Bombs" v-model="insertedNumOfBombs">
+                    <br>
+                </p>
+            </fieldset>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/nav.js"></script>
+    <script src="../../carousel/carousel3.js"></script>
+    <script src="minesweeper.js"></script>
 </body>
 </html>
