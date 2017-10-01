@@ -59,15 +59,23 @@ new Vue({
         setTent: function (field) {
             if(field.image === this.images.tree){
                 return;
+            }else if(field.image === this.images.tent){
+                field.image = this.images.gras;
+            }else if(field.image === this.images.gras){
+                field.image = this.images.empty;
+            }else{
+                field.image = this.images.tent;
             }
-            field.image = this.images.tent;
         },
 
         setGras: function (field) {
             if(field.image === this.images.tree){
                 return;
+            }else if(field.image === this.images.gras){
+                field.image = this.images.empty;
+            }else{
+                field.image = this.images.gras;
             }
-            field.image = this.images.gras;
         }
     },
     created() {
