@@ -70,7 +70,7 @@ let Thumb = function(r,x,y){
     this.r = r;
     this.x = x;
     this.y = y;
-    this.color = "#000";
+    this.color = "#fff";
     this.bindings = [];
 
     this.draw = function(){
@@ -84,6 +84,8 @@ let Thumb = function(r,x,y){
 
     this.drawLineTo = function(other){
         c.beginPath();
+        c.strokeStyle = this.color;
+        c.fillStyle = this.color;
         c.moveTo(this.x,this.y);
         c.lineTo(other.x,other.y);
         c.stroke();
