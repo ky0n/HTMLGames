@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+}
+
+#campsite{
+    border: solid black;
+    color: #000;
+    margin: 10% auto;
+}
+
+.field{
+    border: solid black 1px;
+    background-color: #a8f2a5;
+}
+
+.tentInfo{
+    background-color: white;
+    border: solid black 2px;
+    padding: 15px;
+    text-align: center;
+}

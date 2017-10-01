@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Tents</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/gamesGeneral.css">
+    <link rel="stylesheet" href="../../style/nav.css">
+    <link rel="stylesheet" href="tents.css">
+</head>
+<body>
+    <div id="nav">
+        <div id="scrolling" >
+            <ul>
+                <li v-for="(item, index) in gameItems">
+                    <div class="img-text" v-bind:title="item.game">
+                        <img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="tents">
+        <table id="campsite">
+            <tr>
+                <td class="tentInfo"></td>
+                <td class="tentInfo" v-for="row in rows">1</td>
+            </tr>
+            <tr v-for="row in rows">
+                <td class="tentInfo">1</td>
+                <td v-for="column in row.columns">
+                    <div class="field" v-on:click.left="setTent(column)" v-on:contextmenu.prevent="" v-on:mousedown.right="setGras(column)">
+                        <img v-bind:src="column.image">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/nav.js"></script>
+    <script src="tents.js"></script>
+</body>
+</html>
