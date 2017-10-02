@@ -11,12 +11,48 @@ new Vue({
             gras: "gras.svg",
             empty: "empty.svg",
         },
+        tents:[],
         trees:[],
     },
     methods:{
         initialize: function () {
             this.spawnTrees();
             this.initializeFields();
+        },
+
+        // todo: erst Zelte verteilen (dürfen nicht nebeneinander, oder diagonal nebeneinander stehen) und erst dann die Bäume
+        spawnTents: function () {
+            for (let i = 0; i < this.numOfTrees; i++) {
+                let fieldFound = false;
+                while (!fieldFound) {
+                    let k = Math.floor(Math.random() * (this.numOfRows * this.numOfCol));
+                    if (!this.tents.includes(k)) {
+                        this.tents.push(k);
+                        fieldFound = true;
+                    }
+                }
+            }
+        },
+        isNextToTent: function (fieldNum) {
+            //muss >=0 und <= numOfRows*numOfCol
+            let tempBool = false;
+            let neighbors = [
+                fieldNum - this.numOfRows -1,
+                fieldNum - this.numOfRows,
+                fieldNum - this.numOfRows + 1,
+                fieldNum -1,
+                fieldNum + 1,
+                fieldNum + this.numOfRows -1,
+                fieldNum + this.numOfRows,
+                fieldNum + this.numOfRows +1
+            ];
+            for(let i=0; i<neighbors.length; i++){
+                //?????
+                if(neighbors[i] >= 0 && (neighbors[i] <= this.numOfRows*this.numOfCol) && this.tents.includes(neighbors[i])){
+                    tempBool = true;
+                }
+            }
+            return tempBool;
         },
 
         spawnTrees: function () {
