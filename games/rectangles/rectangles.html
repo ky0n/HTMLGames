@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Rectangles</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../style/gamesGeneral.css">
+    <link rel="stylesheet" href="../../style/nav.css">
+    <link rel="stylesheet" href="rectangles.css">
+</head>
+<body>
+<div id="nav">
+    <div id="scrolling">
+        <ul>
+            <li v-for="(item, index) in gameItems">
+                <div class="img-text" v-bind:title="item.game">
+                    <img v-bind:src="item.thumbnail" class="img-responsive center-block">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="wrapperForGamefield">
+    <table id="gamefield" v-bind:style="{'cursor': cursor}">
+        <tr class="row" v-for="row in rows">
+            <td v-for="column in row.columns">
+                <div class="field disable-select text-center"
+                     v-on:mousedown.left="onMouseDown($event)"
+                     v-on:mousemove.left="onMouseMove($event)"
+                     v-on:mouseup.left="onMouseUp($event)"
+                     v-on:contextmenu.prevent=""
+                     v-on:dragstart.prevent=""
+                     v-on:drop.prevent=""
+                     v-cloak>
+                    <span class="rectangleSizeNumber">{{column.number}}</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://itemslide.github.io/dist/itemslide.min.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/nav.js"></script>
+<script src="../../carousel/carousel3.js"></script>
+<script src="rectangles.js"></script>
+</body>
+</html>
