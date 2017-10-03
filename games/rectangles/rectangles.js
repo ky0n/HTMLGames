@@ -68,7 +68,7 @@ let gamefield = new Vue({
                 this.rectangle.style.top = this.mouse.y + 'px';
                 console.log(event.target.parentNode.parentNode.parentNode.parentNode);
                 event.target.parentNode.parentNode.parentNode.parentNode.appendChild(this.rectangle);
-                console.log(this.rectangle.parentNode)
+                console.log(this.rectangle.parentNode);
             }
         },
 
